@@ -1,5 +1,8 @@
+set nocp
+set ml
+
 "Pathogen
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 filetype off
 syntax on
 filetype plugin indent on
@@ -15,5 +18,4 @@ set wildmenu
 set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpe?g,*.png,*.xpm,*.gif,*.pyc
 set incsearch
 nmap <F5> :set number! number?<CR>
-set nocp
 "set cpoptions=B$
