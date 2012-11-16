@@ -1,7 +1,17 @@
 #!/bin/bash
-if [ -f ~/.zshrc ]
+
+# in the right folder?
+if [ ! -f "zshrc" ]
 then
-	mv ~/.zshrc ~/.zshrc.old
+	echo "Please change to the dir the 'link' exists."
+	exit 1
 fi
+
+# backup
+if [ -a ~/.zshrc ]
+then
+	mv ~/.zshrc ~/.zshrc.bak
+fi
+
 # link it
-ln -s ~/.zsh/zshrc ~/.zshrc
+ln -s `pwd`/zshrc ~/.zshrc
