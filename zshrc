@@ -522,11 +522,28 @@ function precmd() {
 	local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
 
-	# for all other hosts (local and unknown)
+	# for host mitan
 	if [ "`hostname`" == "mitan" ]
 	then
 		local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[blue]%}%M%{$fg[white]%}:%y ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
-		local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
+	fi
+
+	# for host zotherserv
+	if [ "`hostname`" == "zotherserv" ]
+	then
+		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
+	fi
+
+	# for host mailserv
+	if [ "`hostname`" == "mailserv" ]
+	then
+		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} MAILSERVER ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
+	fi
+
+	# for kvm host
+	if [ "`hostname`" == "woulfserv.pixelwolf.ch" ]
+	then
+		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} KVMHOST ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
 	fi
 
 	# finish the prompt
@@ -535,24 +552,6 @@ $secondline"
 	
 }
 
-
-# for webserver
-if [ "`hostname`" == "zotherserv" ]
-then
-	PS1="%{$fg[blue]%}%n%{$reset_color%}@%{$fg[yellow]%}%m WEBSERVER %{$fg[yellow]%}`dirs | sed 's/\// › /g'`%{$reset_color%}%% "
-fi
-
-# for mailserver
-if [ "`hostname`" == "mailserv" ]
-then
-        PS1="%{$fg[blue]%}%n%{$reset_color%}@%{$fg[yellow]%}%m MAILSERVER %{$fg[yellow]%}`dirs | sed 's/\// › /g'`%{$reset_color%}%% "
-fi
-
-# for kvm host
-if [ "`hostname`" == "woulfserv.pixelwolf.ch" ]
-then
-        PS1="%{$fg[blue]%}%n%{$reset_color%}@%{$fg[yellow]%}%m %{$fg[cyan]%}KVMHOST %{$fg[yellow]%}%~ %{$reset_color%}%% "
-fi
 # END FOR PROMT STYLING
 
 # my main editor should always be vim
