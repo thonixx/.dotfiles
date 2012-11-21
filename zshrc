@@ -306,7 +306,7 @@ reverse() {
 sslcheck() {
 	echo ""
 	# check if its a certificate
-	if [ ! "$1" ] || [ ! "$(grep CERTIFICATE $1 2>/dev/null)" ]
+	if [ ! "$1" ] || [ ! "$(grep "CERTIFICATE-" $1 2>/dev/null)" ]
 	then
 		echo 'Give me a certificate.'
 		echo ""
@@ -321,8 +321,16 @@ sslcheck() {
 	fi
 	
 	# better comparing with variables
-	cert=`openssl x509 -noout -modulus -in "$1" | openssl md5`
-	key=`openssl rsa -noout -modulus -in "$2" | openssl md5`
+	
+	# try to determine errors with certificate
+	openssl x509 -noout -modulus -in "$1" &> /dev/null
+	if [ $? -ne 0 ] ; then echo "There was an error with your certificate." ; echo "Maybe rather a CSR? Or malformed certificate?" ; echo "" ; return ; fi
+	cert=`openssl x509 -noout -modulus -in "$1" 2>/dev/null | openssl md5`
+
+	# try to determine errors with private key	
+	openssl rsa -noout -modulus -in "$2" &> /dev/null
+	if [ $? -ne 0 ] ; then echo "There was an error with your private key." ; echo "" ; return ; fi
+	key=`openssl rsa -noout -modulus -in "$2" 2>/dev/null | openssl md5`
 
 	# check with openssl command and hashing
 	if [ "$cert" == "$key" ]
