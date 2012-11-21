@@ -1,5 +1,6 @@
 set nocp
 set ml
+set modelines=5
 
 "Pathogen
 call pathogen#infect()
@@ -19,3 +20,5 @@ set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jp
 set incsearch
 nmap <F5> :set number! number?<CR>
 "set cpoptions=B$
+
+set whichwrap+=<,>,h,l,[,]
