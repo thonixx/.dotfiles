@@ -192,6 +192,7 @@ alias pp='cd /home/`whoami`/nine/puppetsvn/production/manifests/nodes'
 alias clients='cd /home/`whoami`/nine/puppetsvn/production/clients'
 alias nineman='cd /home/`whoami`/nine/miraculix/usr/share/man/man1'
 alias marvin="ssh -t marvin \" cd /etc/bind/zonen/; /bin/bash -i\""
+alias classup="ssh -t puppet \"nine-foreman-update-classes\""
 alias gogetchain='echo "-----BEGIN CERTIFICATE-----
 MIIENjCCAx6gAwIBAgIBATANBgkqhkiG9w0BAQUFADBvMQswCQYDVQQGEwJTRTEU
 MBIGA1UEChMLQWRkVHJ1c3QgQUIxJjAkBgNVBAsTHUFkZFRydXN0IEV4dGVybmFs
