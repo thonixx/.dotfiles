@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# check for env var HOME or assume /home/USER
+if [ "$HOME" ]
+then
+	home="$HOME"
+else
+	home="/home/`whoami`/"
+fi
+zshrc="$home/.zshrc"
+
 # in the right folder?
 if [ ! -f "zshrc" ]
 then
@@ -7,9 +16,12 @@ then
 	exit 1
 fi
 
-# backup
-if [ -a ~/.zshrc ]
+# backup if file exists or unlink it
+if [ -h "$zshrc" ]
 then
+	echo ".zshrc is now unlinked."
+	unlink ~/.zshrc
+else
 	mv ~/.zshrc ~/.zshrc.bak
 fi
 
