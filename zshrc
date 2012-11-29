@@ -165,7 +165,8 @@ setopt noclobber
 # something with prompt things.. actually i do not know what this does
 setopt PROMPT_SUBST
 
-# some helpful aliases for myself
+# some helpful aliases and keybindings for myself
+bindkey -s '^F' 'ls -al\n'
 alias ll='ls -alF'
 alias speed='wget -O/dev/null speedtest.pixelwolf.ch'
 alias pw='vi /home/wolf/Ubuntu\ One/sync/Passwörter.gpg'
@@ -180,11 +181,13 @@ alias mailserv='ssh thonixx@mail.pixelwolf.ch'
 alias destroy='shred -uvn 35 -z --random-source=/dev/urandom' # destroying is helpful
 alias pass='openssl rand -base64 15'
 alias apple='chmod +x ~/Ubuntu\ One/sync/mkapple && ~/Ubuntu\ One/sync/mkapple' # for my apple keyboard
-alias size='du -sch';
-alias l='ll';
-alias ipaddr='ip addr show dev $(ip route show | grep default | awk '\{print $5\}') | grep inet | awk '\{print $2\}' | awk -F\/ '\{print $1\}' | head -n 1'; # this shows the default ip address where your traffic goes out
+alias size='du -sch'
+alias l='ll'
+# this shows the default ip address where your traffic goes out
+alias ipaddr='ip addr show dev $(ip route show | grep default | awk '\{print $5\}') | grep inet | awk '\{print $2\}' | awk -F\/ '\{print $1\}' | head -n 1'
 
-# company aliases (www.nine.ch)
+# company aliases and things (www.nine.ch)
+bindkey -s '^Z' 'ssh mitan@mitan.nine.ch\n'
 alias nine='ssh mitan.nine.ch'
 alias s='ssh'
 alias svnprop='svn propset svn:keywords "Id"' # some company thing
