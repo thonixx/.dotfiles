@@ -190,6 +190,7 @@ alias ipaddr='ip addr show dev $(ip route show | grep default | awk '\{print $5\
 bindkey -s '^Z' 'ssh mitan@mitan.nine.ch\n'
 alias nine='ssh mitan.nine.ch'
 alias s='ssh'
+alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 alias svnprop='svn propset svn:keywords "Id"' # some company thing
 alias pp='cd /home/`whoami`/nine/puppetsvn/production/manifests/nodes'
 alias clients='cd /home/`whoami`/nine/puppetsvn/production/clients'
@@ -354,6 +355,12 @@ sslcheck() {
 ####################
 #################### some functions used in my company
 ####################
+
+# check for puppet
+pup() {
+	# scripted by mitan
+	ssh $1 "which puppet > /dev/null && echo 'Puppet is there'"
+}
 
 # ssl pp
 sslpp() {
