@@ -189,6 +189,12 @@ alias ipaddr='ip addr show dev $(ip route show | grep default | awk '\{print $5\
 # company aliases and things (www.nine.ch)
 bindkey -s '^Z' 'ssh mitan@mitan.nine.ch\n'
 alias nine='ssh mitan.nine.ch'
+alias tel='cat /home/wolf/nine/daten/verwaltung/telefonliste | grep '
+alias pikett='echo "# Legende:    / A=Arbeitstag  W=Wochenende/Feiertag
+#             |    / 1st Pikett (ab Alert 1)
+#             |    |     / 2nd Pikett (ab Alert 3)
+#             |    |     |     / 1st Servicedesk
+#             |    |     |     |     / 2nd Servicedesk" && cat /home/wolf/nine/daten/verwaltung/pikettplan | egrep "[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,4}" | grep -B 3 -A 14 --color=always "`date +%d.%m.%Y`"'
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 alias svnprop='svn propset svn:keywords "Id"' # some company thing
