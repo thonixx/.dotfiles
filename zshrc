@@ -362,6 +362,14 @@ sslcheck() {
 #################### some functions used in my company
 ####################
 
+
+# show me the .my.cnf file in roots home folder
+# used to show the root password of mysql and plesk pass
+mycnf() {
+	# scripted by mitan
+	ssh $1 "cat ~/.my.cnf"
+}
+
 # check for puppet
 pup() {
 	# scripted by mitan
