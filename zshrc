@@ -82,6 +82,9 @@ bindkey "^[[6~" history-beginning-search-forward
 bindkey "\e[1;5C" forward-word
 bindkey "\e[1;5D" backward-word
 
+# ctrl del delete word
+bindkey '^[[3;5~' backward-delete-word
+
 # I love history in ZSH
 HISTSIZE=100000000
 SAVEHIST=100000000
