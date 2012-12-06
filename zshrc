@@ -275,45 +275,102 @@ colors
 
 # do a reverse lookup
 reverse() {
-        if [ $(host $@ | head -n 1 | awk '{print $3$4}') == "notfound:" ]
-        then
-		if [ $(echo $@ | nawk -F. '{ if ( (($1>=0) && ($1<=255)) && (($2>=0) && ($2<=255)) && (($3>=0) && ($3<=255)) && (($4>=0) && ($4<=255)) ) { print("ip"); } else {  print("nip"); } }') == 'nip' ]
+	# put request in variable
+	request="$1"
+
+	# check for request
+	if [ -z "$request" ]
+	then
+		echo "Please provide an IP or host name.".
+		return
+	fi
+	
+	# check for dig installed
+	if [ -z "$(which dig)" ]
+	then
+		echo "Please install dig, we need it:"
+		echo "sudo apt-get install dnsutils (for Ubuntu/Debian)"
+		return
+	fi
+
+	# decide if its an ip or name
+	if [ "$(echo $request | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
+	then
+		# would be an IP
+		echo -n "$(echo $request | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}') > "
+		
+		# assume there are multiple PTR records
+		check="false"
+		for r in "$(dig +short -x $request 2> /dev/null)"
+		do 
+			if [ $check == "true" ]
+			then
+				echo -n " / "
+			fi
+
+			echo -n "$r"
+			
+			if [ ! -z "$r" ]
+			then
+				check="true"
+			else
+				check="false"
+			fi
+		done
+
+		# check if any ptr was found
+		if [ $check == "false" ]
 		then
-			echo "Host does not exist."
+			echo -ne "No reverse entry.\n"
 		else
-			echo "No reverse entry for this ip."
+			echo -ne "\n"
 		fi
 	else
-		output=$(host $@ | head -n 1 | awk '{print $4}')
-		if [ "$output" == "alias" ]
-		then
-			output=$(host $@ | tail -n 1 | awk '{print $4}')
-		else
-			if [ "$output" == "handled" ]
-			then
-				echo "No A Record found"
-				return
-			fi
-		fi
-		
-		echo -ne "$@ > "
-		if [ "$output" != "pointer" ]
-		then
-			echo -n $output
-			echo -n " > "
-		else
-			output=$@
-		fi
+		# would be a hostname
 
-		reverse=$(host $output | head -n 1 | awk '{print $5}')
-
-		if [ "$reverse" != "3(NXDOMAIN)" ]
+		# check if any output there
+		if [ -z "$(dig a +search +short $request 2> /dev/null)" ]
 		then
-			echo $reverse
+			echo "There was no A record."
+			return
 		else
-			echo "No reverse entry specified"
+			# loop through A records
+			for i in $(dig a +search +short $request 2> /dev/null)
+			do
+				# print hostname
+				echo -n "$request > "
+				# print ip
+				echo -n "$i > "
+				 
+				# assume there are multiple PTR records
+				check="false"
+				for r in "$(dig +short -x $i 2> /dev/null)"
+				do 
+					if [ $check == "true" ]
+					then
+						echo -n " / "
+					fi
+
+					echo -n "$r"
+					
+					if [ ! -z "$r" ]
+					then
+						check="true"
+					else
+						check="false"
+					fi
+				done
+
+				# check if any ptr was found
+				if [ $check == "false" ]
+				then
+					echo -ne "No reverse entry.\n"
+				else
+					echo -ne "\n"
+				fi
+			done
 		fi
-        fi
+	fi
 }
 
 # check ssl certificate <> private key
