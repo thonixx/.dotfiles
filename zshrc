@@ -186,6 +186,7 @@ alias pass='openssl rand -base64 15'
 alias apple='chmod +x ~/Ubuntu\ One/sync/mkapple && ~/Ubuntu\ One/sync/mkapple' # for my apple keyboard
 alias size='du -sch'
 alias l='ll'
+alias hosts='sudo vim /etc/hosts'
 # this shows the default ip address where your traffic goes out
 alias ipaddr='ip addr show dev $(ip route show | grep default | awk '\{print $5\}') | grep inet | awk '\{print $2\}' | awk -F\/ '\{print $1\}' | head -n 1'
 
