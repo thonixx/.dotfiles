@@ -190,7 +190,7 @@ alias l='ll'
 alias ipaddr='ip addr show dev $(ip route show | grep default | awk '\{print $5\}') | grep inet | awk '\{print $2\}' | awk -F\/ '\{print $1\}' | head -n 1'
 
 # company aliases and things (www.nine.ch)
-bindkey -s '^Z' 'ssh mitan@mitan.nine.ch\n'
+bindkey -s '^Z' '^Ussh mitan@mitan.nine.ch\n'
 alias nine='ssh mitan.nine.ch'
 alias tel='cat /home/wolf/nine/daten/verwaltung/telefonliste | grep -i '
 alias pikett='echo "# Legende:    / A=Arbeitstag  W=Wochenende/Feiertag
