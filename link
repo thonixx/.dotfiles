@@ -10,7 +10,7 @@ fi
 zshrc="$home/.zshrc"
 
 # in the right folder?
-if [ ! -f "zshrc" ]
+if [ ! -f "zshrc" ] && [ ! -d ".git" ]
 then
 	echo "Please change to the dir the 'link' exists."
 	exit 1
