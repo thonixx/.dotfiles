@@ -632,32 +632,39 @@ function precmd() {
 	dire=$(dirs | sed 's/\// › /g') # »
 	dire=" $dire"
 	
+	# check if user is root
+	local root=""
+	if [ "$(whoami)" == "root" ]
+	then
+		local root=" %{$fg[white]%}%{$bg[red]%}root%{$reset_color%}"
+	fi
+
 	# for all other hosts (local and unknown)
-	local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
+	local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
 
 	# for host mitan
 	if [ "`hostname`" == "mitan" ]
 	then
-		local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[blue]%}%M%{$fg[white]%}:%y ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
+		local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[blue]%}%M%{$fg[white]%}:%y ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
 	fi
 
 	# for host zotherserv
 	if [ "`hostname`" == "zotherserv" ]
 	then
-		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
+		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
 	fi
 
 	# for host mailserv
 	if [ "`hostname`" == "mailserv" ]
 	then
-		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} MAILSERVER ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
+		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} MAILSERVER ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
 	fi
 
 	# for kvm host
 	if [ "`hostname`" == "woulfserv.pixelwolf.ch" ]
 	then
-		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} KVMHOST ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}"
+		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} KVMHOST ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
 	fi
 
 	# finish the prompt
