@@ -47,3 +47,7 @@ then
 		echo "symlinking failed, sorry :("
 	fi
 fi
+
+echo "now updating and initiating submodule"
+git submodule init
+git submodule update
