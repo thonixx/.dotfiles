@@ -14,16 +14,22 @@ if [ ! -f "zshrc" ] && [ ! -d ".git" ]
 then
 	echo "Please change to the dir the 'link' exists."
 	exit 1
+elif [ -h "$(pwd)" ]
+then
+	echo "You are in an already symlinked directory. Change to real dir."
+	exit 1
 fi
 
 # backup if file exists or unlink it
 if [ -h "$zshrc" ]
 then
-	echo ".zshrc is now unlinked."
-	unlink ~/.zshrc
+	unlink ~/.zshrc && echo ".zshrc is now unlinked."
 else
-	mv ~/.zshrc ~/.zshrc.bak
+	mv ~/.zshrc ~/.zshrc.bak && echo ".zshrc backed up."
 fi
 
 # link it
-ln -s `pwd`/zshrc ~/.zshrc
+ln -s `pwd`/zshrc ~/.zshrc && echo ".zshrc is now linked."
+
+# assume link already exists
+ln -s `pwd` "$home"/.zsh/ 2> /dev/null || unlink "$home"/.zsh/ 2> /dev/null && ln -s `pwd` "$home"/.zsh/ 2> /dev/null
