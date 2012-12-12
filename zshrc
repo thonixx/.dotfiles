@@ -1,3 +1,6 @@
+# set the right locale env for myself
+export LC_ALL="de_CH.UTF-8"
+
 # set the right term
 if [ "$TERM" = "xterm" ] ; then
     if [ -z "$COLORTERM" ] ; then
