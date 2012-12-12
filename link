@@ -8,6 +8,7 @@ else
 	home="/home/`whoami`/"
 fi
 zshrc="$home/.zshrc"
+exists=false
 
 # in the right folder?
 if [ ! -f "zshrc" ] && [ ! -d ".git" ]
@@ -17,11 +18,11 @@ then
 elif [ -h "$(pwd)" ]
 then
 	echo "You are in an already symlinked directory. Change to real dir."
+	echo "Real dir: $(stat -c %N `pwd` | awk -F\` '{print $3}' | sed "s/'//g") ."
 	exit 1
 elif [ -d "$home/.zsh" ]
 then
-	echo "Directory '$home/.zsh' already exists. Please move the content away so this script works."
-	exit 1
+	exists="true"
 fi
 
 # backup if file exists or unlink it
@@ -36,4 +37,13 @@ fi
 ln -s `pwd`/zshrc ~/.zshrc && echo ".zshrc is now linked."
 
 # assume link already exists
-ln -s `pwd` "$home"/.zsh/ 2> /dev/null || unlink "$home"/.zsh/ 2> /dev/null && ln -s `pwd` "$home"/.zsh/ 2> /dev/null
+if [ "$exists" == "false" ]
+then
+	ln -s `pwd` "$home"/.zsh 2> /dev/null || unlink "$home"/.zsh 2> /dev/null && ln -s `pwd` "$home"/.zsh 2> /dev/null
+	if [ -h "$home/.zsh" ]
+	then 
+		echo "successfully linked dir to '$home/.zsh'."
+	else 
+		echo "symlinking failed, sorry :("
+	fi
+fi
