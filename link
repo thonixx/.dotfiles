@@ -18,6 +18,10 @@ elif [ -h "$(pwd)" ]
 then
 	echo "You are in an already symlinked directory. Change to real dir."
 	exit 1
+elif [ -d "$home/.zsh" ]
+then
+	echo "Directory '$home/.zsh' already exists. Please move the content away so this script works."
+	exit 1
 fi
 
 # backup if file exists or unlink it
