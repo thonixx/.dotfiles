@@ -294,6 +294,17 @@ colors
 #################### my custom functions
 ####################
 
+# translation functions
+function leo() {
+	w3m -dump "http://pda.leo.org/?search=\"$*\"" | sed -n -e :a -e '1,9!{P;N;D;};N;ba' | sed -e '1,14d'
+}
+function leofr(){
+	w3m -dump "http://pda.leo.org/?lp=frde&search=\"$*\"" | sed -n -e :a -e '1,9!{P;N;D;};N;ba' | sed -e '1,14d'
+}
+function dictcc() {
+	w3m -dump "http://pocket.dict.cc?s=\"$*\"" | sed -r -e '/^([ ]{5,}.*)$/d' -e '1,2d' -e '/^$/d' -e '/^\[/d'
+}
+
 # do a reverse lookup
 reverse() {
 	# put request in variable
@@ -601,11 +612,11 @@ function precmd() {
 			local untracked=" " # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
 		fi
 		# look for modified/deleted files in git repo
-		if [ $(git status 2> /dev/null | grep -i modified | wc -l) -gt 0 ] || [ $(git status 2> /dev/null | grep -i deleted | wc -l) -gt 0 ]
+		if [ $(git status 2> /dev/null | grep -E "(modified|new)" | wc -l) -gt 0 ] || [ $(git status 2> /dev/null | grep -E "(modified|new)" | wc -l) -gt 0 ]
 		then
 			# i wanted to have the cool thing that it calculates the untracked files but i will do it later
 			local deletedfiles=$(git status 2> /dev/null | grep -i deleted | wc -l)
-			local modifiedfiles=$(git status 2> /dev/null | grep -i modified | wc -l)
+			local modifiedfiles=$(git status 2> /dev/null | grep -E "(modified|new)" | wc -l)
 			local mod=" %{$fg[red]%}×$(expr $deletedfiles + $modifiedfiles)%{$reset_color%}"
 		else if [ $(git status 2> /dev/null | grep -i modified | wc -l) -eq 0 ] && [ $(git status 2> /dev/null | grep -i deleted | wc -l) -eq 0 ] && [ "$(parse_git_branch)" ]
 			then
