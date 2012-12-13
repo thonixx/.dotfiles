@@ -506,10 +506,24 @@ backup () {
         fi
 
         output=$(ssh $@ "ls /var/spool/z_backup*" | awk -F_ '{print $4}' | head -n 1)
-        hostname=$(ssh $@ "hostname")
+        hostname=$(ssh $@ "hostname -s | sed 's/\.nine\.ch//g'")
 
         # echo "Backup should be located at: $output"
-        ssh -t $output "cd /home/backup/$hostname; echo \"Here are the dates\"; echo \"**\";  ls *date*; /bin/bash -i"
+        ssh -t $output "cd /home/backup/$hostname; echo \"Here are the dates\"; echo \"**\"; find -type d ; /bin/bash -i"
+}
+vbackup () {
+	# scripted by mitan
+        if [ -z "$@" ]
+        then
+                echo "Gimme some input, a server name would be nice."
+                return
+        fi
+
+        output=$(ssh $@ "ls /var/spool/z_backup*" | awk -F_ '{print $4}' | head -n 1)
+        hostname=$(ssh $@ "hostname -s | sed 's/\.nine\.ch//g'")
+
+        # echo "Backup should be located at: $output"
+        ssh -t $output "cd /var/lib/vservers/backup/$hostname; echo \"Here are the dates\"; echo \"**\"; find -type d ; /bin/bash -i"
 }
 
 # go to the correct mail path
