@@ -211,6 +211,7 @@ alias ipaddr='ip addr show dev $(ip route show | grep default | awk '\{print $5\
 
 # company aliases and things (www.nine.ch)
 bindkey -s '^Z' '^Ussh mitan@mitan.nine.ch\n'
+alias findproc='ps faux | grep -i '
 alias nine='ssh mitan.nine.ch'
 alias tel='cat /home/wolf/nine/daten/verwaltung/telefonliste | grep -i '
 alias pikett='echo "# Legende:    / A=Arbeitstag  W=Wochenende/Feiertag
