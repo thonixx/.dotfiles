@@ -1,5 +1,5 @@
 # set the right locale env for myself
-# export LC_ALL="de_CH.UTF-8"
+export LC_ALL="de_CH.UTF-8"
 
 # set the right term
 if [ "$TERM" = "xterm" ] ; then
@@ -228,7 +228,6 @@ alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/nul
 alias svnprop='svn propset svn:keywords "Id"' # some company thing
 alias pp='cd /home/`whoami`/nine/puppetsvn/production/manifests/nodes'
 alias clients='cd /home/`whoami`/nine/puppetsvn/production/clients'
-alias nineman='cd /home/`whoami`/nine/miraculix/usr/share/man/man1'
 alias marvin="ssh -t marvin \" cd /etc/bind/zonen/; /bin/bash -i\""
 alias classup="ssh -t puppet \"nine-foreman-update-classes\""
 alias gogetchain='echo "-----BEGIN CERTIFICATE-----
@@ -715,9 +714,10 @@ LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 source ~/.zsh/highlighting/zsh-syntax-highlighting.zsh
 # tweak the highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
-ZSH_HIGHLIGHT_PATTERNS+=('sudo' 'fg=white,bold,bg=red')
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=magenta'
-# To have commands starting with `rm -rf` in red:
+ZSH_HIGHLIGHT_STYLES[cursor]='bg=grey' # bug with cursor color on gnome shell
+# pattern highlight
+ZSH_HIGHLIGHT_PATTERNS+=('sudo' 'fg=white,bold,bg=red')
 ZSH_HIGHLIGHT_PATTERNS+=('rm -rf*' 'fg=white,bold,bg=red')
 ZSH_HIGHLIGHT_PATTERNS+=('rm -rfv*' 'fg=white,bold,bg=red')
 ZSH_HIGHLIGHT_PATTERNS+=('rm -rv*' 'fg=white,bold,bg=red')
