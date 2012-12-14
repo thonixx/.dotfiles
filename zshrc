@@ -1,5 +1,5 @@
 # set the right locale env for myself
-export LC_ALL="de_CH.UTF-8"
+# export LC_ALL="de_CH.UTF-8"
 
 # set the right term
 if [ "$TERM" = "xterm" ] ; then
@@ -145,6 +145,9 @@ setopt extended_glob
 
 # ignore duplicates in history
 setopt histignoredups
+
+# ignore commands with preceding space in history
+setopt histignorespace
 
 # because i love history, appendixes, and appending things
 setopt appendhistory
