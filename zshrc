@@ -508,7 +508,7 @@ backup () {
                 return
         fi
 
-        output=$(ssh $@ "ls -tr /var/spool/z_backup* | tail -1 | awk -F_ '{print $4}'")
+        output=$(ssh $@ "ls -tr /var/spool/z_backup* | tail -1 | awk -F_ '{print \$4}'")
         hostname=$(ssh $@ "hostname -s | sed 's/\.nine\.ch//g'")
 
         # echo "Backup should be located at: $output"
@@ -524,7 +524,7 @@ vbackup () {
 
         hostname=$(ssh $@ "hostname -s | sed 's/\.nine\.ch//g'")
 	vhost=$(nine-search-vguest-daniel -vs $hostname)
-        output=$(ssh $vhost "ls -tr /var/spool/z_backup* | tail -1 | awk -F_ '{print $4}'")
+        output=$(ssh $vhost "ls -tr /var/spool/z_backup* | tail -1 | awk -F_ '{print \$4}'")
 
         # echo "Backup should be located at: $output"
         ssh -t $output "cd /var/lib/vservers/backup/$hostname; echo \"Here are the dates\"; echo \"**\"; ls -d */ ; /bin/bash -i"
