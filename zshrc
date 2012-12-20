@@ -508,7 +508,7 @@ backup () {
                 return
         fi
 
-        output=$(ssh $@ "ls /var/spool/z_backup*" | awk -F_ '{print $4}' | head -n 1)
+        output=$(ssh $@ "ls -tr /var/spool/z_backup* | tail -1 | awk -F_ '{print $4}')
         hostname=$(ssh $@ "hostname -s | sed 's/\.nine\.ch//g'")
 
         # echo "Backup should be located at: $output"
