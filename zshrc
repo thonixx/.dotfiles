@@ -210,7 +210,7 @@ alias size='du -sch'
 alias l='ll'
 alias hosts='sudo vim /etc/hosts'
 # this shows the default ip address where your traffic goes out
-alias ipaddr='ip addr show dev $(ip route show | grep default | awk '\{print $5\}') | grep inet | awk '\{print $2\}' | awk -F\/ '\{print $1\}' | head -n 1'
+alias ipaddr="ip addr show dev $(ip route show | grep default | awk '{print $5}') | grep inet | awk '{print \$2}' | awk -F/ '{print \$1}' | head -n 1"
 
 # company aliases and things (www.nine.ch)
 bindkey -s '^Z' '^Ussh mitan@mitan.nine.ch\n'
