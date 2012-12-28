@@ -512,7 +512,7 @@ backup () {
         hostname=$(ssh $@ "hostname -s | sed 's/\.nine\.ch//g'")
 
         # echo "Backup should be located at: $output"
-        ssh -t $output "cd /home/backup/$hostname; echo \"Here are the dates\"; echo \"**\"; ls -d */ ; /bin/bash -i"
+        ssh -A -t $output "cd /home/backup/$hostname; echo \"Here are the dates\"; echo \"**\"; ls -d */ ; /bin/bash -i"
 }
 vbackup () {
 	# scripted by mitan
