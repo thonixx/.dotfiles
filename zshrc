@@ -189,6 +189,7 @@ setopt PROMPT_SUBST
 
 # some helpful aliases and keybindings for myself
 bindkey -s '^F' 'ls -alFh --color=auto\n'
+alias sysl='tail -f -n 100 /var/log/syslog'
 alias pubkey='cat ~/.ssh/id_rsa.pub'
 alias acs='apt-cache search'
 alias update='sudo apt-get update && sudo apt-get upgrade -y'
