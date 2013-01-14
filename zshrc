@@ -222,7 +222,19 @@ alias pikett='echo "# Legende:    / A=Arbeitstag  W=Wochenende/Feiertag
 #             |    |     / 2nd Pikett (ab Alert 3)
 #             |    |     |     / 1st Servicedesk
 #             |    |     |     |     / 2nd Servicedesk
-#             |    |     |     |     |     / 3rd Servicedesk" && cat /home/wolf/nine/daten/verwaltung/pikettplan | egrep "[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,4}" | grep -B 3 -A 14 --color=always "`date +%d.%m.%Y`"'
+#             |    |     |     |     |     / 3rd Servicedesk" \
+  && cat /home/`whoami`/nine/daten/verwaltung/pikettplan | \
+  egrep "(^..\..|^# week)" | \
+  GREP_COLOR="1;36" grep -B 3 -A 16 --color=always "`date +%d.%m.%Y`" |\
+  GREP_COLOR="1;31" grep --color=always " W \|" |\
+  grep --color=always "MT\|"|\
+  GREP_COLOR="40;94" grep --color=always "# week.*\|"'
+# alias pikett='echo "# Legende:    / A=Arbeitstag  W=Wochenende/Feiertag
+# #             |    / 1st Pikett (ab Alert 1)
+# #             |    |     / 2nd Pikett (ab Alert 3)
+# #             |    |     |     / 1st Servicedesk
+# #             |    |     |     |     / 2nd Servicedesk
+# #             |    |     |     |     |     / 3rd Servicedesk" && cat /home/wolf/nine/daten/verwaltung/pikettplan | egrep "[[:digit:]]{1,2}\.[[:digit:]]{1,2}\.[[:digit:]]{1,4}" | grep -B 3 -A 14 --color=always "`date +%d.%m.%Y`"'
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 alias svnprop='svn propset svn:keywords "Id"' # some company thing
