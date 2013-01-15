@@ -189,6 +189,7 @@ setopt PROMPT_SUBST
 
 # some helpful aliases and keybindings for myself
 bindkey -s '^F' 'ls -alFh --color=auto\n'
+alias lll='for i in *; do echo "`ls -1aRi  $i | awk "/^[0-9]+ / { print $1 }" | sort -u | wc -l` $i" ; done | sort -n'
 alias sysl='tail -f -n 100 /var/log/syslog'
 alias pubkey='cat ~/.ssh/id_rsa.pub'
 alias acs='apt-cache search'
