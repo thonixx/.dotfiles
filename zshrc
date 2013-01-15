@@ -239,8 +239,8 @@ alias pikett='echo "# Legende:    / A=Arbeitstag  W=Wochenende/Feiertag
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 alias svnprop='svn propset svn:keywords "Id"' # some company thing
-alias pp='cd /home/`whoami`/nine/puppetsvn/production/manifests/nodes'
-alias clients='cd /home/`whoami`/nine/puppetsvn/production/clients'
+alias pp='cd /home/`whoami`/nine/puppet/production/manifests/nodes'
+alias clients='cd /home/`whoami`/nine/puppet/production/clients'
 alias marvin="ssh -t marvin \" cd /etc/bind/zonen/; /bin/bash -i\""
 alias classup="ssh -t puppet \"nine-foreman-update-classes\""
 alias gogetchain='echo "-----BEGIN CERTIFICATE-----
@@ -298,8 +298,8 @@ uuGtm87fM04wO+mPZn+C+mv626PAcwDj1hKvTfIPWhRRH224hoFiB85ccsJP81cq
 cdnUl4XmGFO3
 -----END CERTIFICATE-----"'
 
-export puppet='/home/wolf/nine/puppetsvn/'
-export clients='/home/wolf/nine/puppetsvn/production/clients'
+export puppet='/home/wolf/nine/puppet/'
+export clients='/home/wolf/nine/puppet/production/clients'
 
 # colors are beautiful
 # even if I do not understand what this command means exactly
