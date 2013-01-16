@@ -215,6 +215,9 @@ alias ipaddr="ip addr show dev $(ip route show | grep default | awk '{print $5}'
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 
+# source local config (testing or so)
+source ~/.zsh/config.local
+
 # colors are beautiful
 # even if I do not understand what this command means exactly
 autoload -U colors
