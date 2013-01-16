@@ -85,7 +85,6 @@ bindkey "^R" history-incremental-search-backward
 bindkey "^S" history-incremental-search-forward
 bindkey "^W" backward-kill-word
 bindkey "^U" undo
-bindkey "^Z" "^A^Kssh mitan@mitan.nine.ch || ssh mitan@login.nine.ch^J"
 bindkey "^[[5~" history-beginning-search-backward
 bindkey "^[[6~" history-beginning-search-forward
 bindkey "\e[1;5C" forward-word
@@ -216,7 +215,7 @@ alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 
 # source local config (testing or so)
-if [ -f "~/.zsh/zshrc.local" ]
+if [ -f ~/.zsh/zshrc.local ]
 then
 	source ~/.zsh/zshrc.local
 fi
