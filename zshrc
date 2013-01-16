@@ -216,7 +216,10 @@ alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 
 # source local config (testing or so)
-source ~/.zsh/config.local
+if [ -f "~/.zsh/zshrc.local" ]
+then
+	source ~/.zsh/zshrc.local
+fi
 
 # colors are beautiful
 # even if I do not understand what this command means exactly
