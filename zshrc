@@ -188,6 +188,18 @@ setopt PROMPT_SUBST
 
 # some helpful aliases and keybindings for myself
 bindkey -s '^F' 'ls -alFh --color=auto\n'
+alias toptables="mysql -e "\""SELECT CONCAT(table_schema, '.', table_name),
+       CONCAT(ROUND(table_rows / 1000000, 2), 'M')                                    rows,
+       CONCAT(ROUND(data_length / ( 1024 * 1024 * 1024 ), 2), 'G')                    DATA,
+       CONCAT(ROUND(index_length / ( 1024 * 1024 * 1024 ), 2), 'G')                   idx,
+       CONCAT(ROUND(( data_length + index_length ) / ( 1024 * 1024 * 1024 ), 2), 'G') total_size,
+       ROUND(index_length / data_length, 2)                                           idxfrac
+FROM   information_schema.TABLES
+ORDER  BY data_length + index_length DESC
+LIMIT  10;"\"""
+alias inst='dpkg -l | grep --color=auto -i'
+alias a2gr='apache2ctl graceful'
+alias a2en='cd /etc/apache2/sites-enabled'
 alias lll='for i in *; do echo "`ls -1aRi  $i | awk "/^[0-9]+ / { print $1 }" | sort -u | wc -l` $i" ; done | sort -n'
 alias sysl='tail -f -n 100 /var/log/syslog'
 alias pubkey='cat ~/.ssh/id_rsa.pub'
