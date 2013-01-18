@@ -188,6 +188,7 @@ setopt PROMPT_SUBST
 
 # some helpful aliases and keybindings for myself
 bindkey -s '^F' 'ls -alFh --color=auto\n'
+alias stopwatch='since=$(date +%s); while true ; do eval "echo -n \$((\$(date +%s) - $since))" ; echo -n " " ; sleep 1 ; done'
 alias toptables="mysql -e "\""SELECT CONCAT(table_schema, '.', table_name),
        CONCAT(ROUND(table_rows / 1000000, 2), 'M')                                    rows,
        CONCAT(ROUND(data_length / ( 1024 * 1024 * 1024 ), 2), 'G')                    DATA,
@@ -240,6 +241,21 @@ colors
 ####################
 #################### my custom functions
 ####################
+
+# countdown function
+# source http://ubuntuforums.org/showpost.php?p=9817891&postcount=9
+function countdown() {
+    [[ -z $1 ]] && seconds=60 || seconds=$1
+    since=$(date +%s)
+    remaining=$seconds
+    while (( remaining >= 0 ))
+    do 
+        printf "\r%-10d" $remaining
+        sleep 0.5
+        remaining=$(( seconds - $(date +%s) + since ))
+    done
+    echo ""
+}
 
 # translation functions
 function leo() {
