@@ -242,6 +242,23 @@ colors
 #################### my custom functions
 ####################
 
+# loop function
+# run any command in a while loop with 1 second sleep
+function loop() {
+	if [ -z "$1" ]
+	then
+		return
+	fi
+
+	cmd="$1"
+
+	while true
+	do
+		bash -c "$cmd"
+		sleep 1
+	done
+}
+
 # countdown function
 # source http://ubuntuforums.org/showpost.php?p=9817891&postcount=9
 function countdown() {
