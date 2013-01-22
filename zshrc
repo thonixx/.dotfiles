@@ -188,6 +188,7 @@ setopt PROMPT_SUBST
 
 # some helpful aliases and keybindings for myself
 bindkey -s '^F' 'ls -alFh --color=auto\n'
+alias gitup="git pull -v --all --progress"
 alias stopwatch='since=$(date +%s); while true ; do eval "echo -n \$((\$(date +%s) - $since))" ; echo -n " " ; sleep 1 ; done'
 alias toptables="mysql -e "\""SELECT CONCAT(table_schema, '.', table_name),
        CONCAT(ROUND(table_rows / 1000000, 2), 'M')                                    rows,
