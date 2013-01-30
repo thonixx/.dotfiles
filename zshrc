@@ -244,6 +244,66 @@ colors
 #################### my custom functions
 ####################
 
+# test mail delivery
+# scripted by github.com/thonixx
+function maildelivery {
+	domain=$(echo "$1" | awk -F@ '{print $2}')
+	mailserver=$(dig mx $domain +short | awk {'print $2'} | head -n 1)
+	
+	# test if something is in the output
+	if [ -z "$mailserver" ]
+	then
+	    echo "There was no mailserver or no MX record. :("
+	    return
+	fi
+
+	# custom server to connect to
+	if [ ! -z "$2" ]
+	then
+		mailserver="$2"
+	fi
+	 
+	echo "Email: $1"
+	echo "Server: $mailserver"
+	echo ""
+	 
+	(echo "helo test"
+	sleep 2
+	echo "MAIL FROM:<info@test.com>"
+	sleep 2
+	echo "RCPT TO:<$1>"
+	sleep 2
+	echo "QUIT") | netcat $mailserver 25
+}
+
+# test smtp login
+# scripted by github.com/thonixx
+function smtplogin {
+	echo -n "Server: "
+	read server
+	echo ""
+
+	echo -n "Username: "
+	read user
+
+	echo -n "Password: "
+	read pass
+	echo ""
+
+	user64=$(echo -n "$user" | base64)
+	pass64=$(echo -n "$pass" | base64)
+
+	(echo "helo test"
+	sleep 2
+	echo "AUTH LOGIN"
+	sleep 2
+	echo "$user64"
+	sleep 2
+	echo "$pass64"
+	sleep 2
+	echo "QUIT") | netcat $server 25
+}
+
 # loop function
 # run any command in a while loop with 1 second sleep
 function loop() {
