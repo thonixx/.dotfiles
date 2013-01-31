@@ -213,9 +213,9 @@ alias ll='ls -alFh --color=auto'
 alias speed='wget -O/dev/null speedtest.pixelwolf.ch'
 alias nano='sl 2> /dev/null || echo "Nano is baaaaad!!"' # for trolling myself using nano (nano is bad)
 alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias zgrep='zgrep --color=auto'
+alias grep='grep --color=always'
+alias fgrep='fgrep --color=always'
+alias zgrep='zgrep --color=always'
 alias mplayer='mplayer -lavdopts threads=4' # whats that??
 alias woulfserv='ssh thonixx@pixelwolf.ch'
 alias mailserv='ssh thonixx@mail.pixelwolf.ch'
