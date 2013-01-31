@@ -518,7 +518,7 @@ function precmd() {
 	
 	# Stuff for git
 		parse_git_branch () {
-			git branch 2> /dev/null | grep "*" | sed -e 's/* \(.*\)/\1/g'
+			git branch 2> /dev/null | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g'
 		}
 	
 		# display git stuff at the right side if anything detected
