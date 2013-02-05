@@ -77,14 +77,14 @@ bindkey -e
 # my other things for keybindings
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
-bindkey "^F" "ls -alFh --color=auto^J"
+bindkey -s '^F' 'ls -alFh --color=auto\n'
 bindkey "^J" accept-line
 bindkey "^K" kill-line
 bindkey "^L" clear-screen
 bindkey "^R" history-incremental-search-backward
 bindkey "^S" history-incremental-search-forward
+bindkey -s '^U' 'cd ../\n'
 bindkey "^W" backward-kill-word
-bindkey "^U" undo
 bindkey "^[[5~" history-beginning-search-backward
 bindkey "^[[6~" history-beginning-search-forward
 bindkey "\e[1;5C" forward-word
@@ -187,7 +187,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases and keybindings for myself
-bindkey -s '^F' 'ls -alFh --color=auto\n'
+alias rainbow='for c in {0..255} ; do echo -e "\e[38;05;${c}m ${c} Raiiiiinbooooow" ; sleep 0.01 ; done'
 alias grepcolors='for i in 1 2 4 7 8 9 30 31 32 33 34 35 36 37 38 41 42 43 44 45 46 47 90 91 92 93 94 95 96 97 100 101 102 103 104 105 106 107; do echo -n "GREP_COLOR=$i  " ; GREP_COLOR=$i grep -oE "[^\"]{1,15}" /var/log/syslog --color=always | head -n 1 ; done'
 alias findproc='ps faux | grep -i '
 alias gitup="git pull -v --all --progress"
