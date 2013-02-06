@@ -246,6 +246,88 @@ colors
 #################### my custom functions
 ####################
 
+# check which mails were sent for a login
+# scripted by github.com/thonixx
+mailcheck () {
+	# abort if no argument
+	if [ -z "$1" ]
+	then
+		echo "I need a SASL user name"
+		return
+	fi
+
+	# set ip counter to 0
+	ips="0"
+
+	# go through found message ids and logins
+	for id in `grep $1 /var/log/mail.log | grep "sasl_method=" | grep "sasl_username=" | egrep -o "[A-Z0-9]{11,12}"`
+	do
+		# parse for ip
+		ip=$(grep $id /var/log/mail.log | grep "sasl_method=" | grep "sasl_username=" | egrep -o "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" | head -n 1)
+
+		# check if the new ip is the same like from the previous loop run
+		if [ "$ip" != "$oldip" ]
+		then
+			# print only output if ip is not empty (at the beginning oldip is empty)
+			if [ ! -z "$oldip" ]
+			then
+				echo "$oldcount mails"
+				let total+="$oldcount"
+				echo ""
+				echo "****************"
+				echo "$domains" | sort | uniq -c | sort -n | tail -n 20
+				echo "****************"
+			fi
+					
+			echo ""
+			echo ""
+			# print ip with reverse entry
+			echo -n "$ip ($(dig +short -x $ip)) sent "
+			# reset variables to start another ip group
+			oldcount="0"
+			prevdom=""
+			domains=""
+
+			# count how much ip addresses
+			let ips+="1"
+		fi
+
+		# count emails which were sent successfully
+		count=$(grep $id /var/log/mail.log | grep sent | grep -E "to=([<>a-zA-Z0-9\.\@_-]*)" | wc -l)
+		# the new sum from this loop round
+		let newcount="$count"+"$oldcount"
+
+		# used for the checks at the beginning and grouping for ip
+		oldip="$ip"
+		# feed counter with new total for this group
+		oldcount="$newcount"
+
+		# check if variable is empty to append only if something is in it
+		if [ ! -z "$domains" ]
+		then
+			domains="$domains
+	$(grep $id /var/log/mail.log | grep sent | grep -E "to=([<>a-zA-Z0-9\.\@_-]*)" | awk -F\@ '{print $2}' | awk -F\> '{print $1}')"
+		else
+			domains="$(grep $id /var/log/mail.log | grep sent | grep -E "to=([<>a-zA-Z0-9\.\@_-]*)" | awk -F\@ '{print $2}' | awk -F\> '{print $1}')"
+		fi
+	done
+
+	# for last one output out of loop
+	echo "$oldcount mails"
+	# count total mails
+	let total+="$oldcount"
+	echo ""
+	echo "****************"
+	echo "$domains" | sort | uniq -c | sort -n | tail -n 20
+	echo "****************"
+	echo ""
+	# print total mails sent
+	echo "****"
+	echo "Total mails sent: $total"
+	echo "From $ips different IP addresses"
+	echo "****"
+}
+
 # test mail delivery
 # scripted by github.com/thonixx
 function maildelivery {
