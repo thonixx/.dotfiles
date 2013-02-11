@@ -577,6 +577,13 @@ sslcheck() {
 ####################
 
 
+# if command not found
+if [[ -x /usr/lib/command-not-found ]] ; then
+	function command_not_found_handler() {
+		/usr/lib/command-not-found --no-failure-msg -- $1
+	}
+fi
+
 try_ssh() {
 	if [ "$(host $@ 2> /dev/null | grep 'not found' | wc -l)" == "0" ]
 	then
