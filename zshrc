@@ -148,6 +148,9 @@ setopt histignoredups
 # ignore commands with preceding space in history
 setopt histignorespace
 
+# save timestamps of commands
+setopt extended_history
+
 # because i love history, appendixes, and appending things
 setopt appendhistory
 
