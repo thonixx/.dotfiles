@@ -208,14 +208,14 @@ alias toptables="mysql -e "\""SELECT CONCAT(table_schema, '.', table_name),
 FROM   information_schema.TABLES
 ORDER  BY data_length + index_length DESC
 LIMIT  10;"\"""
-alias inst='dpkg -l | grep --color=auto -i'
+alias inst='dpkg -l | grep "ii" | grep --color=auto -i'
 alias a2gr='apache2ctl graceful'
 alias a2en='cd /etc/apache2/sites-enabled'
 alias lll='for i in *; do echo "`ls -1aRi  $i | awk "/^[0-9]+ / { print $1 }" | sort -u | wc -l` $i" ; done | sort -n'
 alias sysl='tail -f -n 100 /var/log/syslog'
 alias pubkey='cat ~/.ssh/id_rsa.pub'
 alias acs='apt-cache search'
-alias update='sudo apt-get update && sudo apt-get upgrade -y'
+alias update='sudo apt-get update && sudo apt-get upgrade'
 alias ll='ls -alFh --color=auto'
 alias speed='wget -O/dev/null speedtest.pixelwolf.ch'
 alias nano='sl 2> /dev/null || echo "Nano is baaaaad!!"' # for trolling myself using nano (nano is bad)
@@ -603,6 +603,8 @@ try_ssh() {
 if [ "$(pidof ssh-agent)" ]
 then
 	ssh-add
+else
+	ssh-agent /bin/zsh
 fi
 
 # my nice prompt template
