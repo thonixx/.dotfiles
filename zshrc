@@ -190,6 +190,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias release='lsb_release -a'
 alias gco='git commit -a -m'
 alias gs='git status'
 alias gabort='git checkout -f && git clean -f'
