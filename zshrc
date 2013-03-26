@@ -604,8 +604,9 @@ try_ssh() {
 if [ "$(pidof ssh-agent)" ]
 then
 	ssh-add
-else
-	ssh-agent /bin/zsh
+# this part sucks.. it opens multiple instances..
+# else
+# 	ssh-agent /bin/zsh
 fi
 
 # my nice prompt template
