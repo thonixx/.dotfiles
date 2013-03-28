@@ -684,7 +684,7 @@ function precmd() {
 	fi
 
 	# for host zotherserv
-	if [ "`hostname`" == "zotherserv" ]
+	if [ "`hostname`" == "zotherserv" ] || [ "`hostname`" == "pixelwolf" ]
 	then
 		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER ${exit} %{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
 	fi
