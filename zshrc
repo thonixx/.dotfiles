@@ -253,6 +253,12 @@ colors
 #################### my custom functions
 ####################
 
+# show expiration and subject information from a x509 formatted certificate
+# scripted by github.com/thonixx
+certexp () {
+	openssl x509 -text -noout -in "$1" | egrep "(Not|Subject:)"
+}
+
 # check which mails were sent for a login
 # scripted by github.com/thonixx
 mailcheck () {
