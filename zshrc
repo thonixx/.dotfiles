@@ -193,7 +193,7 @@ setopt PROMPT_SUBST
 alias release='lsb_release -a'
 alias gco='git commit -a -m'
 alias gs='git status'
-alias gabort='git checkout -f && git clean -f'
+alias gabort='git checkout -f && git clean -f -d'
 alias swap='for file in /proc/*/status ; do awk '"'"'/VmSwap|Name/{printf $2 " " $3}END{ print ""}'"'"' $file; done | sort -k 2 -n -r | less'
 alias rainbow='for c in {0..255} ; do echo -e "\e[38;05;${c}m ${c} Raiiiiinbooooow" ; sleep 0.01 ; done'
 alias grepcolors='for i in 1 2 4 7 8 9 30 31 32 33 34 35 36 37 38 41 42 43 44 45 46 47 90 91 92 93 94 95 96 97 100 101 102 103 104 105 106 107; do echo -n "GREP_COLOR=$i  " ; GREP_COLOR=$i grep -oE "[^\"]{1,15}" /var/log/syslog --color=always | head -n 1 ; done'
