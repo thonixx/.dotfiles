@@ -641,11 +641,11 @@ function precmd() {
 			local untracked=" " # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
 		fi
 		# look for modified/deleted files in git repo
-		if [ $(git status 2> /dev/null | grep -E "(modified|new|deleted)" | wc -l) -gt 0 ] || [ $(git status 2> /dev/null | grep -E "(modified|new)" | wc -l) -gt 0 ]
+		if [ $(git status 2> /dev/null | grep -E "(modified|new|deleted|renamed)" | wc -l) -gt 0 ] || [ $(git status 2> /dev/null | grep -E "(modified|new)" | wc -l) -gt 0 ]
 		then
 			# i wanted to have the cool thing that it calculates the untracked files but i will do it later
 			local deletedfiles=$(git status 2> /dev/null | grep -i deleted | wc -l)
-			local modifiedfiles=$(git status 2> /dev/null | grep -E "(modified|new)" | wc -l)
+			local modifiedfiles=$(git status 2> /dev/null | grep -E "(modified|new|renamed)" | wc -l)
 			local mod=" %{$fg[red]%}×$(expr $deletedfiles + $modifiedfiles)%{$reset_color%}"
 		else if [ $(git status 2> /dev/null | grep -i modified | wc -l) -eq 0 ] && [ $(git status 2> /dev/null | grep -i deleted | wc -l) -eq 0 ] && [ "$(parse_git_branch)" ]
 			then
