@@ -190,6 +190,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias proctime='ps -eo uid,user,pid,command,etime | grep -i'
 alias release='lsb_release -a'
 alias gco='git commit -a -m'
 alias gs='git status'
