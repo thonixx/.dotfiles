@@ -22,3 +22,4 @@ nmap <F5> :set number! number?<CR>
 "set cpoptions=B$
 
 set whichwrap+=<,>,h,l,[,]
+imap jj <ESC>
