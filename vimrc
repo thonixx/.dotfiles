@@ -23,3 +23,4 @@ nmap <F5> :set number! number?<CR>
 
 set whichwrap+=<,>,h,l,[,]
 imap jj <ESC>
+au BufRead,BufNewFile * start
