@@ -246,6 +246,11 @@ if [ -f ~/.zsh/zshrc.local ]
 then
 	source ~/.zsh/zshrc.local
 fi
+# source autojump if installed
+if [ -f /usr/share/autojump/autojump.sh ]
+then
+	source /usr/share/autojump/autojump.sh
+fi
 
 # colors are beautiful
 # even if I do not understand what this command means exactly
