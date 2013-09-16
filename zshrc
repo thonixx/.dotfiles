@@ -190,7 +190,6 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
-alias stopwatch='trap "echo \"\nStopwatch stopped..!\"; return 0" SIGINT SIGTERM; echo "Stopwatch started: $(date)"; sek=1; count=1; while [ true ] ; do if [ $sek -lt 60 ]; then time="$sek"; else min=$(expr $sek / 60); newsek=$(expr $sek - $min \* 60); time="$min"'"m"'" $newsek"; fi; echo -ne "   Time: $time"'"s"'" $(if [ $count -eq 1 ] ; then echo ".  "; elif [ $count -eq 2 ]; then echo ".. "; elif [ $count -eq 3 ]; then echo "..."; fi) \r"; sleep 1; let "sek = $sek + 1"; count=$(if [ $count -lt 3 ]; then expr $count + 1; else echo "1"; fi); done'
 alias vihosts='sudo vi /etc/hosts'
 alias gitdiff='git diff HEAD^ HEAD'
 alias proctime='ps -eo uid,user,pid,command,etime | grep -i'
