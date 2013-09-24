@@ -190,6 +190,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias extip='curl icanhazip.com'
 alias vihosts='sudo vi /etc/hosts'
 alias gitdiff='git diff HEAD^ HEAD'
 alias proctime='ps -eo uid,user,pid,command,etime | grep -i'
