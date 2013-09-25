@@ -3,7 +3,7 @@
 dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 home=$(echo $HOME)
 
-ln -s $dir/.vimrc $home/vimrc && echo "symlinked to $home/.vimrc"
+ln -s $dir/vimrc $home/.vimrc && echo "symlinked to $home/.vimrc"
 git submodule init && echo "initialized submodules"
 git submodule update && echo "updated submodules"
 sed -i.bak "s/tlib.git$/tlib.git\n\tignore = dirty/g" .git/config && echo "added ignore option to tlib submodule"
