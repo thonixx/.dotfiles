@@ -190,6 +190,8 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias remove='sudo aptitude remove'
+alias install='sudo aptitude install'
 alias extip='curl icanhazip.com'
 alias vihosts='sudo vi /etc/hosts'
 alias gitdiff='git diff HEAD^ HEAD'
