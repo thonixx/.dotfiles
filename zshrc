@@ -82,7 +82,7 @@ bindkey "^J" accept-line
 bindkey "^K" kill-line
 bindkey "^L" clear-screen
 bindkey "^R" history-incremental-search-backward
-bindkey "^S" history-incremental-search-forward
+bindkey "^T" history-incremental-search-forward
 bindkey -s '^U' 'cd ../\n'
 bindkey "^W" backward-kill-word
 bindkey "^[[5~" history-beginning-search-backward
