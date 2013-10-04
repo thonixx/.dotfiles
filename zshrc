@@ -146,6 +146,7 @@ setopt extended_glob
 setopt histignoredups
 
 # ignore commands with preceding space in history
+# seems not to work :/
 setopt histignorespace
 
 # save timestamps of commands
@@ -708,7 +709,9 @@ try_ssh() {
 # add ssh keys to ssh-agent if running		
 if [ "$(pidof ssh-agent)" ]
 then
-	ssh-add
+	ssh-add ~/.ssh/*.key 2> /dev/null
+	ssh-add ~/.ssh/id_rsa 2> /dev/null
+	ssh-add ~/.ssh/id_dsa 2> /dev/null
 # this part sucks.. it opens multiple instances..
 # else
 # 	ssh-agent /bin/zsh
