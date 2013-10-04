@@ -191,6 +191,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias desc='apt-cache show'
 alias agent='ssh -A'
 alias remove='sudo aptitude remove'
 alias install='sudo aptitude install'
