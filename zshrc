@@ -190,6 +190,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias agent='ssh -A'
 alias remove='sudo aptitude remove'
 alias install='sudo aptitude install'
 alias extip='curl icanhazip.com'
