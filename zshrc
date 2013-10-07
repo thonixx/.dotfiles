@@ -708,14 +708,11 @@ try_ssh() {
 }
 
 # add ssh keys to ssh-agent if running		
-if [ "$(pidof ssh-agent)" ]
+if [ "$(pidof ssh-agent)" ] && [ "$(ssh-add -l | wc -l)" -ne "$(ls -l ~/.ssh/ | grep -E "(.key|id_[dr]sa)" | wc -l)" ]
 then
 	ssh-add ~/.ssh/*.key 2> /dev/null
 	ssh-add ~/.ssh/id_rsa 2> /dev/null
 	ssh-add ~/.ssh/id_dsa 2> /dev/null
-# this part sucks.. it opens multiple instances..
-# else
-# 	ssh-agent /bin/zsh
 fi
 
 # my nice prompt template
