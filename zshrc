@@ -712,15 +712,14 @@ try_ssh() {
 # start ssh-agent if none is started
 if [ -z "$(pidof ssh-agent)" ]
 then
-        ssh-agent
-fi
-# check for running ssh-agent and if env var exists
-if [ "$(pidof ssh-agent)" ] && [ -z "$SSH_AUTH_SOCK" ]
-then
-	# write info of existing agent to tmp
-	sh -c "ssh-agent > /tmp/agent.env"
+	# load ssh-agent and save the information into a temporary file
+        sh -c "ssh-agent > /tmp/agent.env"
 	# delete echo line (don't want this)
 	sed -r -i "s%echo(.*)%%g" /tmp/agent.env
+fi
+# check for running ssh-agent and if env var exists
+if [ "$(pidof ssh-agent)" ] && [ -z "$SSH_AUTH_SOCK" ] && [ -f "/tmp/agent.env" ]
+then
 	# source existing agent
 	. /tmp/agent.env
 fi
