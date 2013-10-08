@@ -709,8 +709,23 @@ try_ssh() {
 	fi
 }
 
-# add ssh keys to ssh-agent if running		
-if [ "$(pidof ssh-agent)" ] && [ "$(ssh-add -l | wc -l)" -lt "$(ls -l ~/.ssh/ | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
+# start ssh-agent if none is started
+if [ -z "$(pidof ssh-agent)" ]
+then
+        ssh-agent
+fi
+# check for running ssh-agent and if env var exists
+if [ "$(pidof ssh-agent)" ] && [ -z "$SSH_AUTH_SOCK" ]
+then
+	# write info of existing agent to tmp
+	sh -c "ssh-agent > /tmp/agent.env"
+	# delete echo line (don't want this)
+	sed -r -i "s%echo(.*)%%g" /tmp/agent.env
+	# source existing agent
+	. /tmp/agent.env
+fi
+# add ssh keys to ssh-agent if running
+if [ "$(/bin/pidof ssh-agent)" ] && [ "$(ssh-add -l | wc -l)" -lt "$(ls -l ~/.ssh/ | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
 then
 	ssh-add ~/.ssh/*.key 2> /dev/null
 	ssh-add ~/.ssh/id_rsa 2> /dev/null
