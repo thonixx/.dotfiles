@@ -192,6 +192,8 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias sgrep='cat /var/log/syslog | grep'
+alias sigrep='cat /var/log/syslog | grep -i'
 alias zshreload='. ~/.zshrc'
 alias greprn='grep -rn'
 alias greprin='grep -rin'
@@ -227,7 +229,7 @@ alias inst='dpkg -l | grep "ii" | grep --color=auto -i'
 alias a2gr='apache2ctl graceful'
 alias a2en='cd /etc/apache2/sites-enabled'
 alias lll='for i in *; do echo "`ls -1aRi  $i | awk "/^[0-9]+ / { print $1 }" | sort -u | wc -l` $i" ; done | sort -n'
-alias sysl='tail -f -n 100 /var/log/syslog'
+alias sysl='tail -f -n 1000 /var/log/syslog'
 alias pubkey='cat ~/.ssh/id_rsa.pub'
 alias acs='apt-cache search'
 alias update='sudo apt-get update && sudo apt-get upgrade'
