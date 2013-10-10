@@ -192,6 +192,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias zshreload='. ~/.zshrc'
 alias greprn='grep -rn'
 alias greprin='grep -rin'
 alias desc='apt-cache show'
