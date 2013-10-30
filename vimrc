@@ -19,8 +19,21 @@ set wildmenu
 set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpe?g,*.png,*.xpm,*.gif,*.pyc
 set incsearch
 nmap <F5> :set number! number?<CR>
-"set cpoptions=B$
 
+" with which keys to wrap text
 set whichwrap+=<,>,h,l,[,]
+" exit with jj
 imap jj <ESC>
-" au BufRead,BufNewFile * start # direct start in insert mode
+
+" map ctrl arrow keys
+" ctrl right
+map <ESC>[1;5C w
+" ctrl down
+map <ESC>[1;5B j
+" ctrl left
+map <ESC>[1;5D b
+" ctrl up
+map <ESC>[1;5A k
+
+" delete word backwards
+map <ESC>[3;5~ bdaw
