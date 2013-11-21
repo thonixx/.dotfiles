@@ -276,7 +276,7 @@ colors
 # spellit
 # spell everything in german
 function spellit() {
-	$(which bash) -c "echo '$1' | while IFS= read -r -n1 c; do cat /tmp/letters | grep -iE \"^$c \" --color=always; done"
+	$(which bash) -c "echo \"$1\" | while IFS= read -r -n1 c; do cat /tmp/letters | grep -iE \"^\$c \" --color=always || echo \"\$c\"; done"
 }
 
 # tputcolors
