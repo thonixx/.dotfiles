@@ -273,6 +273,12 @@ colors
 #################### my custom functions
 ####################
 
+# spellit
+# spell everything in german
+function spellit() {
+	$(which bash) -c "echo '$1' | while IFS= read -r -n1 c; do cat /tmp/letters | grep -iE \"^$c \" --color=always; done"
+}
+
 # tputcolors
 # source: http://linuxtidbits.wordpress.com/2008/08/11/output-color-on-bash-scripts/
 function tputcolors() {
