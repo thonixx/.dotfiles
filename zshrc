@@ -301,7 +301,7 @@ viktor
 wilhelm
 xaver
 ypsilon
-zacharias' | grep --color=always -iE \"^\$c(.*)\" || echo \"\$c\"; done"
+zacharias' | grep -iE \"^\$c\" || echo \"\$c\"; done"
 }
 
 # tputcolors
