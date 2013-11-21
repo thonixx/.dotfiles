@@ -276,7 +276,32 @@ colors
 # spellit
 # spell everything in german
 function spellit() {
-	$(which bash) -c "echo \"$1\" | while IFS= read -r -n1 c; do cat /tmp/letters | grep -iE \"^\$c \" --color=always || echo \"\$c\"; done"
+	$(which bash) -c "echo \"$1\" | while IFS= read -r -n1 c; do [ \"\$c\" ] && echo -n \"\$c \"; [ \"\$c\" ] && echo 'anton
+berta
+cäsar
+dora
+emil
+friedrich
+gustav
+heinrich
+ida
+julius
+kaufmann
+ludwig
+martha
+nordpol
+otto
+paula
+quelle
+richard
+samuel
+theodor
+ulrich
+viktor
+wilhelm
+xaver
+ypsilon
+zacharias' | grep --color=always -iE \"^\$c(.*)\" || echo \"\$c\"; done"
 }
 
 # tputcolors
