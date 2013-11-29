@@ -610,90 +610,91 @@ reverse() {
 		return
 	fi
 	
-	# check for dig installed
+	# check for "dig" installed
 	if [ -z "$(which dig)" ]
 	then
 		echo "Please install dig, we need it:"
-		echo "sudo apt-get install dnsutils (for Ubuntu/Debian)"
+		echo "sudo apt-get install dig (for Ubuntu/Debian)"
 		return
 	fi
-
+	
 	# decide if its an ip or name
 	if [ "$(echo $request | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
 	then
 		# would be an IP
-		echo -n "$(echo $request | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}') > "
-		
-		# assume there are multiple PTR records
-		check="false"
-		for r in "$(dig +short -x $request 2> /dev/null)"
-		do 
-			if [ $check == "true" ]
-			then
-				echo -n " / "
-			fi
 
-			echo -n "$r"
+		# for later check of any reverse
+		check="false"
+
+		# save/set IFS
+		oldifs=$IFS
+		IFS=$'\n'
+		
+		# loop through ptr records
+		for r in $(dig +tcp +short -x $request 2> /dev/null)
+		do
+			# print ip address
+			echo -n "$request"
+
+			# print PTR
+			echo " > $r"
 			
-			if [ ! -z "$r" ]
-			then
-				check="true"
-			else
-				check="false"
-			fi
+			# set check to true due to at least one PTR
+			check="true"
 		done
+
+		# set the old IFS
+		export IFS=$oldifs
 
 		# check if any ptr was found
 		if [ $check == "false" ]
 		then
-			echo -ne "No reverse entry.\n"
-		else
-			echo -ne "\n"
+			echo -ne "No reverse entry for $1.\n"
 		fi
 	else
 		# would be a hostname
 
 		# check if any output there
-		if [ -z "$(dig a +search +short $request 2> /dev/null)" ]
+		if [ -z "$(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
 		then
-			echo "There was no A record."
+			echo "No A records found for $1."
 			return
 		else
-			# loop through A records
-			for i in $(dig a +search +short $request 2> /dev/null)
-			do
-				# print hostname
-				echo -n "$request > "
-				# print ip
-				echo -n "$i > "
-				 
-				# assume there are multiple PTR records
-				check="false"
-				for r in "$(dig +short -x $i 2> /dev/null)"
-				do 
-					if [ $check == "true" ]
-					then
-						echo -n " / "
-					fi
+			# continue with a record(s)
 
-					echo -n "$r"
+			# save/set IFS
+			oldifs=$IFS
+			IFS=$'\n'
+
+			# loop through A records
+			for i in $(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')
+			do
+				# for later check of any reverse
+				check="false"
+
+				# loop through ptr records
+				for r in $(dig +tcp +short -x $i 2> /dev/null)
+				do
+					# print request and ip
+					echo -n "$request > $i"
+
+					# print PTR
+					echo " > $r"
 					
-					if [ ! -z "$r" ]
-					then
-						check="true"
-					else
-						check="false"
-					fi
+					# set check to true due to at least one PTR
+					check="true"
 				done
 
 				# check if any ptr was found
 				if [ $check == "false" ]
 				then
-					echo -ne "No reverse entry.\n"
-				else
-					echo -ne "\n"
+					echo -ne "$request > $i > No reverse entry.\n"
 				fi
+
 			done
+
+			# set the old IFS
+			export IFS=$oldifs
 		fi
 	fi
 }
