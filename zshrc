@@ -649,7 +649,7 @@ reverse() {
 		# check if any ptr was found
 		if [ $check == "false" ]
 		then
-			echo -ne "No reverse entry for $1.\n"
+			echo -ne "No reverse entry for $request.\n"
 		fi
 	else
 		# would be a hostname
@@ -657,7 +657,7 @@ reverse() {
 		# check if any output there
 		if [ -z "$(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
 		then
-			echo "No A records found for $1."
+			echo "No A records found for $request."
 			return
 		else
 			# continue with a record(s)
