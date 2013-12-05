@@ -298,7 +298,8 @@ function chwhois() {
 # spellit
 # spell everything in german
 function spellit() {
-	$(which bash) -c "echo \"$1\" | while IFS= read -r -n1 c; do [ \"\$c\" ] && echo -n \"\$c \"; [ \"\$c\" ] && echo 'anton
+	input="$(echo $1 | sed 's/\./ /g')"
+	$(which bash) -c "echo -n \"$input\" | while IFS= read -r -n1 c; do [ \"\$c\" ] && echo -n \"\$c \"; [ \"\$c\" ] && echo 'anton
 berta
 cäsar
 dora
