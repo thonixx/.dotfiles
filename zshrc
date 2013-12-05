@@ -813,55 +813,57 @@ function precmd() {
 	RPROMPT='[%*]'
 	
 	# Stuff for git
-		parse_git_branch () {
-			git branch 2> /dev/null | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g'
-		}
+	parse_git_branch () {
+		git branch 2> /dev/null | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g'
+	}
+
+	# display git stuff at the right side if anything detected
+	if [ "$(parse_git_branch)" ]
+	then
+		local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $(parse_git_branch)%{$reset_color%}"
 	
-		# display git stuff at the right side if anything detected
-		if [ "$(parse_git_branch)" ]
-		then
-			local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $(parse_git_branch)%{$reset_color%}"
-		fi
-	
+		# get git status
+		gitstatus="$(git status 2> /dev/null)"
+
 		# look for untracked files in git repo
-		if [ $(git status 2> /dev/null | grep -i untracked | wc -l) -gt 0 ]
+		if [ "$(echo "$gitstatus" 2> /dev/null | grep -i untracked | wc -l)" -gt 0 ]
 		then
-			# i wanted to have the cool thing that it calculates the untracked files but i will do it later
-			#untrackedfiles=$(expr $(git status 2> /dev/null | wc -l ) - 5)
 			local untracked=" " # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
 		fi
 		# look for modified/deleted files in git repo
-		if [ $(git status 2> /dev/null | grep -E "(modified|new|deleted|renamed)" | wc -l) -gt 0 ] || [ $(git status 2> /dev/null | grep -E "(modified|new)" | wc -l) -gt 0 ]
+		if [ "$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new|deleted|renamed)" | wc -l)" -gt 0 ] || [ "$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new)" | wc -l)" -gt 0 ]
 		then
 			# i wanted to have the cool thing that it calculates the untracked files but i will do it later
-			local deletedfiles=$(git status 2> /dev/null | grep -i deleted | wc -l)
-			local modifiedfiles=$(git status 2> /dev/null | grep -E "(modified|new|renamed)" | wc -l)
+			local deletedfiles="$(echo "$gitstatus" 2> /dev/null | grep -i deleted | wc -l)"
+			local modifiedfiles="$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new|renamed)" | wc -l)"
 			local mod=" %{$fg[red]%}×$(expr $deletedfiles + $modifiedfiles)%{$reset_color%}"
-		else if [ $(git status 2> /dev/null | grep -i modified | wc -l) -eq 0 ] && [ $(git status 2> /dev/null | grep -i deleted | wc -l) -eq 0 ] && [ "$(parse_git_branch)" ]
+		else if [ "$(echo "$gitstatus" 2> /dev/null | grep -i modified | wc -l)" -eq 0 ] && [ "$(echo "$gitstatus" 2> /dev/null | grep -i deleted | wc -l)" -eq 0 ] && [ "$(parse_git_branch)" ]
 			then
 				local deletedfiles=""
 				local modifiedfiles=""
 				local mod=" %{$fg[green]%}✓%{$reset_color%}"
 			fi
 		fi
+	fi
 
 	# Stuff for svn
-		parse_svn_repo () {
-			svn info 2> /dev/null | grep 'URL' | awk -F\/ '{print $3}' #| awk -F@ '{print $2}'
-		}
-		# display svn stuff at the right side if anything detected
-		if [ "$(parse_svn_repo)" ]
-		then
-			local svn=" %{$fg[green]%}svn-%{$fg[cyan]%}($(parse_svn_repo))%{$reset_color%}"
-		fi
+	parse_svn_repo () {
+		svn info 2> /dev/null | grep 'URL' | awk -F\/ '{print $3}' #| awk -F@ '{print $2}'
+	}
+	# display svn stuff at the right side if anything detected
+	if [ "$(parse_svn_repo)" ]
+	then
+		local svn=" %{$fg[green]%}svn-%{$fg[cyan]%}($(parse_svn_repo))%{$reset_color%}"
+	fi
 
 	# needed for exit status smiley/char
 	# local exit="%(?,%{$fg[green]%}✔%{$reset_color%},%{$fg[red]%}✘%{$reset_color%})"
 	local exit="%(?..%{$fg[red]%}✘%{$reset_color%} )"
 	
 	# parse pwd structure and build something nice out of it
-	dire=$(dirs | sed 's/\// › /g') # »
-	dire=" $dire"
+	# dire=$(dirs | sed 's/\// › /g') # »
+	# dire=" $dire"
+	dire="$(dirs)"
 	
 	# check if user is root
 	local root=""
@@ -870,33 +872,25 @@ function precmd() {
 		local root=" %{$fg[white]%}%{$bg[red]%}root%{$reset_color%}"
 	fi
 
-	# for all other hosts (local and unknown)
-	local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y ${exit}%{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
+	# decide which prompt
+	case $(hostname) in
+		"mitan" )
+			local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[blue]%}%M%{$fg[white]%}:%y" ;;
+		"zotherserv" | "pixelwolf" )
+			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER" ;;
+		"mailserv" )
+			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} MAILSERVER" ;;
+		"woulfserv.pixelwolf.ch" )
+			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} KVMHOST" ;;
+		* )
+			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
+	esac
+
+	# append git/svn things
+	firstline="$firstline ${exit}%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
+	
+	# define 2nd line globally for all hosts
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
-
-	# for host mitan
-	if [ "`hostname`" == "mitan" ]
-	then
-		local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[blue]%}%M%{$fg[white]%}:%y ${exit}%{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
-	fi
-
-	# for host zotherserv
-	if [ "`hostname`" == "zotherserv" ] || [ "`hostname`" == "pixelwolf" ]
-	then
-		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER ${exit}%{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
-	fi
-
-	# for host mailserv
-	if [ "`hostname`" == "mailserv" ]
-	then
-		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} MAILSERVER ${exit}%{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
-	fi
-
-	# for kvm host
-	if [ "`hostname`" == "woulfserv.pixelwolf.ch" ]
-	then
-		local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} KVMHOST ${exit}%{$fg[magenta]%}(%h)%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
-	fi
 
 	# finish the prompt
 	PS1="$firstline
