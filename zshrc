@@ -273,6 +273,28 @@ colors
 #################### my custom functions
 ####################
 
+# chwhois
+# create the makessl command with prefilled whois infos for .ch domains
+# have a look at github.com/thonixx/easyssl
+function chwhois() {
+	# define .ch domain
+	domain="$1"
+	# sed for address output of whois request
+	output="$(whois "$domain" | sed -n '/Holder of domain name/,/Contractual Language/p' | head -n -2 | tail -n +2)"
+	
+	# parse organisation/holder
+	org="$(echo "$output" | sed -n -e '1p')"
+	# parse country code
+	c="$(echo "$output" | tail -n 1 | awk -F- '{print $1}')"
+	# parsing a state is difficult so fill with country
+	s="$c"
+	# parse city
+	l="$(echo "$output" | tail -n 1 | awk -F- '{print $2}' | sed -r 's/[[:digit:]][\ ]{0,}//g' | sed -r 's/[,](.*)//g')"
+	
+	# print the result
+	echo "makessl -d $domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
+}
+
 # spellit
 # spell everything in german
 function spellit() {
@@ -301,7 +323,7 @@ viktor
 wilhelm
 xaver
 ypsilon
-zacharias' | grep -iE \"^\$c\" || echo \"\$c\"; done"
+zacharias' | grep -iE \"^\$c\" || echo \"\$c\" | head -n1; done"
 }
 
 # tputcolors
