@@ -827,10 +827,10 @@ function precmd() {
 		gitstatus="$(git status -uno 2> /dev/null)"
 
 		# look for untracked files in git repo
-		if [ "$(echo "$gitstatus" 2> /dev/null | grep -i untracked | wc -l)" -gt 0 ]
-		then
-			local untracked=" " # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
-		fi
+		# if [ "$(echo "$gitstatus" 2> /dev/null | grep -i untracked | wc -l)" -gt 0 ]
+		# then
+		# 	local untracked=" " # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
+		# fi
 		# look for modified/deleted files in git repo
 		if [ "$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new|deleted|renamed)" | wc -l)" -gt 0 ] || [ "$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new)" | wc -l)" -gt 0 ]
 		then
