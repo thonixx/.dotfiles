@@ -823,8 +823,8 @@ function precmd() {
 	then
 		local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $(parse_git_branch)%{$reset_color%}"
 	
-		# get git status
-		gitstatus="$(git status 2> /dev/null)"
+		# get git status, without untracked files
+		gitstatus="$(git status -uno 2> /dev/null)"
 
 		# look for untracked files in git repo
 		if [ "$(echo "$gitstatus" 2> /dev/null | grep -i untracked | wc -l)" -gt 0 ]
