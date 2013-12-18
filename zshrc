@@ -276,7 +276,29 @@ colors
 # chwhois
 # create the makessl command with prefilled whois infos for .ch domains
 # have a look at github.com/thonixx/easyssl
-function chwhois() {
+function whoiscom() {
+	# define .ch domain
+	domain="$1"
+	# sed for address output of whois request
+	output="$(whois "$domain" | grep Registrant)"
+	
+	# parse organisation/holder
+	org="$(echo "$output" | grep -i "Registrant Organization" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
+	# parse country code
+	c="$(echo "$output" | grep -i "Registrant Country" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
+	# parsing a state is difficult so fill with country
+	s="$(echo "$output" | grep -i "Registrant State" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
+	# parse city
+	l="$(echo "$output" | grep -i "Registrant City" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
+	
+	# print the result
+	echo "makessl -d $domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
+}
+
+# chwhois
+# create the makessl command with prefilled whois infos for .ch domains
+# have a look at github.com/thonixx/easyssl
+function whoisch() {
 	# define .ch domain
 	domain="$1"
 	# sed for address output of whois request
