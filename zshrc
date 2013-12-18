@@ -905,6 +905,10 @@ function precmd() {
 			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} MAILSERVER" ;;
 		"woulfserv.pixelwolf.ch" )
 			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} KVMHOST" ;;
+		"pixelwolf-us" )
+			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} %{$fg[cyan]%}UNITED STATES%{$fg[white]%}" ;;
+		"pixelwolf-is" )
+			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} %{$fg[cyan]%}ICELAND%{$fg[white]%}" ;;
 		* )
 			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
 	esac
