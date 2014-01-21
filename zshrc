@@ -293,7 +293,7 @@ function whoiscom() {
 	l="$(echo "$output" | grep -i "Registrant City" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
 	
 	# print the result
-	echo "makessl -d $domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
+	echo "makessl -d www.$domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
 }
 
 # chwhois
@@ -315,7 +315,7 @@ function whoisch() {
 	l="$(echo "$output" | tail -n 1 | awk -F- '{print $2}' | sed -r 's/[[:digit:]][\ ]{0,}//g' | sed -r 's/[,](.*)//g')"
 	
 	# print the result
-	echo "makessl -d $domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
+	echo "makessl -d www.$domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
 }
 
 # spellit
