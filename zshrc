@@ -900,8 +900,10 @@ function precmd() {
 	case $(hostname) in
 		"mitan" )
 			local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[blue]%}%M%{$fg[white]%}:%y" ;;
-		"zotherserv" | "pixelwolf" )
+		"zotherserv" )
 			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER" ;;
+		"pixelwolf" )
+			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} CORE" ;;
 		"mailserv" )
 			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} MAILSERVER" ;;
 		"woulfserv.pixelwolf.ch" )
