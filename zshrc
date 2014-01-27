@@ -192,6 +192,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias tulpen="netstat -tulpen"
 alias keydebug="xev | sed -n 's/^.*state \([0-9].*\), keycode *\([0-9]\+\) *\(.*\), .*$/keycode \2 = \3, state = \1/p'"
 alias sgrep='cat /var/log/syslog | grep'
 alias sigrep='cat /var/log/syslog | grep -i'
