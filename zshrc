@@ -215,9 +215,7 @@ alias swap='for file in /proc/*/status ; do awk '"'"'/VmSwap|Name/{printf $2 " "
 alias rainbow='for c in {0..255} ; do echo -e "\e[38;05;${c}m ${c} Raiiiiinbooooow" ; sleep 0.01 ; done'
 alias grepcolors='for i in 1 2 4 7 8 9 30 31 32 33 34 35 36 37 38 41 42 43 44 45 46 47 90 91 92 93 94 95 96 97 100 101 102 103 104 105 106 107; do echo -n "GREP_COLOR=$i  " ; GREP_COLOR=$i grep -oE "[^\"]{1,15}" /var/log/syslog --color=always | head -n 1 ; done'
 alias findproc='ps faux | head -n1; ps faux | grep -i'
-# alias gitup="git pull -v --all --progress"
 alias gitup="git pull -v --progress"
-# alias stopwatch='since=$(date +%s); while true ; do eval "echo -n \$((\$(date +%s) - $since))" ; echo -n " " ; sleep 1 ; done'
 alias toptables="mysql -e "\""SELECT CONCAT(table_schema, '.', table_name),
        CONCAT(ROUND(table_rows / 1000000, 2), 'M')                                    rows,
        CONCAT(ROUND(data_length / ( 1024 * 1024 * 1024 ), 2), 'G')                    DATA,
@@ -605,12 +603,12 @@ function smtplogin {
 # loop function
 # run any command in a while loop with 1 second sleep
 function loop() {
-	if [ -z "$1" ]
+	if [ -z "$@" ]
 	then
 		return
 	fi
 
-	cmd="$1"
+	cmd="$@"
 
 	while true
 	do
@@ -837,7 +835,7 @@ function precmd() {
 	# prompt for right side of screen
 	RPROMPT='[%*]'
 	
-	# Stuff for git
+	# GIT stuff
 	parse_git_branch () {
 		git branch 2> /dev/null | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g'
 	}
@@ -847,8 +845,7 @@ function precmd() {
 	then
 		local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $(parse_git_branch)%{$reset_color%}"
 	
-		# get git status, without untracked files
-		# gitstatus="$(git status -uno 2> /dev/null)"
+		# get git status
 		gitstatus="$(git status --porcelain 2> /dev/null)"
 
 		# colorize gitline
@@ -869,25 +866,12 @@ function precmd() {
 		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l)"
 		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}${count}"
 		# some symbols:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
-		# normalize colors
+		# reset colors
 		gitline="${gitline}%{$reset_color%}"
 
-		# # look for modified/deleted files in git repo
-		# if [ "$(echo "$gitstatus" 2> /dev/null | grep -E "^\s?(A|D|M|R)" | wc -l)" -gt 0 ]
-		# then
-		# 	local deletedfiles="$(echo "$gitstatus" 2> /dev/null | egrep "^D" | wc -l)"
-		# 	local modifiedfiles="$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new|renamed)" | wc -l)"
-		# 	local mod=" %{$fg[red]%}×$(expr $deletedfiles + $modifiedfiles)%{$reset_color%}"
-		# else if [ "$(echo "$gitstatus" 2> /dev/null | grep -i modified | wc -l)" -eq 0 ] && [ "$(echo "$gitstatus" 2> /dev/null | grep -i deleted | wc -l)" -eq 0 ] && [ "$(parse_git_branch)" ]
-		# 	then
-		# 		local deletedfiles=""
-		# 		local modifiedfiles=""
-		# 		local mod=" %{$fg[green]%}✓%{$reset_color%}"
-		# 	fi
-		# fi
 	fi
 
-	# Stuff for svn
+	# SVN stuff
 	parse_svn_repo () {
 		svn info 2> /dev/null | grep 'URL' | awk -F\/ '{print $3}' #| awk -F@ '{print $2}'
 	}
@@ -903,7 +887,6 @@ function precmd() {
 	
 	# parse pwd structure and build something nice out of it
 	# dire=$(dirs | sed 's/\// › /g') # »
-	# dire=" $dire"
 	dire="$(dirs)"
 	
 	# check if user is root
