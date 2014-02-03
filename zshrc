@@ -868,7 +868,8 @@ function precmd() {
 		# some symbols:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
 		# reset colors
 		gitline="${gitline}%{$reset_color%}"
-
+	else
+		gitline=""
 	fi
 
 	# SVN stuff
@@ -878,12 +879,12 @@ function precmd() {
 	# display svn stuff at the right side if anything detected
 	if [ "$(parse_svn_repo)" ]
 	then
-		local svn=" %{$fg[green]%}svn-%{$fg[cyan]%}($(parse_svn_repo))%{$reset_color%}"
+		local svn=" %{$fg[green]%}svn://%{$fg[cyan]%}$(parse_svn_repo)%{$reset_color%}"
 	fi
 
 	# needed for exit status smiley/char
 	# local exit="%(?,%{$fg[green]%}✔%{$reset_color%},%{$fg[red]%}✘%{$reset_color%})"
-	local exit="%(?..%{$fg[red]%}✘%{$reset_color%} )"
+	local exit="%(?..%{ $fg[red]%}✘%{$reset_color%})"
 	
 	# parse pwd structure and build something nice out of it
 	# dire=$(dirs | sed 's/\// › /g') # »
@@ -917,7 +918,7 @@ function precmd() {
 	esac
 
 	# append git/svn things
-	firstline="$firstline ${exit}%{$fg[white]%}${gitline}${mod}${untracked}${svn}${root}"
+	firstline="${firstline}${exit}%{$fg[white]%}${gitline}${svn}${root}"
 	
 	# define 2nd line globally for all hosts
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
