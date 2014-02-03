@@ -848,27 +848,43 @@ function precmd() {
 		local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $(parse_git_branch)%{$reset_color%}"
 	
 		# get git status, without untracked files
-		gitstatus="$(git status -uno 2> /dev/null)"
+		# gitstatus="$(git status -uno 2> /dev/null)"
+		gitstatus="$(git status --porcelain 2> /dev/null)"
 
-		# look for untracked files in git repo
-		# if [ "$(echo "$gitstatus" 2> /dev/null | grep -i untracked | wc -l)" -gt 0 ]
+		# colorize gitline
+		gitline="${git} "
+		# calculate files modified
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l)"
+		[[ "$count" -gt 0 ]] && gitline="${gitline}%{$fg[red]%}×${count}"
+		# calculate files newly added
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l)"
+		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[green]%}+${count}"
+		# calculate files renamed
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}R" | wc -l)"
+		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[yellow]%}~${count}"
+		# calculate files deleted
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}D" | wc -l)"
+		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[cyan]%}-${count}"
+		# calculate files untracked
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l)"
+		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}${count}"
+		# some symbols:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
+		# normalize colors
+		gitline="${gitline}%{$reset_color%}"
+
+		# # look for modified/deleted files in git repo
+		# if [ "$(echo "$gitstatus" 2> /dev/null | grep -E "^\s?(A|D|M|R)" | wc -l)" -gt 0 ]
 		# then
-		# 	local untracked=" " # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
+		# 	local deletedfiles="$(echo "$gitstatus" 2> /dev/null | egrep "^D" | wc -l)"
+		# 	local modifiedfiles="$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new|renamed)" | wc -l)"
+		# 	local mod=" %{$fg[red]%}×$(expr $deletedfiles + $modifiedfiles)%{$reset_color%}"
+		# else if [ "$(echo "$gitstatus" 2> /dev/null | grep -i modified | wc -l)" -eq 0 ] && [ "$(echo "$gitstatus" 2> /dev/null | grep -i deleted | wc -l)" -eq 0 ] && [ "$(parse_git_branch)" ]
+		# 	then
+		# 		local deletedfiles=""
+		# 		local modifiedfiles=""
+		# 		local mod=" %{$fg[green]%}✓%{$reset_color%}"
+		# 	fi
 		# fi
-		# look for modified/deleted files in git repo
-		if [ "$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new|deleted|renamed)" | wc -l)" -gt 0 ] || [ "$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new)" | wc -l)" -gt 0 ]
-		then
-			# i wanted to have the cool thing that it calculates the untracked files but i will do it later
-			local deletedfiles="$(echo "$gitstatus" 2> /dev/null | grep -i deleted | wc -l)"
-			local modifiedfiles="$(echo "$gitstatus" 2> /dev/null | grep -E "(modified|new|renamed)" | wc -l)"
-			local mod=" %{$fg[red]%}×$(expr $deletedfiles + $modifiedfiles)%{$reset_color%}"
-		else if [ "$(echo "$gitstatus" 2> /dev/null | grep -i modified | wc -l)" -eq 0 ] && [ "$(echo "$gitstatus" 2> /dev/null | grep -i deleted | wc -l)" -eq 0 ] && [ "$(parse_git_branch)" ]
-			then
-				local deletedfiles=""
-				local modifiedfiles=""
-				local mod=" %{$fg[green]%}✓%{$reset_color%}"
-			fi
-		fi
 	fi
 
 	# Stuff for svn
@@ -918,7 +934,7 @@ function precmd() {
 	esac
 
 	# append git/svn things
-	firstline="$firstline ${exit}%{$fg[white]%}${git}${mod}${untracked}${svn}${root}"
+	firstline="$firstline ${exit}%{$fg[white]%}${gitline}${mod}${untracked}${svn}${root}"
 	
 	# define 2nd line globally for all hosts
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
