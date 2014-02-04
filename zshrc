@@ -849,10 +849,10 @@ function precmd() {
 		gitstatus="$(git status --porcelain 2> /dev/null)"
 
 		# colorize gitline
-		gitline="${git} "
+		gitline="${git}"
 		# calculate files modified
 		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l)"
-		[[ "$count" -gt 0 ]] && gitline="${gitline}%{$fg[red]%}×${count}"
+		[[ "$count" -gt 0 ]] && gitline="${gitline} %{$fg[red]%}×${count}"
 		# calculate files newly added
 		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l)"
 		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[green]%}+${count}"
