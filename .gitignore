@@ -1,4 +1,4 @@
 # nothing inside this
 *.swp
 *~
-zshrc.local
+zshrc.local*
