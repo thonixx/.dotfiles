@@ -2,3 +2,4 @@
 *.swp
 *~
 zshrc.local*
+tmux.conf.local

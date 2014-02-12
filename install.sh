@@ -33,7 +33,12 @@ fi
 # link zshrc
 ln -s $dir/zshrc $zshrc && echo ".zshrc is now installed"
 # link tmux.conf
-ln -s $dir/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
+if [ -f "$dir/tmux.conf.local" ]
+then
+	ln -s $dir/tmux.conf.local $home/.tmux.conf && echo ".tmux.conf.local is now installed"
+else
+	ln -s $dir/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
+fi
 
 # updating submodules
 git submodule init > /dev/null && git submodule update > /dev/null && echo "configured submodules"
