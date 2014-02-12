@@ -1,0 +1,6 @@
+[push]
+	default = simple
+[alias]
+	go = !git pull --progress -v && git commit && git push;
+[color]
+	ui = auto

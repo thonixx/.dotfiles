@@ -3,3 +3,5 @@
 *~
 zshrc.local*
 tmux.conf.local
+gitconfig.work
+gitconfig.personal
