@@ -192,6 +192,13 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias a2en='cd /etc/apache2/sites-enabled'
+alias a2home='cd /home/www-data'
+alias a2pup='cd /etc/apache2/puppet-vhosts'
+alias a2gr='apache2ctl graceful'
+alias a2re='apache2ctl restart'
+alias a2err='less /var/log/apache2/error.log'
+alias varlog='cd /var/log/'
 alias tulpen="netstat -tulpen"
 alias keydebug="xev | sed -n 's/^.*state \([0-9].*\), keycode *\([0-9]\+\) *\(.*\), .*$/keycode \2 = \3, state = \1/p'"
 alias sgrep='cat /var/log/syslog | grep'
@@ -226,8 +233,6 @@ FROM   information_schema.TABLES
 ORDER  BY data_length + index_length DESC
 LIMIT  10;"\"""
 alias inst='dpkg -l | grep "ii" | grep --color=auto -i'
-alias a2gr='apache2ctl graceful'
-alias a2en='cd /etc/apache2/sites-enabled'
 alias lll='for i in *; do echo "`ls -1aRi  $i | awk "/^[0-9]+ / { print $1 }" | sort -u | wc -l` $i" ; done | sort -n'
 alias sysl='tail -f -n 1000 /var/log/syslog'
 alias pubkey='cat ~/.ssh/id_rsa.pub'
