@@ -939,7 +939,7 @@ function precmd() {
 	esac
 
 	# append git/svn/other things
-	firstline="${firstline}${tmuxline}${exit}%{$fg[white]%}${gitline}${svn}${root}"
+	firstline="${firstline}${exit}${tmuxline}%{$fg[white]%}${gitline}${svn}${root}"
 	
 	# define 2nd line globally for all hosts
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
