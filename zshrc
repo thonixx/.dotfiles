@@ -840,6 +840,22 @@ function precmd() {
 	# prompt for right side of screen
 	RPROMPT='[%*]'
 	
+	# TMUX <3 stuff
+	parse_tmux () {
+		test ! -z "$TMUX" && echo "session: $(tmux display-message -p '#S')\nwindow: $(tmux display-message -p '#I')\npane: $(tmux display-message -p '#P')"
+	}
+	parsetmux="$(parse_tmux)"
+
+	# display tmux stuff
+	if [ "$parsetmux" ]
+	then
+		local c1="$(tput setaf 172)"
+		local c2="$(tput setaf 227)"
+		local tmuxline=" ${c1}tmux-(${c2}w$(echo "$parsetmux" | grep window | awk '{print $2}')${c1}-${c2}p$(echo "$parsetmux" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "$parsetmux" | grep session | awk '{print $2}')${c1})%{$reset_color%}"
+	else
+		tmuxline=""
+	fi
+	
 	# GIT stuff
 	parse_git_branch () {
 		git branch 2> /dev/null | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g'
@@ -922,8 +938,8 @@ function precmd() {
 			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
 	esac
 
-	# append git/svn things
-	firstline="${firstline}${exit}%{$fg[white]%}${gitline}${svn}${root}"
+	# append git/svn/other things
+	firstline="${firstline}${tmuxline}${exit}%{$fg[white]%}${gitline}${svn}${root}"
 	
 	# define 2nd line globally for all hosts
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
