@@ -851,7 +851,7 @@ function precmd() {
 	then
 		local c1="$(tput setaf 172)"
 		local c2="$(tput setaf 227)"
-		local tmuxline=" ${c1}tmux-(${c2}w$(echo "$parsetmux" | grep window | awk '{print $2}')${c1}-${c2}p$(echo "$parsetmux" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "$parsetmux" | grep session | awk '{print $2}')${c1})%{$reset_color%}"
+		local tmuxline=" ${c1}tmux-(${c2}Pane $(echo "$parsetmux" | grep pane | awk '{print $2}')${c1}@${c2}Session $(echo "$parsetmux" | grep session | awk '{print $2}')${c1})%{$reset_color%}"
 	else
 		tmuxline=""
 	fi
