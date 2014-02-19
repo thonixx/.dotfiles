@@ -254,7 +254,7 @@ alias apple='chmod +x ~/Ubuntu\ One/sync/mkapple && ~/Ubuntu\ One/sync/mkapple' 
 alias dusch='du -sch'
 alias l='ll'
 # this shows the default ip address where your traffic goes out
-alias ipaddr="ip addr show dev $(ip route show | grep default | awk '{print $5}') | grep inet | awk '{print \$2}' | awk -F/ '{print \$1}' | head -n 1"
+alias ipaddr="ip -4 addr show | grep inet | grep 'scope global' | grep eth | awk '{print \$2}' | sed -r 's/\/(.*)//'"
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 
