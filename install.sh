@@ -56,6 +56,9 @@ else
 	ln -s $dir/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
 fi
 
+# find out git version before doing git configuration
+gitversion="$(git --version | grep -Eo "\ [1-9]\.[0-9]" | sed 's/\ //')"
+
 # copy gitconfig.$type
 case $env in
 	'work')
@@ -71,8 +74,7 @@ gpg < $dir/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is n
 cat $dir/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
 
 # remove push setting for older git versions
-gitversion="$(git --version | grep -Eo "\ [1-9]\.[0-9]" | sed 's/\ //')"
-if [ "$(echo "$gitversion" | sed 's/\ //' | egrep "1\.[1-7]")" ] && [ -f "~/.gitconfig" ]
+if [ "$(echo "$gitversion" | sed 's/\ //' | egrep "1\.[1-7]")" ] && [ -e "$home/.gitconfig" ]
 then
 	# push setting not supported, so removing it
 	sed -i '/\[push\]/d;/default\ =\ /d;' ~/.gitconfig
