@@ -70,6 +70,15 @@ gpg < $dir/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is n
 # append gitconfig content
 cat $dir/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
 
+# remove push setting for older git versions
+gitversion="$(git --version | grep -Eo "\ [1-9]\.[0-9]" | sed 's/\ //')"
+if [ "$(echo "$gitversion" | sed 's/\ //' | egrep "1\.[1-7]")" ] && [ -f "~/.gitconfig" ]
+then
+	# push setting not supported, so removing it
+	sed -i '/\[push\]/d;/default\ =\ /d;' ~/.gitconfig
+	echo "removed push default setting due to low version"
+fi
+
 # updating submodules
 git submodule init > /dev/null && git submodule update > /dev/null && echo "configured submodules"
 
