@@ -267,6 +267,9 @@ fi
 if [ -f /usr/share/autojump/autojump.sh ]
 then
 	source /usr/share/autojump/autojump.sh
+elif [ -s ~/.autojump/etc/profile.d/autojump.sh ]
+then
+	source ~/.autojump/etc/profile.d/autojump.sh
 fi
 
 # colors are beautiful
