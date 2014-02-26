@@ -192,6 +192,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias tmp='cd /tmp'
 alias a2en='cd /etc/apache2/sites-enabled'
 alias a2home='cd /home/www-data'
 alias a2pup='cd /etc/apache2/puppet-vhosts'
