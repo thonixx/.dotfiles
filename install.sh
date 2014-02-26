@@ -45,8 +45,23 @@ else
 	mv $home/.gitconfig $home/.gitconfig.bak && echo ".gitconfig backed up."
 fi
 
+# backup irssi if folder exists or unlink it
+if [ -h "$home/.irssi" ]
+then
+	unlink $home/.irssi && echo ".irssi is now unlinked."
+else
+	mv $home/.irssi $home/.irssi.bak && echo ".irssi backed up."
+fi
+
+# install new config
+echo ""
+echo "beginning with installation:"
+
 # link zshrc
 ln -s $dir/zshrc $zshrc && echo ".zshrc is now installed"
+
+# link irssi
+ln -s $dir/irssi $home/.irssi && echo ".irssi is now installed"
 
 # link tmux.conf
 if [ -f "$dir/tmux.conf.local" ]
