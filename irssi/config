@@ -289,10 +289,7 @@ settings = {
     awl_viewer = "no";
   };
 };
-hilights = (
-  { text = "mitan"; nick = "yes"; word = "yes"; },
-  { text = "notice"; nick = "yes"; word = "yes"; }
-);
+hilights = ( { text = "mitan"; nick = "yes"; word = "yes"; } );
 windows = {
   1 = { immortal = "yes"; name = "(status)"; level = "ALL"; };
   2 = {
