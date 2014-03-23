@@ -19,7 +19,7 @@ if [ "$TERM" = "xterm" ] ; then
         fi
     else
         case "$COLORTERM" in
-            gnome-terminal|roxterm)
+            gnome-terminal|roxterm|mate-terminal)
                 # Those crafty Gnome folks require you to check COLORTERM,
                 # but don't allow you to just *favor* the setting over TERM.
                 # Instead you need to compare it and perform some guesses
