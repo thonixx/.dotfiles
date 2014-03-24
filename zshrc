@@ -192,6 +192,7 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias fixmissingpubkey='rm /tmp/keymissing; apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | apt-key add -; done'
 alias tmp='cd /tmp'
 alias a2en='cd /etc/apache2/sites-enabled'
 alias a2home='cd /home/www-data'
