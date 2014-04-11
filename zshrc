@@ -192,6 +192,9 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
+alias rtmux='ssh -A -t -R 1313:127.0.0.1:22 mitan@217.150.242.200 -o ProxyCommand="ssh -q mitan@217.150.241.39 nc %h 22" /home/mitan/local/bin/tmux a -t'
+alias 9='ssh 217.150.241.39'
+alias certexp='openssl x509 -subject -dates -noout <'
 alias u1publish="ls -tr -d -1 /home/wolf/Ubuntu\ One/screenshots/* | tail -n 1 | xargs -I {} -n 1 u1sdtool --publish-file={} | awk '{print \$NF}' | xsel -ib"
 alias fixmissingpubkey='rm /tmp/keymissing; apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | apt-key add -; done'
 alias tmp='cd /tmp'
@@ -460,13 +463,6 @@ function stopwatch () {
 		# calculate the next count for the dots
 		startdot=$(if [ "$startdot" -lt "$maxdots" ]; then expr $startdot + 1; else echo "1"; fi)
 	done
-}
-
-
-# show expiration and subject information from a x509 formatted certificate
-# scripted by github.com/thonixx
-certexp () {
-	openssl x509 -text -noout -in "$1" | egrep "(Not|Subject:)"
 }
 
 # check which mails were sent for a login
@@ -807,15 +803,6 @@ if [[ -x /usr/lib/command-not-found ]] ; then
 		/usr/lib/command-not-found --no-failure-msg -- $1
 	}
 fi
-
-try_ssh() {
-	if [ "$(host $@ 2> /dev/null | grep 'not found' | wc -l)" == "0" ]
-	then
-		return "false"
-	else
-		return "true"
-	fi
-}
 
 # start ssh-agent if none is started
 if [ -z "$(pidof ssh-agent)" ]
