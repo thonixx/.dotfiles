@@ -809,16 +809,16 @@ fi
 # start ssh-agent if none is started
 if [ -z "$(pidof ssh-agent)" ]
 then
-	rm /tmp/agent.env
+	rm /tmp/agent.env 2> /dev/null
 	# eval $(ssh-agent | sed -r "s%echo(.*)%%g" | tee /tmp/agent.env)
 	eval $(ssh-agent | tee /tmp/agent.env)
 elif [ "$(pidof ssh-agent)" ] && [ -f "/tmp/agent.env" ]
 then
 	# source existing agent
-	. /tmp/agent.env
+	. /tmp/agent.env 2> /dev/null
 fi
 # add ssh keys to ssh-agent if running
-if [ "$(pidof ssh-agent)" ] && [ "$(ssh-add -l | wc -l)" -lt "$(ls -l ~/.ssh/ | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
+if [ "$(pidof ssh-agent)" ] && [ "$(ssh-add -l | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
 then
 	ssh-add ~/.ssh/*.key 2> /dev/null
 	ssh-add ~/.ssh/id_rsa 2> /dev/null
