@@ -192,7 +192,6 @@ setopt noclobber
 setopt PROMPT_SUBST
 
 # some helpful aliases
-alias 9phone='ssh -A mitan@217.150.242.200 "ssh root@193.17.85.12 tail -f /tmp/phonecalls"'
 alias lsd='ls -d'
 alias pingloop='ping -W 1'
 alias rtmux='ssh -A -t -R 1313:127.0.0.1:22 mitan@217.150.242.200 -o ProxyCommand="ssh -q mitan@217.150.241.39 nc %h 22" /home/mitan/local/bin/tmux a -t'
