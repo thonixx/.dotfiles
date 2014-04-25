@@ -288,9 +288,9 @@ settings = {
     awl_viewer = "no";
   };
 };
-hilights = ( { text = "mitan"; nick = "yes"; word = "yes"; } );
+hilights = ( { text = "notice:"; nick = "yes"; word = "yes"; } );
 windows = {
-  1 = { immortal = "yes"; name = "(status)"; level = "ALL"; };
+  1 = { immortal = "yes"; name = "status"; level = "ALL"; };
   2 = {
     items = (
       { 
@@ -311,8 +311,17 @@ windows = {
       }
     );
   };
-  4 = { name = "hilight"; sticky = "yes"; parent = "6"; };
-  5 = { name = "highlite"; sticky = "yes"; };
+  4 = {
+    items = (
+      { 
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#dev";
+        tag = "nine";
+      }
+    );
+  };
+  5 = { immortal = "yes"; name = "highlite"; sticky = "yes"; tag = "info"; };
 };
 mainwindows = {
   1 = { first_line = "12"; lines = "48"; };
