@@ -103,7 +103,6 @@ channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
   { name = "silc"; chatnet = "silc"; autojoin = "No"; },
   { name = "#noc"; chatnet = "nine"; autojoin = "yes"; },
-  { name = "#sd"; chatnet = "nine"; autojoin = "yes"; },
   { name = "#nagios"; chatnet = "nine"; autojoin = "yes"; }
 );
 
@@ -304,16 +303,6 @@ windows = {
   };
   3 = {
     items = (
-      { 
-        type = "CHANNEL";
-        chat_type = "IRC";
-        name = "#sd";
-        tag = "nine";
-      }
-    );
-  };
-  4 = {
-    items = (
       {
         type = "CHANNEL";
         chat_type = "IRC";
@@ -322,12 +311,12 @@ windows = {
       }
     );
   };
-  5 = { name = "hilight"; sticky = "yes"; parent = "6"; };
-  6 = { name = "highlite"; sticky = "yes"; };
+  4 = { name = "hilight"; sticky = "yes"; parent = "6"; };
+  5 = { name = "highlite"; sticky = "yes"; };
 };
 mainwindows = {
   1 = { first_line = "12"; lines = "48"; };
-  6 = { first_line = "1"; lines = "11"; };
+  5 = { first_line = "1"; lines = "11"; };
 };
 keyboard = ( 
   { key = "meta-[M"; id = "command"; data = "mouse_xterm "; }
