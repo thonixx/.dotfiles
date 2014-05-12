@@ -214,7 +214,7 @@ formats = {
     topic = "           %w-%c-%C- %K| %nTopic for {channelhilight $0} is $1";
     new_topic = "           %w-%c-%C- %K| %W{nick $0} %nhas changed the topic to: %C$2";
     topic_unset = "           %w-%c-%C- %K| %nTopic unset by {nick $0} on {channel $1}";
-    daychange = "                      %w-%c-%C- %K| %nDay changed to %%d %%b %%Y";
+    daychange = "                   %w-%c-%C- %K| %nDay changed to %%d %%b %%Y";
     your_nick_changed = "           %w-%c-%C- %K| %nYou're now known as %W$1";
 
     #pubmsg = "%b<%w$2\00311$[-11]0%b> %K|%n $1";
