@@ -197,7 +197,7 @@ alias pingloop='ping -W 1'
 alias rtmux='ssh -A -t -R 1313:127.0.0.1:22 mitan@217.150.242.200 -o ProxyCommand="ssh -q mitan@217.150.241.39 nc %h 22" /home/mitan/local/bin/tmux a -t'
 alias 9='ssh 217.150.241.39'
 alias certexp='openssl x509 -subject -dates -noout <'
-alias u1publish="ls -tr -d -1 /home/wolf/Ubuntu\ One/screenshots/* | tail -n 1 | xargs -I {} -n 1 u1sdtool --publish-file={} | awk '{print \$NF}' | xsel -ib"
+alias insyncpublish="ls -tr -d -1 /home/wolf/Insync/01screenshots/* | tail -n 1 | xargs -I {} -n 1 insync get_public_link {} | sed 's%&export=download$%%g' | xsel -ib"
 alias fixmissingpubkey='rm /tmp/keymissing; apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | apt-key add -; done'
 alias tmp='cd /tmp'
 alias a2en='cd /etc/apache2/sites-enabled'
@@ -258,7 +258,7 @@ alias woulfserv='ssh thonixx@pixelwolf.ch'
 alias mailserv='ssh thonixx@mail.pixelwolf.ch'
 alias destroy='shred -uvn 35 -z --random-source=/dev/urandom' # destroying is helpful
 alias pass='openssl rand -base64 15'
-alias apple='chmod +x ~/Ubuntu\ One/sync/mkapple && ~/Ubuntu\ One/sync/mkapple' # for my apple keyboard
+alias apple='chmod +x ~/Insync/01sync/mkapple && ~/Insync/01sync/mkapple' # for my apple keyboard
 alias dusch='du -sch'
 alias l='ll'
 # this shows the default ip address where your traffic goes out
