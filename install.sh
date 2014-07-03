@@ -26,32 +26,44 @@ if [ -h "$zshrc" ]
 then
 	unlink $zshrc && echo ".zshrc is now unlinked."
 else
-	mv $zshrc "$zshrc".bak && echo ".zshrc backed up."
+	mv $zshrc "$zshrc".bak 2> /dev/null && echo ".zshrc backed up."
 fi
+
+# define directory where zsh is stored
+dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # backup tmuxconf if file exists or unlink it
 if [ -h "$home/.tmux.conf" ]
 then
 	unlink $home/.tmux.conf && echo ".tmux.conf is now unlinked."
 else
-	mv $home/.tmux.conf $home/.tmux.conf.bak && echo ".tmux.conf backed up."
+	mv $home/.tmux.conf $home/.tmux.conf.bak 2> /dev/null && echo ".tmux.conf backed up."
 fi
+
+# define directory where zsh is stored
+dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # backup gitconfig if file exists or unlink it
 if [ -h "$home/.gitconfig" ]
 then
 	unlink $home/.gitconfig && echo ".gitconfig is now unlinked."
 else
-	mv $home/.gitconfig $home/.gitconfig.bak && echo ".gitconfig backed up."
+	mv $home/.gitconfig $home/.gitconfig.bak 2> /dev/null && echo ".gitconfig backed up."
 fi
+
+# define directory where zsh is stored
+dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # backup irssi if folder exists or unlink it
 if [ -h "$home/.irssi" ]
 then
 	unlink $home/.irssi && echo ".irssi is now unlinked."
 else
-	mv $home/.irssi $home/.irssi.bak && echo ".irssi backed up."
+	mv $home/.irssi $home/.irssi.bak 2> /dev/null && echo ".irssi backed up."
 fi
+
+# define directory where zsh is stored
+dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # install new config
 echo ""
