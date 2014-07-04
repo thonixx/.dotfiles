@@ -12,7 +12,7 @@ Compiling tmux is very simple and basically just requires "configure" and "make"
 #### Sync
 To stay in sync I have the following cronjob activated:
 
-    1/5 *  *   *   *  bash -c 'echo "$(date) - start vim git" >>/tmp/git.log ; cd /home/user/.vim/; git pull 2>> /tmp/git.log; echo "$(date) - end vim git" >> /tmp/git.log'
+    1/5 *  *   *   *  bash -c 'echo "$(date) - start zsh git" >>/tmp/git.log ; cd /home/user/.zsh/; git pull 2>> /tmp/git.log; echo "$(date) - end zsh git" >> /tmp/git.log'
 
-#### Vim
-The vim config is designed to work on 256-colours terminals, therefore install "ncurses-term" to get the colours working.
+#### Zsh
+The zsh config is designed to work on 256-colours terminals, therefore install "ncurses-term" to get the colours working.
