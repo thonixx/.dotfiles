@@ -83,6 +83,12 @@ else
 	ln -s $dir/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
 fi
 
+# link zsh folder
+if [ ! -d "$home/.zsh" ]
+then
+	ln -s $dir $home/.zsh && echo ".zsh folder installed"
+fi
+
 # find out git version before doing git configuration
 gitversion="$(git --version | grep -Eo "\ [1-9]\.[0-9]" | sed 's/\ //')"
 
