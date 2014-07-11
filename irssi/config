@@ -271,13 +271,6 @@ statusbar = {
         barend = { priority = "100"; alignment = "right"; };
       };
     };
-    awl_1 = {
-      items = {
-        barstart = { priority = "100"; };
-        awl_1 = { };
-        barend = { priority = "100"; alignment = "right"; };
-      };
-    };
   };
 };
 settings = {
@@ -310,7 +303,7 @@ windows = {
   };
   3 = {
     items = (
-      {
+      { 
         type = "CHANNEL";
         chat_type = "IRC";
         name = "#ops";
@@ -330,7 +323,7 @@ windows = {
   };
   5 = {
     items = (
-      { 
+      {
         type = "CHANNEL";
         chat_type = "IRC";
         name = "#nagios";
