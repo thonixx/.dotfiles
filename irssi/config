@@ -313,7 +313,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#nagios";
+        name = "#ops";
         tag = "nine";
       }
     );
@@ -328,7 +328,17 @@ windows = {
       }
     );
   };
-  5 = { immortal = "yes"; name = "highlite"; sticky = "yes"; tag = "info"; };
+  5 = {
+    items = (
+      { 
+        type = "CHANNEL";
+        chat_type = "IRC";
+        name = "#nagios";
+        tag = "nine";
+      }
+    );
+  };
+  6 = { immortal = "yes"; name = "highlite"; sticky = "yes"; tag = "info"; };
 };
 mainwindows = {
   1 = { first_line = "12"; lines = "48"; };
