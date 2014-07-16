@@ -37,3 +37,6 @@ map <ESC>[1;5A k
 
 " delete word backwards
 map <ESC>[3;5~ bdaw
+
+" save with c-x in insert mode
+imap <c-x> <c-o>:w<cr>
