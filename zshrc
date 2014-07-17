@@ -806,6 +806,15 @@ if [[ -x /usr/lib/command-not-found ]] ; then
 	}
 fi
 
+if [ ! -z "$(which tmux)" ]
+then
+	# list tmux sessions
+	echo ""
+	echo "Running tmux sessions:"
+	tmux ls
+	echo ""
+fi
+
 # start ssh-agent if none is started
 if [ -z "$(pidof ssh-agent)" ]
 then
