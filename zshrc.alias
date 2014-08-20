@@ -70,3 +70,4 @@ alias l='ll'
 alias ipaddr="ip -4 addr show | grep inet | grep 'scope global' | grep eth | awk '{print \$2}' | sed -r 's/\/(.*)//'"
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
+alias gpu='git push'
