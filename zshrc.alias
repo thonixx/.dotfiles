@@ -1,0 +1,72 @@
+# some helpful aliases
+alias lsd='ls -d'
+alias pingloop='ping -W 1'
+alias rtmux='ssh -A -t -R 1313:127.0.0.1:22 mitan@217.150.242.200 -o ProxyCommand="ssh -q mitan@217.150.241.39 nc %h 22" /home/mitan/local/bin/tmux a -t'
+alias 9='ssh 217.150.241.39'
+alias certexp='openssl x509 -subject -dates -noout <'
+alias insyncpublish="ls -tr -d -1 /home/wolf/Insync/01screenshots/* | tail -n 1 | xargs -I {} -n 1 insync get_public_link {} | sed 's/&export=download$//g' | sed 's/^$/Failed getting the public link... Try again!/g' | xsel -ib; xsel -bo"
+alias fixmissingpubkey='rm /tmp/keymissing; apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | apt-key add -; done'
+alias tmp='cd /tmp'
+alias a2en='cd /etc/apache2/sites-enabled'
+alias a2home='cd /home/www-data'
+alias a2pup='cd /etc/apache2/puppet-vhosts'
+alias a2gr='apache2ctl graceful'
+alias a2re='apache2ctl restart'
+alias a2err='less /var/log/apache2/error.log'
+alias varlog='cd /var/log/'
+alias tulpen="netstat -tulpen"
+alias keydebug="xev | sed -n 's/^.*state \([0-9].*\), keycode *\([0-9]\+\) *\(.*\), .*$/keycode \2 = \3, state = \1/p'"
+alias sgrep='cat /var/log/syslog | grep'
+alias sigrep='cat /var/log/syslog | grep -i'
+alias zshreload='. ~/.zshrc'
+alias greprn='grep -rn'
+alias greprin='grep -rin'
+alias desc='apt-cache show'
+alias agent='ssh -A'
+alias remove='sudo apt-get remove'
+alias install='sudo apt-get install'
+alias extip='curl icanhazip.com'
+alias vihosts='sudo vi /etc/hosts'
+alias proctime='ps -eo pid,user,cmd,etime | grep --color=never -i'
+alias gitdiff='git diff --color HEAD^ HEAD'
+alias gco='git commit -a -m'
+alias gs='git status'
+alias ga='git add'
+alias gabort='git checkout -f && git clean -f -d'
+alias swap='for file in /proc/*/status ; do awk '"'"'/VmSwap|Name/{printf $2 " " $3}END{ print ""}'"'"' $file; done | sort -k 2 -n -r | less'
+alias rainbow='for c in {0..255} ; do echo -e "\e[38;05;${c}m ${c} Raiiiiinbooooow" ; sleep 0.01 ; done'
+alias grepcolors='for i in 1 2 4 7 8 9 30 31 32 33 34 35 36 37 38 41 42 43 44 45 46 47 90 91 92 93 94 95 96 97 100 101 102 103 104 105 106 107; do echo -n "GREP_COLOR=$i  " ; GREP_COLOR=$i grep -oE "[^\"]{1,15}" /var/log/syslog --color=always | head -n 1 ; done'
+alias findproc='ps faux | head -n1; ps faux | grep -i'
+alias gitup="git pull -v --progress"
+alias toptables="mysql -e "\""SELECT CONCAT(table_schema, '.', table_name),
+       CONCAT(ROUND(table_rows / 1000000, 2), 'M')                                    rows,
+       CONCAT(ROUND(data_length / ( 1024 * 1024 * 1024 ), 2), 'G')                    DATA,
+       CONCAT(ROUND(index_length / ( 1024 * 1024 * 1024 ), 2), 'G')                   idx,
+       CONCAT(ROUND(( data_length + index_length ) / ( 1024 * 1024 * 1024 ), 2), 'G') total_size,
+       ROUND(index_length / data_length, 2)                                           idxfrac
+FROM   information_schema.TABLES
+ORDER  BY data_length + index_length DESC
+LIMIT  10;"\"""
+alias inst='dpkg -l | grep "ii" | grep --color=auto -i'
+alias lll='for i in *; do echo "`ls -1aRi  $i | awk "/^[0-9]+ / { print $1 }" | sort -u | wc -l` $i" ; done | sort -n'
+alias sysl='tail -f -n 1000 /var/log/syslog'
+alias pubkey='cat ~/.ssh/id_rsa.pub'
+alias acs='apt-cache search'
+alias update='sudo apt-get update && sudo apt-get upgrade'
+alias ll='ls -alFh --color=auto'
+alias speed='wget -O/dev/null speedtest.pixelwolf.ch'
+alias nano='sl 2> /dev/null || echo "Nano is baaaaad!!"' # for trolling myself using nano (nano is bad)
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias zgrep='zgrep --color=auto'
+alias mplayer='mplayer -lavdopts threads=4' # whats that??
+alias destroy='shred -uvn 35 -z --random-source=/dev/urandom' # destroying is helpful
+alias pass='openssl rand -base64 15'
+alias apple='chmod +x ~/Insync/01sync/mkapple && ~/Insync/01sync/mkapple' # for my apple keyboard
+alias dusch='du -sch'
+alias l='ll'
+# this shows the default ip address where your traffic goes out
+alias ipaddr="ip -4 addr show | grep inet | grep 'scope global' | grep eth | awk '{print \$2}' | sed -r 's/\/(.*)//'"
+alias s='ssh'
+alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
