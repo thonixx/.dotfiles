@@ -6,3 +6,4 @@ tmux.conf.local
 gitconfig.work
 gitconfig.personal
 config.autosave
+irssi/away.log

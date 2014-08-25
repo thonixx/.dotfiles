@@ -357,3 +357,4 @@ mainwindows = {
 keyboard = ( 
   { key = "meta-[M"; id = "command"; data = "mouse_xterm "; }
 );
+logs = { };
