@@ -73,3 +73,4 @@ alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/nul
 alias gpu='git push'
 alias gup='git pull'
 alias hahaha='read int; youtube$int http://data2.whicdn.com/images/63406928/original.jpg'
+alias search='find -iname'
