@@ -1,4 +1,5 @@
 # some helpful aliases
+alias randompassword='apg -MCLN -m 15 -x 15 -n 1'
 alias procmdstat='cat /proc/mdstat'
 alias lsd='ls -d'
 alias pingloop='ping -W 1'
