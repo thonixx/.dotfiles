@@ -40,3 +40,13 @@ map <ESC>[3;5~ bdaw
 
 " save with c-x in insert mode
 imap <c-x> <c-o>:w<cr>
+
+" foldlevel setting
+set foldlevel=999
+
+" non-printable chars
+set list
+set listchars=nbsp:¬,eol:¶,tab:>-,extends:»,precedes:«,trail:•
+
+" set line numbering
+set number
