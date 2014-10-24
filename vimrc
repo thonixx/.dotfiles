@@ -50,3 +50,6 @@ set listchars=nbsp:¬,eol:¶,tab:>-,extends:»,precedes:«,trail:•
 
 " set line numbering
 set number
+
+" source local config
+so ~/.vim/vimrc.local
