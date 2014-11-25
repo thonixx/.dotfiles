@@ -84,9 +84,9 @@ else
 fi
 
 # link zsh folder
-if [ ! -d "$home/.zsh" ]
+if [ ! -d "$home/.dotfiles" ]
 then
-	ln -s $dir $home/.zsh && echo ".zsh folder installed"
+	ln -s $dir $home/.dotfiles && echo ".dotfiles folder installed"
 fi
 
 # find out git version before doing git configuration
