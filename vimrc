@@ -6,6 +6,7 @@ set modelines=5
 call pathogen#infect()
 filetype off
 syntax on
+let g:syntastic_puppet_puppetlint_args = "--no-80chars-check"
 filetype plugin indent on
 call pathogen#helptags()
 
