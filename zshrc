@@ -505,9 +505,9 @@ function maildelivery {
 	echo "Server: $mailserver"
 	echo ""
 	 
-	(echo "helo test"
+	(echo "EHLO test.example.org"
 	sleep 2
-	echo "MAIL FROM:<info@test.com>"
+	echo "MAIL FROM:<info@test.example.org>"
 	sleep 2
 	echo "RCPT TO:<$1>"
 	sleep 2
