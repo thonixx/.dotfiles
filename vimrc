@@ -2,7 +2,7 @@ set nocp
 set ml
 set modelines=5
 
-"Pathogen
+"Pathogen syntax highlighting things
 call pathogen#infect()
 filetype off
 syntax on
@@ -12,6 +12,7 @@ call pathogen#helptags()
 
 set clipboard+=unnamed
 set pastetoggle=<f4>
+" my vim theme
 colorscheme idleFingers
 set laststatus=2
 set showmode
@@ -19,6 +20,7 @@ set ch=2
 set wildmenu
 set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpe?g,*.png,*.xpm,*.gif,*.pyc
 set incsearch
+" enable/disable line numbering
 nmap <F5> :set number! number?<CR>
 
 " with which keys to wrap text
@@ -51,6 +53,18 @@ set listchars=nbsp:¬,eol:¶,tab:>-,extends:»,precedes:«,trail:•
 
 " set line numbering
 set number
+
+" save with ESC ESC
+map <Esc><Esc> :w<CR>
+
+" save with ESC ESC in insert mode
+imap <Esc><Esc> <Esc>:w<CR>a
+
+" jump to eol with \
+map \ $
+
+" mouse mode to insert mode only
+set mouse=i
 
 " source local config
 so ~/.vim/vimrc.local
