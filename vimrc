@@ -60,6 +60,9 @@ map <Esc><Esc> :w<CR>
 " save with ESC ESC in insert mode
 imap <Esc><Esc> <Esc>:w<CR>a
 
+" save and exit with Ctrl-X Ctrl-X
+imap <c-x><c-x> <Esc>:wq<CR>
+
 " jump to eol with \
 map \ $
 
