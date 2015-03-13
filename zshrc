@@ -197,7 +197,7 @@ source ~/.dotfiles/zshrc.alias
 # exports
 export EDITOR="vim"
 export GIT_EDITOR="vim +startinsert"
-
+export PAGER="less"
 
 # source local config (testing or so)
 if [ -f ~/.dotfiles/zshrc.local ]
