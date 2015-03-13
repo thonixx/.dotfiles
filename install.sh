@@ -117,6 +117,9 @@ fi
 # updating submodules
 git submodule init > /dev/null && git submodule update > /dev/null && echo "configured submodules"
 
+# hint about cronjob
+echo "How about adding a cronjob to stay in sync?"
+echo "1/5 *  *   *   *  bash -c 'echo \"\$(date) - start zsh git\" >>/tmp/git.log ; cd /home/user/.dotfiles/; git pull 2>> /tmp/git.log; echo \"\$(date) - end zsh git\" >> /tmp/git.log'"
+
 # end script
 echo "script ended"
-exit 0
