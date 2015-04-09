@@ -2,13 +2,13 @@ servers = (
   { address = "eu.irc6.net"; chatnet = "IRCnet"; port = "6667"; },
   { address = "open.ircnet.net"; chatnet = "IRCnet"; port = "6667"; },
   { address = "irc.efnet.org"; chatnet = "EFNet"; port = "6667"; },
-  { 
+  {
     address = "irc.undernet.org";
     chatnet = "Undernet";
     port = "6667";
   },
   { address = "irc.dal.net"; chatnet = "DALnet"; port = "6667"; },
-  { 
+  {
     address = "irc.quakenet.org";
     chatnet = "QuakeNet";
     port = "6667";
@@ -41,7 +41,7 @@ chatnets = {
     max_whois = "4";
     max_query_chans = "5";
   };
-  EFNet = { 
+  EFNet = {
     type = "IRC";
     max_kicks = "4";
     max_msgs = "3";
@@ -65,7 +65,7 @@ chatnets = {
     max_msgs = "3";
     max_whois = "30";
   };
-  OFTC = { 
+  OFTC = {
     type = "IRC";
     max_kicks = "1";
     max_msgs = "3";
@@ -83,7 +83,7 @@ chatnets = {
     max_msgs = "3";
     max_whois = "30";
   };
-  Rizon = { 
+  Rizon = {
     type = "IRC";
     max_kicks = "1";
     max_msgs = "3";
@@ -281,7 +281,13 @@ settings = {
     hostname = "IRSSI";
   };
   "fe-text" = { actlist_sort = "refnum"; };
-  "fe-common/core" = { theme = "thonixx.theme"; };
+  "fe-common/core" = {
+    theme = "thonixx.theme";
+    autocreate_own_query = "no";
+    autocreate_query_level = "DCCMSGS";
+    use_status_window = "no";
+    use_msgs_window = "yes";
+  };
   "perl/core/scripts" = {
     awl_block = "-14";
     awl_mouse = "yes";
@@ -293,7 +299,7 @@ windows = {
   1 = { immortal = "yes"; name = "status"; level = "ALL"; };
   2 = {
     items = (
-      { 
+      {
         type = "CHANNEL";
         chat_type = "IRC";
         name = "#noc";
@@ -303,7 +309,7 @@ windows = {
   };
   3 = {
     items = (
-      { 
+      {
         type = "CHANNEL";
         chat_type = "IRC";
         name = "#ops";
@@ -313,7 +319,7 @@ windows = {
   };
   4 = {
     items = (
-      { 
+      {
         type = "CHANNEL";
         chat_type = "IRC";
         name = "#dev";
@@ -347,7 +353,7 @@ mainwindows = {
   1 = { first_line = "12"; lines = "44"; };
   7 = { first_line = "1"; lines = "15"; };
 };
-keyboard = ( 
+keyboard = (
   { key = "meta-[M"; id = "command"; data = "mouse_xterm "; }
 );
 logs = { };
