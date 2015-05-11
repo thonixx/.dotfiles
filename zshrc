@@ -127,6 +127,9 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+# perform path expansion
+setopt EQUALS
+
 # it was told me to do that
 unsetopt MULTIBYTE
 
