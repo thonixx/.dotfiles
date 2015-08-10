@@ -746,17 +746,6 @@ if [[ -x /usr/lib/command-not-found ]] ; then
 	}
 fi
 
-# list tmux sessions if tmux installed
-which tmux 2> /dev/null > /dev/null
-if [ $? -eq 0 ]
-then
-	# list tmux sessions
-	echo ""
-	echo "Running tmux sessions:"
-	tmux ls 2> /dev/null || echo "no tmux session running"
-	echo ""
-fi
-
 # start ssh-agent if none is started
 if [ -z "$(pidof ssh-agent)" ]
 then
@@ -775,9 +764,19 @@ then
 	ssh-add ~/.ssh/id_dsa 2> /dev/null
 fi
 
-# set agent for tmux
-which tmux > /dev/null 2> /dev/null && tmux setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK
-which tmux > /dev/null 2> /dev/null && tmux setenv SSH_AGENT_PID $SSH_AGENT_PID;
+# list tmux sessions if tmux running
+ps faux | grep '[t]mux' 2> /dev/null > /dev/null
+if [ $? -eq 0 ]
+then
+	# reinitialize envs for tmux server
+	tmux setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK; tmux setenv SSH_AGENT_PID $SSH_AGENT_PID;
+	# list tmux sessions
+	echo ""
+	echo "Running tmux sessions:"
+	tmux ls 2> /dev/null || echo "no tmux session running"
+	echo ""
+fi
+
 
 # my nice prompt template
 
