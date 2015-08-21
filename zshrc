@@ -746,18 +746,27 @@ if [[ -x /usr/lib/command-not-found ]] ; then
 	}
 fi
 
-# start ssh-agent if none is started
-if [ -z "$(pidof ssh-agent)" ]
+# set $USER if not exists
+if [ -z "$USER" ]
 then
-	rm /tmp/agent.env 2> /dev/null
-	eval $(ssh-agent | tee /tmp/agent.env)
-elif [ "$(pidof ssh-agent)" ] && [ -f "/tmp/agent.env" ]
+	USER="$(whoami)"
+	export USER="$(whoami)"
+fi
+
+# define env file for ssh-agent informations
+AGENT_ENV_FILE="/tmp/agent.$USER.env"
+# start ssh-agent if none is started
+if [ -z "$(ps -u $USER -f | egrep "[s]sh-agent")" ]
+then
+	rm $AGENT_ENV_FILE 2> /dev/null
+	eval $(ssh-agent | tee $AGENT_ENV_FILE)
+elif [ "$(ps -u $USER -f | egrep "[s]sh-agent")" ] && [ -f "$AGENT_ENV_FILE" ]
 then
 	# source existing agent
-	. /tmp/agent.env 2> /dev/null
+	. $AGENT_ENV_FILE 2> /dev/null
 fi
 # add ssh keys to ssh-agent if running
-if [ "$(pidof ssh-agent)" ] && [ "$(ssh-add -l | grep -v "The agent has no identities." | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
+if [ "$(ps -u $USER -f | egrep "[s]sh-agent")" ] && [ "$(ssh-add -l | grep -v "The agent has no identities." | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
 then
 	ssh-add ~/.ssh/*.key 2> /dev/null
 	ssh-add ~/.ssh/id_rsa 2> /dev/null
@@ -840,7 +849,7 @@ function precmd() {
 
 	# SVN stuff
 	parse_svn_repo () {
-		svn info 2> /dev/null | grep 'URL' | awk -F\/ '{print $3}' #| awk -F@ '{print $2}'
+		svn info 2> /dev/null | grep -E "^URL" | awk -F\/ '{print $3}' #| awk -F@ '{print $2}'
 	}
 	# display svn stuff at the right side if anything detected
 	if [ "$(parse_svn_repo)" ]
@@ -865,7 +874,7 @@ function precmd() {
 
 	# decide which prompt
 	case "$(hostname)" in
-		"mitan" )
+		mnt[0-9a-z]* )
 			local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[blue]%}%M%{$fg[white]%}:%y" ;;
 		"zotherserv" )
 			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER" ;;
