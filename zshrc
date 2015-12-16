@@ -766,7 +766,7 @@ then
 	. $AGENT_ENV_FILE 2> /dev/null
 fi
 # add ssh keys to ssh-agent if running
-if [ "$(ps -u $USER -f | egrep "[s]sh-agent")" ] && [ "$(ssh-add -l | grep -v "The agent has no identities." | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
+if [ "$(ps -u $USER -f | egrep "[s]sh-agent")" ] && [ "$(ssh-add -l | grep -v "The agent has no identities." | grep -Eio "([0-9A-F]{2}:)+[0-9A-F]{2}" | sort | uniq | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
 then
 	ssh-add ~/.ssh/*.key 2> /dev/null
 	ssh-add ~/.ssh/id_rsa 2> /dev/null
