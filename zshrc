@@ -205,6 +205,7 @@ source ~/.dotfiles/zshrc.alias
 export EDITOR="vim"
 export GIT_EDITOR="vim +startinsert"
 export PAGER="less"
+export PATH="/home/wolf/local/bin:$PATH"
 
 # source local config (testing or so)
 if [ -f ~/.dotfiles/zshrc.local ]
