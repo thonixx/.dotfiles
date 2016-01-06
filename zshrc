@@ -756,18 +756,19 @@ fi
 
 # define env file for ssh-agent informations
 AGENT_ENV_FILE="/tmp/agent.$USER.env"
+PGREP_SSH_AGENT="$(pgrep -u $USER ssh-agent)"
 # start ssh-agent if none is started
-if [ -z "$(ps -u $USER -f | egrep "[s]sh-agent")" ]
+if [ -z "$PGREP_SSH_AGENT" ]
 then
 	rm $AGENT_ENV_FILE 2> /dev/null
 	eval $(ssh-agent | tee $AGENT_ENV_FILE)
-elif [ "$(ps -u $USER -f | egrep "[s]sh-agent")" ] && [ -f "$AGENT_ENV_FILE" ]
+elif [ "$PGREP_SSH_AGENT" ] && [ -f "$AGENT_ENV_FILE" ]
 then
 	# source existing agent
 	. $AGENT_ENV_FILE 2> /dev/null
 fi
 # add ssh keys to ssh-agent if running
-if [ "$(ps -u $USER -f | egrep "[s]sh-agent")" ] && [ "$(ssh-add -l | grep -v "The agent has no identities." | grep -Eio "([0-9A-F]{2}:)+[0-9A-F]{2}" | sort | uniq | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
+if [ "$PGREP_SSH_AGENT" ] && [ "$(ssh-add -l | grep -v "The agent has no identities." | grep -Eio "([0-9A-F]{2}:)+[0-9A-F]{2}" | sort | uniq | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
 then
 	ssh-add ~/.ssh/*.key 2> /dev/null
 	ssh-add ~/.ssh/id_rsa 2> /dev/null
@@ -775,7 +776,7 @@ then
 fi
 
 # list tmux sessions if tmux running
-ps faux | grep '[t]mux' 2> /dev/null > /dev/null
+pgrep -u $USER tmux 2> /dev/null > /dev/null
 if [ $? -eq 0 ]
 then
 	# reinitialize envs for tmux server
