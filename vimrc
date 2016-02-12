@@ -1,3 +1,6 @@
+scriptencoding utf-8
+set encoding=utf-8
+
 set nocp
 set ml
 set modelines=5
@@ -70,4 +73,8 @@ map \ $
 set mouse=i
 
 " source local config
-so ~/.vim/vimrc.local
+function! SomeCheck()
+  if filereadable("~/.vim/vimrc.local")
+    so ~/.vim/vimrc.local
+  endif
+endfunction
