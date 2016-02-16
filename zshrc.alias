@@ -1,5 +1,5 @@
 # some helpful aliases
-alias randomcommit='git log --pretty=format:"%s" | shuf | head -n 1'
+alias randomcommit='git log --pretty=format:"(%h) %ar - %an: %s" | shuf | head -n 1'
 alias tma='tmux a -t'
 alias patpat='echo "Starting multiple Puppet runs."; fini=""; while [ "$fini" == "" ]; do pat 2>&1 | grep -v Info | grep -v Finished | wc -l | grep -qE "^0$" && { fini="true"; } || echo "Puppet ran with changes. Doing again."; done; echo "Puppet ran without changes now."'
 alias pat='puppet agent --test'
