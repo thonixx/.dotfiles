@@ -757,16 +757,22 @@ fi
 # define env file for ssh-agent informations
 AGENT_ENV_FILE="/tmp/agent.$USER.env"
 PGREP_SSH_AGENT="$(pgrep -u $USER ssh-agent)"
+
 # start ssh-agent if none is started
 if [ -z "$PGREP_SSH_AGENT" ]
 then
+	# remove agent file
 	rm $AGENT_ENV_FILE 2> /dev/null
+	# write agent info to file
 	eval $(ssh-agent | tee $AGENT_ENV_FILE)
+	# regrep for ssh-agent process since it is running now
+	PGREP_SSH_AGENT="$(pgrep -u $USER ssh-agent)"
 elif [ "$PGREP_SSH_AGENT" ] && [ -f "$AGENT_ENV_FILE" ]
 then
 	# source existing agent
 	. $AGENT_ENV_FILE 2> /dev/null
 fi
+
 # add ssh keys to ssh-agent if running
 if [ "$PGREP_SSH_AGENT" ] && [ "$(ssh-add -l | grep -v "The agent has no identities." | grep -Eio "([0-9A-F]{2}:)+[0-9A-F]{2}" | sort | uniq | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
 then
