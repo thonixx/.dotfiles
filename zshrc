@@ -500,7 +500,13 @@ function maildelivery {
 	if [ -z "$mailserver" ]
 	then
 	    echo "There was no mailserver or no MX record. :("
-	    return
+	    echo "Trying A record of $domain."
+	    mailserver=$(dig a $domain +short | awk {'print $1'} | head -n 1)
+	    if [ -z "$mailserver" ]
+	    then
+		    echo "Also no A record found."
+		    return
+	    fi
 	fi
 
 	# custom server to connect to
