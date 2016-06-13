@@ -78,7 +78,12 @@ bindkey -e
 # my other things for keybindings
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
-bindkey -s '^F' 'ls -alFh --color=auto\n'
+if [[ "$(uname -s)" == "Darwin" ]]
+then
+	bindkey -s '^F' 'ls -alFh -G\n'
+else
+	bindkey -s '^F' 'ls -alFh --color=auto\n'
+fi
 bindkey "^J" accept-line
 bindkey "^K" kill-line
 bindkey "^L" clear-screen
@@ -116,7 +121,12 @@ zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
-eval "$(dircolors -b)"
+if [[ "$(uname -s)" == "Darwin" ]]
+then
+	eval "$(cat ~/.dotfiles/zshrc.dircolors)"
+else
+	eval "$(dircolors -b)"
+fi
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
@@ -200,6 +210,10 @@ setopt PROMPT_SUBST
 
 # source aliases
 source ~/.dotfiles/zshrc.alias
+if [[ "$(uname -s)" == "Darwin" ]]
+then
+	source ~/.dotfiles/zshrc.mac.alias
+fi
 
 # exports
 export EDITOR="vim"
@@ -238,7 +252,7 @@ function whoiscom() {
 	domain="$1"
 	# sed for address output of whois request
 	output="$(whois "$domain" | grep Registrant)"
-	
+
 	# parse organisation/holder
 	org="$(echo "$output" | grep -i "Registrant Organization" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
 	# parse country code
@@ -247,7 +261,7 @@ function whoiscom() {
 	s="$(echo "$output" | grep -i "Registrant State" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
 	# parse city
 	l="$(echo "$output" | grep -i "Registrant City" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
-	
+
 	# print the result
 	echo "makessl -p SSL_ -d $(test -z $2 && echo www || echo $2).$domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
 }
@@ -260,7 +274,7 @@ function whoisch() {
 	domain="$1"
 	# sed for address output of whois request
 	output="$(whois "$domain" | sed -n '/Holder of domain name/,/Contractual Language/p' | head -n -2 | tail -n +2)"
-	
+
 	# parse organisation/holder
 	org="$(echo "$output" | sed -n -e '1p')"
 	# parse country code
@@ -269,7 +283,7 @@ function whoisch() {
 	s="$c"
 	# parse city
 	l="$(echo "$output" | tail -n 1 | awk -F- '{print $2}' | sed -r 's/[[:digit:]][\ ]{0,}//g' | sed -r 's/[,](.*)//g')"
-	
+
 	# print the result
 	echo "makessl -p SSL_ -d $(test -z $2 && echo www || echo $2).$domain -o \"$org\" -c \"$c\" -l \"$l\" -s "
 }
@@ -327,7 +341,7 @@ function tputcolors() {
 function stopwatch () {
 	########
 	# config
-	
+
 	# initialise seconds and start with second 1
 	sec=1
 	# define maximum of dots to display
@@ -336,12 +350,12 @@ function stopwatch () {
 	startdot=1
 	# date when stopwatch was started
 	startdate=$(date +%s)
-	
+
 	# start the first output with current time
 	echo "Stopwatch started: $(date -d @$startdate)"
 
 	# while loop to count the seconds
-	while [ true ] 
+	while [ true ]
 	do
 		# calculate the time based on date
 		let "sec = $(date +%s) - $startdate + 1"
@@ -357,13 +371,13 @@ function stopwatch () {
 			# fill time with minutes and relative seconds
 			time="$min"'m'" $relSec"
 		fi
-		
+
 		# define the dots (just for beauty)
 		dotloop=0
-		
+
 		# reset the variable
 		dotPrint=""
-		
+
 		# print the dots
 		while [ "$dotloop" -lt "$startdot" ]
 		do
@@ -372,37 +386,37 @@ function stopwatch () {
 			# increase
 			let "dotloop = dotloop + 1"
 		done
-		
+
 		# calculate required spaces
 		actualChars=$(echo -n "$dotPrint" | wc -c)
 		spacesToPrint=$(expr $maxdots - $actualChars)
-		
+
 		# add the spaces
 		spacesAdded=0
-		
+
 		# initialise output
 		spaces=""
-		
+
 		# add the required spaces
 		while [ "$spacesAdded" -lt "$spacesToPrint" ]
 		do
 			# append the white spaces
 			spaces="$spaces "
-			
+
 			# calculate spaces left
 			let "spacesAdded = $spacesAdded + 1"
 		done
-		
+
 		# merge dots and spaces
 		dotPrint="$dotPrint$spaces"
-		
+
 		# print the current time
 		# http://stackoverflow.com/questions/11283625/bash-overwrite-last-terminal-line
 		echo -ne "\e[0K\r   Time: $time"'s'" $dotPrint "
-		
+
 		# wait a second before continueing
 		sleep 1 || echo "hi"
-		
+
 		# calculate the next count for the dots
 		startdot=$(if [ "$startdot" -lt "$maxdots" ]; then expr $startdot + 1; else echo "1"; fi)
 	done
@@ -440,7 +454,7 @@ mailcheck () {
 				echo "$domains" | sort | uniq -c | sort -n | tail -n 20
 				echo "****************"
 			fi
-					
+
 			echo ""
 			echo ""
 			# print ip with reverse entry
@@ -495,7 +509,7 @@ mailcheck () {
 function maildelivery {
 	domain=$(echo "$1" | awk -F@ '{print $2}')
 	mailserver=$(dig mx $domain +short | awk {'print $2'} | head -n 1)
-	
+
 	# test if something is in the output
 	if [ -z "$mailserver" ]
 	then
@@ -514,11 +528,11 @@ function maildelivery {
 	then
 		mailserver="$2"
 	fi
-	 
+
 	echo "Email: $1"
 	echo "Server: $mailserver"
 	echo ""
-	 
+
 	(echo "helo $(hostname --fqdn)"
 	sleep 2
 	echo "MAIL FROM: <info@$(hostname --fqdn)>"
@@ -580,7 +594,7 @@ function countdown() {
     since=$(date +%s)
     remaining=$seconds
     while (( remaining >= 0 ))
-    do 
+    do
         printf "\r%-10d" $remaining
         sleep 0.5
         remaining=$(( seconds - $(date +%s) + since ))
@@ -610,7 +624,7 @@ reverse() {
 		echo "Please provide an IP or host name.".
 		return
 	fi
-	
+
 	# check for "dig" installed
 	if [ -z "$(which dig)" ]
 	then
@@ -618,7 +632,7 @@ reverse() {
 		echo "sudo apt-get install dig (for Ubuntu/Debian)"
 		return
 	fi
-	
+
 	# decide if its an ip or name
 	if [ "$(echo $request | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
 	then
@@ -630,7 +644,7 @@ reverse() {
 		# save/set IFS
 		oldifs=$IFS
 		IFS=$'\n'
-		
+
 		# loop through ptr records
 		for r in $(dig +tcp +short -x $request 2> /dev/null)
 		do
@@ -639,7 +653,7 @@ reverse() {
 
 			# print PTR
 			echo " > $r"
-			
+
 			# set check to true due to at least one PTR
 			check="true"
 		done
@@ -681,7 +695,7 @@ reverse() {
 
 					# print PTR
 					echo " > $r"
-					
+
 					# set check to true due to at least one PTR
 					check="true"
 				done
@@ -717,15 +731,15 @@ sslcheck() {
 		echo ""
 		return
 	fi
-	
+
 	# better comparing with variables
-	
+
 	# try to determine errors with certificate
 	openssl x509 -noout -modulus -in "$1" &> /dev/null
 	if [ $? -ne 0 ] ; then echo "There was an error with your certificate." ; echo "Maybe rather a CSR? Or malformed certificate?" ; echo "" ; return ; fi
 	cert=`openssl x509 -noout -modulus -in "$1" 2>/dev/null | openssl md5`
 
-	# try to determine errors with private key	
+	# try to determine errors with private key
 	openssl rsa -noout -modulus -in "$2" &> /dev/null
 	if [ $? -ne 0 ] ; then echo "There was an error with your private key." ; echo "" ; return ; fi
 	key=`openssl rsa -noout -modulus -in "$2" 2>/dev/null | openssl md5`
@@ -734,8 +748,8 @@ sslcheck() {
 	if [ "$cert" == "$key" ]
 	then
 		echo '  Yay, everything okay.'
-	else 
-		echo '  Sorry, it does not match.' 
+	else
+		echo '  Sorry, it does not match.'
 	fi
 
 	echo ""
@@ -807,7 +821,7 @@ function precmd() {
 
 	# prompt for right side of screen
 	RPROMPT='[%*]'
-	
+
 	# TMUX <3 stuff
 	parse_tmux () {
 		test ! -z "$TMUX" && echo "session: $(tmux display-message -p '#S')\nwindow: $(tmux display-message -p '#I')\npane: $(tmux display-message -p '#P')"
@@ -823,7 +837,7 @@ function precmd() {
 	else
 		tmuxline=""
 	fi
-	
+
 	# GIT stuff
 	parse_git_branch () {
 		git branch 2> /dev/null | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g'
@@ -833,7 +847,7 @@ function precmd() {
 	if [ "$(parse_git_branch)" ]
 	then
 		local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $(parse_git_branch)%{$reset_color%}"
-	
+
 		# get git status
 		gitstatus="$(git status --porcelain 2> /dev/null)"
 
@@ -874,11 +888,11 @@ function precmd() {
 	# needed for exit status smiley/char
 	# local exit="%(?,%{$fg[green]%}✔%{$reset_color%},%{$fg[red]%}✘%{$reset_color%})"
 	local exit="%(?..%{ $fg[red]%}✘%{$reset_color%})"
-	
+
 	# parse pwd structure and build something nice out of it
 	# dire=$(dirs | sed 's/\// › /g') # »
 	dire="$(dirs)"
-	
+
 	# check if user is root
 	local root=""
 	if [ "$(whoami)" == "root" ]
@@ -908,14 +922,14 @@ function precmd() {
 
 	# append git/svn/other things
 	firstline="${firstline}${exit}${tmuxline}%{$fg[white]%}${gitline}${svn}${root}"
-	
+
 	# define 2nd line globally for all hosts
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
 
 	# finish the prompt
 	PS1="$firstline
 $secondline"
-	
+
 }
 
 # END FOR PROMT STYLING

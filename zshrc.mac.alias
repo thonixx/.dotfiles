@@ -1,0 +1,3 @@
+# some helpful aliases for mac
+alias ls='ls -G'
+alias ll='ls -alFh -G'
