@@ -93,6 +93,8 @@ bindkey -s '^U' 'cd ../\n'
 bindkey "^W" backward-kill-word
 bindkey "^[[5~" history-beginning-search-backward
 bindkey "^[[6~" history-beginning-search-forward
+bindkey "^[^[[C" forward-word
+bindkey "^[^[[D" backward-word
 bindkey "\e[1;5C" forward-word
 bindkey "\e[1;5D" backward-word
 bindkey '^[[3;5~' backward-delete-word # ctrl del delete word
