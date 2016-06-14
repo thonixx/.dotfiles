@@ -903,21 +903,9 @@ function precmd() {
 	fi
 
 	# decide which prompt
-	case "$(hostname)" in
-		mnt[0-9a-z]* )
-			local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[blue]%}%M%{$fg[white]%}:%y" ;;
-		"zotherserv" )
-			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} WEBSERVER" ;;
-		"pixelwolf" )
-			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} CORE" ;;
-		"mailserv" )
-			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} MAILSERVER" ;;
-		"woulfserv.pixelwolf.ch" | "woulfserv" )
-			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} KVMHOST" ;;
-		"pixelwolf-us" )
-			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} %{$fg[cyan]%}UNITED STATES%{$fg[white]%}" ;;
-		"pixelwolf-is" )
-			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[yellow]%}%M%{$fg[white]%} %{$fg[cyan]%}ICELAND%{$fg[white]%}" ;;
+	case "$(hostname -s)" in
+		'woulfair' )
+			local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
 		* )
 			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
 	esac
