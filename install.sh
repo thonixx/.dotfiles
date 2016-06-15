@@ -117,6 +117,14 @@ fi
 # updating submodules
 git submodule init > /dev/null && git submodule update > /dev/null && echo "configured submodules"
 
+# now some configs only for mac
+if [[ "$(uname -s)" = "Darwin" ]]
+then
+	# disable mouse scrolling inertia, this sucks, i want only one speed
+	defaults write .GlobalPreferences com.apple.scrollwheel.scaling -1
+	defaults write .GlobalPreferences com.apple.mouse.scaling -1
+fi
+
 # hint about cronjob
 echo "How about adding a cronjob to stay in sync?"
 echo "1/5 *  *   *   *  bash -c 'echo \"\$(date) - start zsh git\" >>/tmp/git.log ; cd /home/user/.dotfiles/; git pull 2>> /tmp/git.log; echo \"\$(date) - end zsh git\" >> /tmp/git.log'"
