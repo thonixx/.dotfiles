@@ -72,42 +72,6 @@ fi
 autoload -Uz promptinit
 promptinit
 
-# use emacs key binding
-bindkey -e
-
-# my other things for keybindings
-bindkey "^A" beginning-of-line
-bindkey "^E" end-of-line
-if [[ "$(uname -s)" == "Darwin" ]]
-then
-	bindkey -s '^F' 'ls -alFh -G\n'
-else
-	bindkey -s '^F' 'ls -alFh --color=auto\n'
-fi
-bindkey "^J" accept-line
-bindkey "^K" kill-line
-bindkey "^L" clear-screen
-bindkey "^R" history-incremental-search-backward
-bindkey "^T" history-incremental-search-forward
-bindkey -s '^U' 'cd ../\n'
-bindkey "^W" backward-kill-word
-bindkey "^[[5~" history-beginning-search-backward
-bindkey "^[[6~" history-beginning-search-forward
-bindkey "^[^[[C" forward-word
-bindkey "^[^[[D" backward-word
-bindkey "\e[1;5C" forward-word
-bindkey "\e[1;5D" backward-word
-bindkey '^[[3;5~' backward-delete-word # ctrl del delete word
-# i dont know why my bindkey differs sometimes but it should work with the following ones
-bindkey '^[[A' up-line-or-history
-bindkey '^[OA' up-line-or-history
-bindkey '^[[B' down-line-or-history
-bindkey '^[OB' down-line-or-history
-bindkey "^[OC" forward-char
-bindkey "^[[C" forward-char
-bindkey "^[OD" backward-char
-bindkey "^[[D" backward-char
-
 # I love history in ZSH
 HISTSIZE=100000000
 SAVEHIST=100000000
@@ -210,12 +174,19 @@ setopt noclobber
 # something with prompt things.. actually i do not know what this does
 setopt PROMPT_SUBST
 
+####################
+#################### beginning of sourcing
+####################
+
 # source aliases
 source ~/.dotfiles/zshrc.alias
 if [[ "$(uname -s)" == "Darwin" ]]
 then
 	source ~/.dotfiles/zshrc.mac.alias
 fi
+
+# include keybindings from file
+source ~/.dotfiles/zshrc.bindkey
 
 # exports
 export EDITOR="vim"
@@ -236,6 +207,10 @@ elif [ -s ~/.autojump/etc/profile.d/autojump.sh ]
 then
 	source ~/.autojump/etc/profile.d/autojump.sh
 fi
+
+####################
+#################### end of sourcing
+####################
 
 # colors are beautiful
 # even if I do not understand what this command means exactly
