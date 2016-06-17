@@ -1,0 +1,40 @@
+# general settings
+
+# use my own mailcap path
+set mailcap_path="~/.dotfiles/mutt.mailcap"
+
+# suppress unneeded pause
+set sleep_time=0
+
+# sort other way round
+set sort="reverse-date"
+
+# do not message myself in reply-to-all
+set metoo="no"
+
+# include msg in reply
+set include="yes"
+
+# do not bother me for recipients and subject in re/fw
+set fast_reply="yes"
+
+# ask for cc (sometimes useful)
+set askcc="yes"
+
+# seconds until network timeout
+set connect_timeout="5"
+
+# poll more often
+set timeout="7"
+
+# use starttls
+set ssl_starttls="yes"
+
+# fetch mail (imap)
+bind index G imap-fetch-mail
+
+# nicer looking line wrap
+set smart_wrap
+
+# handle html mails
+auto_view text/html
