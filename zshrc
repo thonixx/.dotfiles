@@ -749,21 +749,21 @@ function precmd() {
 		# colorize gitline
 		gitline="${git}"
 		# calculate files modified
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l)"
-		[[ "$count" -gt 0 ]] && gitline="${gitline} %{$fg[red]%}×${count}"
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l | tr -d " ")"
+		[[ "$count" -gt 0 ]] && gitline="${gitline} %{$fg[red]%}× ${count}"
 		# calculate files newly added
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l)"
-		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[green]%}+${count}"
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l | tr -d " ")"
+		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[green]%}+ ${count}"
 		# calculate files renamed
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}R" | wc -l)"
-		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[yellow]%}~${count}"
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}R" | wc -l | tr -d " ")"
+		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[yellow]%}~ ${count}"
 		# calculate files deleted
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}D" | wc -l)"
-		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[cyan]%}-${count}"
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}D" | wc -l | tr -d " ")"
+		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[cyan]%}- ${count}"
 		# calculate files untracked
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l)"
-		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}${count}"
-		# some symbols:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
+		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l | tr -d " ")"
+		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}⁙ ${count}"
+		# some symbols/characters for git line:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
 		# reset colors
 		gitline="${gitline}%{$reset_color%}"
 	else
