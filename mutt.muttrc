@@ -25,7 +25,7 @@ set askcc="yes"
 set connect_timeout="5"
 
 # poll more often
-set timeout="7"
+set timeout="3"
 
 # use starttls
 set ssl_starttls="yes"
