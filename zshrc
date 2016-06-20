@@ -206,6 +206,9 @@ then
 elif [ -s ~/.autojump/etc/profile.d/autojump.sh ]
 then
 	source ~/.autojump/etc/profile.d/autojump.sh
+elif [ -f /usr/local/Cellar/autojump/22.3.0/share/autojump/autojump.zsh ]
+then
+	source /usr/local/Cellar/autojump/22.3.0/share/autojump/autojump.zsh
 fi
 
 ####################
