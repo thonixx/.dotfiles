@@ -1,2 +1,2 @@
-text/html; lynx -dump %s; copiousoutput; nametemplate=%s.html
+text/html; lynx -display_charset='utf8' -dump %s; copiousoutput; nametemplate=%s.html
 application/pdf; pdftohtml -q -stdout %s | w3m -T text/html; copiousoutput

@@ -1,6 +1,7 @@
 # set the right locale env for myself
 # set de_CH.utf*8 or C
 export LC_CTYPE="$(locale -a 2>/dev/null | grep -i de_ch | grep -i utf || echo "C")"
+export LANG="$(locale -a 2>/dev/null | grep -i de_ch | grep -i utf || echo "C")"
 
 # set the right term
 if [ "$TERM" = "xterm" ] ; then
