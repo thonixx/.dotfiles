@@ -722,66 +722,62 @@ function precmd() {
 	RPROMPT='[%*]'
 
 	# TMUX <3 stuff
-	parse_tmux () {
-		test ! -z "$TMUX" && echo "session: $(tmux display-message -p '#S')\nwindow: $(tmux display-message -p '#I')\npane: $(tmux display-message -p '#P')"
-	}
-	parsetmux="$(parse_tmux)"
+	test ! -z "$TMUX" && local parsetmux="$(tmux display-message -p 'session: #S, pane: #P')"
 
 	# display tmux stuff
 	if [ "$parsetmux" ]
 	then
 		local c1="$(tput setaf 172)"
 		local c2="$(tput setaf 227)"
-		local tmuxline=" ${c1}tmux-(${c2}#$(echo "$parsetmux" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "$parsetmux" | grep session | awk '{print $2}')${c1})%{$reset_color%}"
+		local tmuxline=" ${c1}tmux-(${c2}#$(echo "$parsetmux" | tr "," "\n" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "$parsetmux" | tr "," "\n" | grep session | awk '{print $2}')${c1})%{$reset_color%}"
 	else
-		tmuxline=""
+		local tmuxline=""
 	fi
 
 	# GIT stuff
-	parse_git_branch () {
-		git branch 2> /dev/null | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g'
-	}
+	local git_branch="$(git branch 2> /dev/null || echo NO)"
 
 	# display git stuff at the right side if anything detected
-	if [ "$(parse_git_branch)" ]
+	if [ "$git_branch" != "NO" ]
 	then
-		local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $(parse_git_branch)%{$reset_color%}"
+		local parse_git_branch="$(echo "$git_branch" | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g')"
+		local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $parse_git_branch%{$reset_color%}"
 
 		# get git status
-		gitstatus="$(git status --porcelain 2> /dev/null)"
+		local gitstatus="$(git status --porcelain 2> /dev/null)"
 
 		# colorize gitline
-		gitline="${git}"
+		local gitline="${git}"
 		# calculate files modified
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l | tr -d " ")"
+		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l | tr -d " ")"
 		[[ "$count" -gt 0 ]] && gitline="${gitline} %{$fg[red]%}× ${count}"
 		# calculate files newly added
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l | tr -d " ")"
+		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l | tr -d " ")"
 		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[green]%}+ ${count}"
 		# calculate files renamed
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}R" | wc -l | tr -d " ")"
+		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}R" | wc -l | tr -d " ")"
 		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[yellow]%}~ ${count}"
 		# calculate files deleted
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}D" | wc -l | tr -d " ")"
+		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}D" | wc -l | tr -d " ")"
 		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[cyan]%}- ${count}"
 		# calculate files untracked
-		count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l | tr -d " ")"
+		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l | tr -d " ")"
 		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}⁙ ${count}"
 		# some symbols/characters for git line:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
 		# reset colors
-		gitline="${gitline}%{$reset_color%}"
+		local gitline="${gitline}%{$reset_color%}"
 	else
-		gitline=""
+		local gitline=""
 	fi
 
 	# SVN stuff
-	parse_svn_repo () {
-		svn info 2> /dev/null | grep -E "^URL" | awk -F\/ '{print $3}' #| awk -F@ '{print $2}'
-	}
-	# display svn stuff at the right side if anything detected
-	if [ "$(parse_svn_repo)" ]
+	local svn_info="$(svn info 2> /dev/null || echo NO)"
+
+	# display git stuff at the right side if anything detected
+	if [ "$svn_info" != "NO" ]
 	then
-		local svn=" %{$fg[green]%}svn://%{$fg[cyan]%}$(parse_svn_repo)%{$reset_color%}"
+		local svn_info_url="$(echo "$svn_info" | grep -E "^URL" | awk -F\/ '{print $3}')"
+		local svn=" %{$fg[green]%}svn://%{$fg[cyan]%}$svn_info_url%{$reset_color%}"
 	fi
 
 	# needed for exit status smiley/char
@@ -790,7 +786,7 @@ function precmd() {
 
 	# parse pwd structure and build something nice out of it
 	# dire=$(dirs | sed 's/\// › /g') # »
-	dire="$(dirs)"
+	local dire="$(dirs)"
 
 	# check if user is root
 	local root=""
@@ -808,7 +804,7 @@ function precmd() {
 	esac
 
 	# append git/svn/other things
-	firstline="${firstline}${exit}${tmuxline}%{$fg[white]%}${gitline}${svn}${root}"
+	local firstline="${firstline}${exit}${tmuxline}%{$fg[white]%}${gitline}${svn}${root}"
 
 	# define 2nd line globally for all hosts
 	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
