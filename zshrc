@@ -154,18 +154,6 @@ unsetopt nomatch
 # it's code for "fuck off and leave me alone"
 unsetopt notify
 
-# make automatic / with 2 dots (.)
-# useful if: ...... ==> ../../../
-rationalise-dot() {
-    if [[ $LBUFFER = *.. ]]; then
-        LBUFFER+=/..
-    else
-        LBUFFER+=.
-    fi
-}
-zle -N rationalise-dot
-bindkey . rationalise-dot
-
 # lets files beginning with a . be matched without explicitly specifying the dot
 setopt globdots
 
@@ -188,6 +176,18 @@ fi
 
 # include keybindings from file
 source ~/.dotfiles/zshrc.bindkey
+#
+# make automatic / with 2 dots (.)
+# useful if: ...... ==> ../../../
+rationalise-dot() {
+    if [[ $LBUFFER = *.. ]]; then
+        LBUFFER+=/..
+    else
+        LBUFFER+=.
+    fi
+}
+zle -N rationalise-dot
+bindkey . rationalise-dot
 
 # exports
 export EDITOR="vim"
