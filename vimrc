@@ -88,3 +88,6 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+" highlight search occurrences
+set hlsearch
