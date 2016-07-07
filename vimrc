@@ -73,11 +73,11 @@ map \ $
 set mouse=i
 
 " source local config
-function! SomeCheck()
+fun! SomeCheck()
   if filereadable("~/.vim/vimrc.local")
     so ~/.vim/vimrc.local
   endif
-endfunction
+endfun
 
 " Strip trailing whitespace (,ss)
 fun! <SID>StripTrailingWhitespaces()
