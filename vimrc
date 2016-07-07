@@ -91,3 +91,7 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " highlight search occurrences
 set hlsearch
+
+" (i honestly don't get this.. i need it on mac os x and the homebrew version
+" of vim to work as expected)
+set backspace=indent,eol,start
