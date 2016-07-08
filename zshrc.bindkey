@@ -37,5 +37,6 @@ then
 	bindkey -s '^F' 'ls -alFh -G\n'
 	bindkey "^[^[[C" forward-word
 	bindkey "^[^[[D" backward-word
+	stty erase ""
 fi
 
