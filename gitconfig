@@ -3,10 +3,10 @@
 [alias]
 	prod = checkout production
 	go = !git pull --progress -v && git commit -v && git push;
-	drb = push origin
+	drb = push -u origin
 	dlb = branch -d
 	clb = checkout -b
-	crb = push origin
+	crb = push -u origin
 	mb = !git prod && git merge --noff --no-commit
 [color]
 	ui = auto
