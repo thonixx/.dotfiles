@@ -7,6 +7,9 @@ set encoding=utf-8
 " i want vim and not vi, so turn off compatible stuff
 set nocp
 
+" gimme history
+set history=1000
+
 " enable modeline ..
 set ml
 
@@ -105,6 +108,14 @@ imap <c-x><c-x> <Esc>:wq<CR>
 
 """""""""""""""""""""" END OF keymapping in insert mode only
 
+"Pathogen syntax highlighting things
+call pathogen#infect()
+filetype off
+syntax on
+let g:syntastic_puppet_puppetlint_args = "--no-80chars-check --no-140chars-check"
+filetype plugin indent on
+call pathogen#helptags()
+
 " Strip trailing whitespace (,ss)
 fun! <SID>StripTrailingWhitespaces()
   let l = line(".")
@@ -113,14 +124,6 @@ fun! <SID>StripTrailingWhitespaces()
   call cursor(l, c)
 endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-
-"Pathogen syntax highlighting things
-call pathogen#infect()
-filetype off
-syntax on
-let g:syntastic_puppet_puppetlint_args = "--no-80chars-check"
-filetype plugin indent on
-call pathogen#helptags()
 
 " source local config
 fun! SomeCheck()
