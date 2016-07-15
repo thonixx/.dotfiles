@@ -46,6 +46,9 @@ bind pager gg       top
 bind pager G        bottom
 bind pager R        group-reply
 
+# Ctrl-u for viewing urls
+macro pager \Cu "|urlview<enter>" "call urlview to open links"
+
 # number of index lines to show
 set pager_index_lines = 10
 
@@ -85,13 +88,11 @@ bind index <space>  collapse-thread
 bind index i        display-message
 # bind index <tab>    sync-mailbox
 
+# move messages to trash instead of purging them from the server
+macro index d "<save-message>+Trash<enter>" "move message to the trash"
+
 # design my own index view
 set index_format="[%Z] %D %35.35F #%M %s"
-
-# move messages to trash instead of purging them from the server
-macro index d \
-"<save-message>+Trash<enter>" \
-"move message to the trash"
 
 # sort it
 set sort_aux="reverse-last-date-received"
@@ -99,3 +100,8 @@ set sort_aux="reverse-last-date-received"
 # sort other way round
 set sort="reverse-date"
 
+# strict threads or not
+set strict_threads="no"
+
+# i want subjects even in threads
+set hide_thread_subject="no"
