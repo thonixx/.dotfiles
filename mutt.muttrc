@@ -1,5 +1,13 @@
 # general settings
 
+# tell mutt where to save accepted certificates
+set certificate_file=~/.dotfiles/mutt.certs
+
+# move messages to trash instead of purging them from the server
+macro index d \
+"<save-message>+Trash<enter>" \
+"move message to the trash"
+
 # use my own mailcap path
 set mailcap_path="~/.dotfiles/mutt.mailcap"
 
