@@ -33,6 +33,10 @@ set ssl_starttls="yes"
 # fetch mail (imap)
 bind index G imap-fetch-mail
 
+# scroll inside the message rather than the index
+bind pager k previous-line
+bind pager j next-line
+
 # nicer looking line wrap
 set smart_wrap
 
