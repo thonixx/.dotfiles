@@ -92,7 +92,7 @@ bind index i        display-message
 macro index d "<save-message>+Trash<enter>" "move message to the trash"
 
 # design my own index view
-set index_format="[%Z] %D %35.35F #%M %s"
+set index_format="[%Z] %D %60.60f #%M %s"
 
 # sort it
 set sort_aux="reverse-last-date-received"
