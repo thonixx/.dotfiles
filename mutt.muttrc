@@ -30,11 +30,50 @@ set timeout="3"
 # use starttls
 set ssl_starttls="yes"
 
-# nicer looking line wrap
-set smart_wrap
+################################################################################
+# INDEX SETTINGS________________________________________________________________
 
-# handle html mails
-auto_view text/html
+# keybindings INDEX
+bind index <tab>    imap-fetch-mail # fetch mail (imap)
+bind index gg       first-entry
+bind index G        last-entry
+bind index R        group-reply
+bind index <space>  collapse-thread
+bind index i        display-message
+
+# switch/move to INBOX
+macro index \ci "<change-folder>+INBOX<enter>" "switch to INBOX"
+macro index \ei "<save-message>+INBOX<enter>" "move to INBOX"
+
+# switch/move to Sent
+macro index \cs "<change-folder>+Sent<enter>" "switch to Sent"
+macro index \es "<save-message>+Sent<enter>" "move to Sent"
+
+# switch/move to Archive
+macro index \ca "<change-folder>+Archive<enter>" "switch to Archive"
+macro index \ea "<save-message>+Archive<enter>" "move to Archive"
+
+# switch/move to Done
+macro index \cd "<change-folder>+Done<enter>" "switch to Done"
+macro index \ed "<save-message>+Done<enter>" "move to Done"
+
+# move messages to trash instead of purging them from the server
+macro index d "<save-message>+Trash<enter>" "move message to the trash"
+
+# design my own index view
+set index_format="[%Z] %D %60.60f #%M %s"
+
+# sort it
+set sort_aux="reverse-last-date-received"
+
+# sort other way round
+set sort="reverse-date"
+
+# strict threads or not
+set strict_threads="no"
+
+# i want subjects even in threads
+set hide_thread_subject="no"
 
 ################################################################################
 # PAGER (MESSAGE VIEW) SETTINGS_________________________________________________
@@ -45,9 +84,36 @@ bind pager j        next-line # scroll inside the message rather than the index
 bind pager gg       top
 bind pager G        bottom
 bind pager R        group-reply
+bind pager <down>   next-line # scroll with mouse wheel
+bind pager <up>     previous-line # scroll with mouse wheel
+
+# switch/move to INBOX
+macro pager \ci "<change-folder>+INBOX<enter>" "switch to INBOX"
+macro pager \ei "<save-message>+INBOX<enter>" "move to INBOX"
+
+# switch/move to Sent
+macro pager \cs "<change-folder>+Sent<enter>" "switch to Sent"
+macro pager \es "<save-message>+Sent<enter>" "move to Sent"
+
+# switch/move to Archive
+macro pager \ca "<change-folder>+Archive<enter>" "switch to Archive"
+macro pager \ea "<save-message>+Archive<enter>" "move to Archive"
+
+# switch/move to Done
+macro pager \cd "<change-folder>+Done<enter>" "switch to Done"
+macro pager \ed "<save-message>+Done<enter>" "move to Done"
+
+# move messages to trash instead of purging them from the server
+macro pager d "<save-message>+Trash<enter>" "move message to the trash"
 
 # Ctrl-u for viewing urls
 macro pager \Cu "|urlview<enter>" "call urlview to open links"
+
+# nicer looking line wrap
+set smart_wrap
+
+# handle html mails
+auto_view text/html
 
 # number of index lines to show
 set pager_index_lines = 10
@@ -75,33 +141,3 @@ set fast_reply="yes"
 
 # ask for cc (sometimes useful)
 set askcc="yes"
-
-################################################################################
-# INDEX SETTINGS________________________________________________________________
-
-# keybindings INDEX
-bind index <tab>    imap-fetch-mail # fetch mail (imap)
-bind index gg       first-entry
-bind index G        last-entry
-bind index R        group-reply
-bind index <space>  collapse-thread
-bind index i        display-message
-# bind index <tab>    sync-mailbox
-
-# move messages to trash instead of purging them from the server
-macro index d "<save-message>+Trash<enter>" "move message to the trash"
-
-# design my own index view
-set index_format="[%Z] %D %60.60f #%M %s"
-
-# sort it
-set sort_aux="reverse-last-date-received"
-
-# sort other way round
-set sort="reverse-date"
-
-# strict threads or not
-set strict_threads="no"
-
-# i want subjects even in threads
-set hide_thread_subject="no"
