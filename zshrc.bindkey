@@ -31,6 +31,11 @@ bindkey "^[OD" backward-char
 bindkey "^[[D" backward-char
 bindkey -s '^F' 'ls -alFh --color=auto\n'
 
+# disable flow control
+# and make the ctrl-s and ctrl-q available for keybindings
+stty stop undef
+stty start undef
+
 # mac specific keybindings
 if [[ "$(uname -s)" == "Darwin" ]]
 then
