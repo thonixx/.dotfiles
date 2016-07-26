@@ -7,7 +7,7 @@ At this stage the zsh configuration with its mods and the tmux.conf are synchron
 #### Sync
 To stay in sync I have the following cronjob activated:
 
-    1/5 *  *   *   *  bash -c 'echo "$(date) - start zsh git" >>/tmp/git.log ; cd /home/user/.dotfiles/; git pull &> /tmp/git.log; echo "$(date) - end zsh git" >> /tmp/git.log'
+    1/5 *  *   *   *  bash -c 'echo "$(date) - start dotfiles git" >>/tmp/git.log ; cd /home/user/.dotfiles/; git pull &> /tmp/git.log; echo "$(date) - end dotfiles git" >> /tmp/git.log'
 
 #### Zsh
 The zsh config is designed to work on 256-colours terminals, therefore install "ncurses-term" to get the colours working.
