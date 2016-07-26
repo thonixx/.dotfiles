@@ -7,16 +7,16 @@
 # SETTINGS FOR ALL MODES________________________________________________________
 
 # gimme some colours
-source ~/.dotfiles/mutt.colours
+source ~/.dotfiles/mutt/mutt.colours
 
 # better date format
 set date_format="%a, %d %b %y (%R.%S)"
 
 # tell mutt where to save accepted certificates
-set certificate_file=~/.dotfiles/mutt.certs
+set certificate_file=~/.dotfiles/mutt/mutt.certs
 
 # use my own mailcap path
-set mailcap_path="~/.dotfiles/mutt.mailcap"
+set mailcap_path="~/.dotfiles/mutt/mutt.mailcap"
 
 # suppress unneeded pause
 set sleep_time=0
@@ -143,4 +143,4 @@ set fast_reply="yes"
 set askcc="yes"
 
 # my signature
-set signature=~/.dotfiles/mutt.signature
+set signature=~/.dotfiles/mutt/mutt.signature

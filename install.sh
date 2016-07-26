@@ -70,20 +70,20 @@ echo ""
 echo "beginning with installation:"
 
 # link zshrc
-ln -s $dir/zshrc $zshrc && echo ".zshrc is now installed"
+ln -s $dir/zsh/zshrc $zshrc && echo ".zshrc is now installed"
 
-# link irssi
+# link irssi directory
 ln -s $dir/irssi $home/.irssi && echo ".irssi is now installed"
 
 # link tmux.conf
 if [ -f "$dir/tmux.conf.local" ]
 then
-	ln -s $dir/tmux.conf.local $home/.tmux.conf && echo ".tmux.conf.local is now installed"
+	ln -s $dir/tmux/tmux.conf.local $home/.tmux.conf && echo ".tmux.conf.local is now installed"
 else
-	ln -s $dir/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
+	ln -s $dir/tmux/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
 fi
 
-# link zsh folder
+# link dotfiles folder
 if [ ! -d "$home/.dotfiles" ]
 then
 	ln -s $dir $home/.dotfiles && echo ".dotfiles folder installed"

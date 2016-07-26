@@ -1,2 +1,2 @@
 # switch here between different colour schemes
-source ~/.dotfiles/mutt.colours-msdos
+source ~/.dotfiles/mutt/mutt.colours-msdos
