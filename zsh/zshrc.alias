@@ -9,8 +9,6 @@ alias randompassword='apg -MCLN -m 15 -x 15 -n 1'
 alias procmdstat='cat /proc/mdstat'
 alias lsd='ls -d'
 alias pingloop='ping -W 1'
-alias rtmux='ssh -A -t -R 1313:127.0.0.1:22 mitan@217.150.242.200 -o ProxyCommand="ssh -q mitan@178.209.34.135 nc %h 22" /home/mitan/local/bin/tmux a -t'
-alias 9='ssh 217.150.241.39'
 alias certinfo='openssl x509 -issuer -subject -dates -noout <'
 alias insyncpublish="ls -tr -d -1 /home/wolf/Insync/01screenshots/* | tail -n 1 | xargs -I {} -n 1 insync get_public_link {} | sed 's/&export=download$//g' | sed 's/^$/Failed getting the public link... Try again!/g' | xsel -ib; xsel -bo"
 alias fixmissingpubkey='rm /tmp/keymissing; apt-get update 2> /tmp/keymissing; for key in $(grep "NO_PUBKEY" /tmp/keymissing |sed "s/.*NO_PUBKEY //"); do echo -e "\nProcessing key: $key"; gpg --keyserver subkeys.pgp.net --recv $key && sudo gpg --export --armor $key | apt-key add -; done'
