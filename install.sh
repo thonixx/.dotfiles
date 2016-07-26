@@ -51,6 +51,14 @@ else
 	mv $home/.vimrc $home/.vimrc.bak 2> /dev/null && echo ".vimrc backed up."
 fi
 
+# backup vim folder if file exists or unlink it
+if [ -h "$home/.vim" ]
+then
+	unlink $home/.vim && echo ".vim is now unlinked."
+else
+	mv $home/.vim $home/.vim.bak 2> /dev/null && echo ".vim backed up."
+fi
+
 # backup gitconfig if file exists or unlink it
 if [ -h "$home/.gitconfig" ]
 then
@@ -125,9 +133,10 @@ fi
 ################################################################################
 ##### VIM INSTALL
 
-ln -s $dir/vim/vimrc $home/.vimrc && echo "symlinked to $home/.vimrc"
-sed -i.bak "s/tlib.git$/tlib.git
-        ignore = dirty/g" .git/config && echo "added ignore option to tlib submodule"
+ln -s $dir/vim $home/.vim && echo ".vim folder installed"
+ln -s $dir/vim/vimrc $home/.vimrc && echo ".vimrc installed"
+sed -i.bak 's/tlib.git$/tlib.git
+        ignore = dirty/g' .git/config && echo "added ignore option to tlib submodule"
 
 ################################################################################
 ##### LINK DOTFILES FOLDER

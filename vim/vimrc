@@ -126,6 +126,6 @@ endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " source local config
-if !empty(glob("~/.vim/vimrc.local"))
-  so ~/.vim/vimrc.local
+if !empty(glob("~/.dotfiles/vim/vimrc.local"))
+  so ~/.dotfiles/vim/vimrc.local
 endif
