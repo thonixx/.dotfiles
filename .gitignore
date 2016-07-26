@@ -1,12 +1,20 @@
 # nothing inside this
 *.swp
 *~
-zshrc.local*
-tmux.conf.local
-gitconfig.work
-gitconfig.personal
+.netrwhist
+.netrwhist~
+.netrwhisy~
+.netrwhisz~
+vim/bundle/tlib/doc/tags
 config.autosave
-irssi/away.log
-mutt.certs
+gitconfig.personal
+gitconfig.work
+away.log
 mutt.aliases
+mutt.certs
 mutt.signature
+tags
+tags-ja
+tmux.conf.local
+vimrc.local
+zshrc.local*

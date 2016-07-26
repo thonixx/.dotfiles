@@ -35,9 +35,6 @@ else
 	mv $zshrc "$zshrc".bak 2> /dev/null && echo ".zshrc backed up."
 fi
 
-# define directory where zsh is stored
-dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
 # backup tmuxconf if file exists or unlink it
 if [ -h "$home/.tmux.conf" ]
 then
@@ -46,8 +43,13 @@ else
 	mv $home/.tmux.conf $home/.tmux.conf.bak 2> /dev/null && echo ".tmux.conf backed up."
 fi
 
-# define directory where zsh is stored
-dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+# backup vim if file exists or unlink it
+if [ -h "$home/.vimrc" ]
+then
+	unlink $home/.vimrc && echo ".vimrc is now unlinked."
+else
+	mv $home/.vimrc $home/.vimrc.bak 2> /dev/null && echo ".vimrc backed up."
+fi
 
 # backup gitconfig if file exists or unlink it
 if [ -h "$home/.gitconfig" ]
@@ -156,9 +158,12 @@ fi
 ################################################################################
 ##### END PART
 
+echo
+
 # hint about cronjob
 echo "How about adding a cronjob to stay in sync?"
 echo "1/5 *  *   *   *  bash -c 'echo \"\$(date) - start zsh git\" >>/tmp/git.log ; cd /home/user/.dotfiles/; git pull 2>> /tmp/git.log; echo \"\$(date) - end zsh git\" >> /tmp/git.log'"
+echo
 
 # end script
 echo "vim should be ready to use. maybe install the 256 color ability for your terminal (ncurses-term)."
