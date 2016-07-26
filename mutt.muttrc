@@ -143,4 +143,4 @@ set fast_reply="yes"
 set askcc="yes"
 
 # my signature
-set signature=mutt.signature
+set signature=~/.dotfiles/mutt.signature
