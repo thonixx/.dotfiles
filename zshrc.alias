@@ -83,4 +83,4 @@ alias gup='git pull'
 alias hahaha='read int; youtube$int http://data2.whicdn.com/images/63406928/original.jpg'
 alias search='find -iname'
 alias tweet='read nachricht; t update "${nachricht} #cli"'
-alias tmake="tmux new-session -s main -n mail \; split-window -d \;  new-window \; send-keys -t 'main:1' 'mutt -F mutt-settings-work' Enter \; send-keys -t 'main:1.1' 'mutt -F mutt-settings-work2' Enter\; select-window -t 'mail'"
+alias tmake="tmux new-session -s main -n mail \; split-window -d \;  new-window \; send-keys -t 'main:1' 'mutt -F ~/mutt-settings-work' Enter \; send-keys -t 'main:1.1' 'mutt -F ~/mutt-settings-work2' Enter\; select-window -t 'mail'"
