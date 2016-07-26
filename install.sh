@@ -1,14 +1,10 @@
 #!/bin/bash
 
-# define directory where zsh is stored
+################################################################################
+##### CONFIG
+
+# define directory where all files are stored
 dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-# ask whether use personal or work settings
-echo -n "type 'personal' or 'work' and press enter: "
-read env
-
-# check for input
-if [ -z "$env" ]; then echo "no input given. cancelling script."; exit 1; fi
 
 # check for env var HOME or assume /home/USER
 if [ "$HOME" ]
@@ -17,6 +13,16 @@ then
 else
 	home="/home/`whoami`/"
 fi
+
+# ask whether use personal or work settings
+echo -n "type 'personal' or 'work' and press enter: "
+read env
+
+# check for input
+if [ -z "$env" ]; then echo "no input given. cancelling script."; exit 1; fi
+
+################################################################################
+##### PREPARATIONS (backup, move, etc)
 
 # path to zshrc configuration
 zshrc="$home/.zshrc"
@@ -51,8 +57,8 @@ else
 	mv $home/.gitconfig $home/.gitconfig.bak 2> /dev/null && echo ".gitconfig backed up."
 fi
 
-# define directory where zsh is stored
-dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+################################################################################
+##### IRSSI INSTALL
 
 # backup irssi if folder exists or unlink it
 if [ -h "$home/.irssi" ]
@@ -61,6 +67,9 @@ then
 else
 	mv $home/.irssi $home/.irssi.bak 2> /dev/null && echo ".irssi backed up."
 fi
+
+################################################################################
+##### ZSH INSTALL
 
 # define directory where zsh is stored
 dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -83,11 +92,8 @@ else
 	ln -s $dir/tmux/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
 fi
 
-# link dotfiles folder
-if [ ! -d "$home/.dotfiles" ]
-then
-	ln -s $dir $home/.dotfiles && echo ".dotfiles folder installed"
-fi
+################################################################################
+##### GIT INSTALL
 
 # find out git version before doing git configuration
 gitversion="$(git --version | grep -Eo "\ [1-9]\.[0-9]" | sed 's/\ //')"
@@ -114,8 +120,30 @@ then
 	echo "removed push default setting due to low version"
 fi
 
+################################################################################
+##### VIM INSTALL
+
+ln -s $dir/vim/vimrc $home/.vimrc && echo "symlinked to $home/.vimrc"
+sed -i.bak "s/tlib.git$/tlib.git
+        ignore = dirty/g" .git/config && echo "added ignore option to tlib submodule"
+
+################################################################################
+##### LINK DOTFILES FOLDER
+
+# link dotfiles folder
+if [ ! -d "$home/.dotfiles" ]
+then
+	ln -s $dir $home/.dotfiles && echo ".dotfiles folder installed"
+fi
+
+################################################################################
+##### INSTALL SUBMODULES
+
 # updating submodules
 git submodule init > /dev/null && git submodule update > /dev/null && echo "configured submodules"
+
+################################################################################
+##### DO MAC SPECIFIC THINGS
 
 # now some configs only for mac
 if [[ "$(uname -s)" = "Darwin" ]]
@@ -125,9 +153,13 @@ then
 	defaults write .GlobalPreferences com.apple.mouse.scaling -1
 fi
 
+################################################################################
+##### END PART
+
 # hint about cronjob
 echo "How about adding a cronjob to stay in sync?"
 echo "1/5 *  *   *   *  bash -c 'echo \"\$(date) - start zsh git\" >>/tmp/git.log ; cd /home/user/.dotfiles/; git pull 2>> /tmp/git.log; echo \"\$(date) - end zsh git\" >> /tmp/git.log'"
 
 # end script
+echo "vim should be ready to use. maybe install the 256 color ability for your terminal (ncurses-term)."
 echo "script ended"
