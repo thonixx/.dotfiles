@@ -102,9 +102,9 @@ case $env in
 	;;
 esac
 # decrypt and save it
-gpg < $dir/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is now installed"
+gpg < $dir/git/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is now installed"
 # append gitconfig content
-cat $dir/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
+cat $dir/git/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
 
 # remove push setting for older git versions
 if [ "$(echo "$gitversion" | sed 's/\ //' | egrep "1\.[1-7]")" ] && [ -e "$home/.gitconfig" ]
