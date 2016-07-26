@@ -141,3 +141,6 @@ set fast_reply="yes"
 
 # ask for cc (sometimes useful)
 set askcc="yes"
+
+# my signature
+set signature=mutt.signature
