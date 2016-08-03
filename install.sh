@@ -9,17 +9,10 @@ dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # check for env var HOME or assume /home/USER
 if [ "$HOME" ]
 then
-	home="$HOME"
+    home="$HOME"
 else
-	home="/home/`whoami`/"
+    home="/home/`whoami`/"
 fi
-
-# ask whether use personal or work settings
-echo -n "type 'personal' or 'work' and press enter: "
-read env
-
-# check for input
-if [ -z "$env" ]; then echo "no input given. cancelling script."; exit 1; fi
 
 ################################################################################
 ##### PREPARATIONS (backup, move, etc)
@@ -30,41 +23,33 @@ zshrc="$home/.zshrc"
 # backup zshrc if file exists or unlink it
 if [ -h "$zshrc" ]
 then
-	unlink $zshrc && echo ".zshrc is now unlinked."
+    unlink $zshrc && echo ".zshrc is now unlinked."
 else
-	mv $zshrc "$zshrc".bak 2> /dev/null && echo ".zshrc backed up."
+    mv $zshrc "$zshrc".bak 2> /dev/null && echo ".zshrc backed up."
 fi
 
 # backup tmuxconf if file exists or unlink it
 if [ -h "$home/.tmux.conf" ]
 then
-	unlink $home/.tmux.conf && echo ".tmux.conf is now unlinked."
+    unlink $home/.tmux.conf && echo ".tmux.conf is now unlinked."
 else
-	mv $home/.tmux.conf $home/.tmux.conf.bak 2> /dev/null && echo ".tmux.conf backed up."
+    mv $home/.tmux.conf $home/.tmux.conf.bak 2> /dev/null && echo ".tmux.conf backed up."
 fi
 
 # backup vim if file exists or unlink it
 if [ -h "$home/.vimrc" ]
 then
-	unlink $home/.vimrc && echo ".vimrc is now unlinked."
+    unlink $home/.vimrc && echo ".vimrc is now unlinked."
 else
-	mv $home/.vimrc $home/.vimrc.bak 2> /dev/null && echo ".vimrc backed up."
+    mv $home/.vimrc $home/.vimrc.bak 2> /dev/null && echo ".vimrc backed up."
 fi
 
 # backup vim folder if file exists or unlink it
 if [ -h "$home/.vim" ]
 then
-	unlink $home/.vim && echo ".vim is now unlinked."
+    unlink $home/.vim && echo ".vim is now unlinked."
 else
-	mv $home/.vim $home/.vim.bak 2> /dev/null && echo ".vim backed up."
-fi
-
-# backup gitconfig if file exists or unlink it
-if [ -h "$home/.gitconfig" ]
-then
-	unlink $home/.gitconfig && echo ".gitconfig is now unlinked."
-else
-	mv $home/.gitconfig $home/.gitconfig.bak 2> /dev/null && echo ".gitconfig backed up."
+    mv $home/.vim $home/.vim.bak 2> /dev/null && echo ".vim backed up."
 fi
 
 ################################################################################
@@ -73,9 +58,9 @@ fi
 # backup irssi if folder exists or unlink it
 if [ -h "$home/.irssi" ]
 then
-	unlink $home/.irssi && echo ".irssi is now unlinked."
+    unlink $home/.irssi && echo ".irssi is now unlinked."
 else
-	mv $home/.irssi $home/.irssi.bak 2> /dev/null && echo ".irssi backed up."
+    mv $home/.irssi $home/.irssi.bak 2> /dev/null && echo ".irssi backed up."
 fi
 
 ################################################################################
@@ -97,9 +82,9 @@ ln -s $dir/irssi $home/.irssi && echo ".irssi is now installed"
 # link tmux.conf
 if [ -f "$dir/tmux.conf.local" ]
 then
-	ln -s $dir/tmux/tmux.conf.local $home/.tmux.conf && echo ".tmux.conf.local is now installed"
+    ln -s $dir/tmux/tmux.conf.local $home/.tmux.conf && echo ".tmux.conf.local is now installed"
 else
-	ln -s $dir/tmux/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
+    ln -s $dir/tmux/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
 fi
 
 ################################################################################
@@ -108,26 +93,48 @@ fi
 # find out git version before doing git configuration
 gitversion="$(git --version | grep -Eo "\ [1-9]\.[0-9]" | sed 's/\ //')"
 
-# copy gitconfig.$type
-case $env in
-	'work')
-		type='work'
-	;;
-	'personal'|*)
-		type='personal'
-	;;
-esac
-# decrypt and save it
-gpg < $dir/git/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is now installed"
-# append gitconfig content
-cat $dir/git/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
+# only append gpg encrypted content if not already there
+if [[ -z "$(grep -s email ~/.gitconfig)" ]]
+then
+    # backup gitconfig if file exists or unlink it
+    if [ -h "$home/.gitconfig" ]
+    then
+        unlink $home/.gitconfig && echo ".gitconfig is now unlinked."
+    else
+        mv $home/.gitconfig $home/.gitconfig.bak 2> /dev/null && echo ".gitconfig backed up."
+    fi
+
+    # ask whether use personal or work settings
+    echo -n "type 'personal' or 'work' and press enter: "
+    read env
+
+    # check for input
+    if [ -z "$env" ]
+    then
+        echo "no input given. skipping gitconfig."
+    else
+        # copy gitconfig.$type
+        case $env in
+            'work')
+                type='work'
+            ;;
+            'personal'|*)
+                type='personal'
+            ;;
+        esac
+        # decrypt and save it
+        gpg < $dir/git/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is now installed"
+        # append gitconfig content
+        cat $dir/git/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
+    fi
+fi
 
 # remove push setting for older git versions
 if [ "$(echo "$gitversion" | sed 's/\ //' | egrep "1\.[1-7]")" ] && [ -e "$home/.gitconfig" ]
 then
-	# push setting not supported, so removing it
-	sed -i '/\[push\]/d;/default\ =\ /d;' ~/.gitconfig
-	echo "removed push default setting due to low version"
+    # push setting not supported, so removing it
+    sed -i '/\[push\]/d;/default\ =\ /d;' ~/.gitconfig
+    echo "removed push default setting due to low version"
 fi
 
 ################################################################################
@@ -135,8 +142,11 @@ fi
 
 ln -s $dir/vim $home/.vim && echo ".vim folder installed"
 ln -s $dir/vim/vimrc $home/.vimrc && echo ".vimrc installed"
-sed -i.bak 's/tlib.git$/tlib.git\
-        ignore = dirty/g' .git/config && echo "added ignore option to tlib submodule"
+if [[ -z "$(grep -A 3 tlib.git .git/config | grep "ignore = dirty")" ]]
+then
+    sed -i.bak 's/tlib.git$/tlib.git\
+    ignore = dirty/g' .git/config && echo "added ignore option to tlib submodule"
+fi
 
 ################################################################################
 ##### LINK DOTFILES FOLDER
@@ -144,7 +154,7 @@ sed -i.bak 's/tlib.git$/tlib.git\
 # link dotfiles folder
 if [ ! -d "$home/.dotfiles" ]
 then
-	ln -s $dir $home/.dotfiles && echo ".dotfiles folder installed"
+    ln -s $dir $home/.dotfiles && echo ".dotfiles folder installed"
 fi
 
 ################################################################################
@@ -159,9 +169,9 @@ git submodule init > /dev/null && git submodule update > /dev/null && echo "conf
 # now some configs only for mac
 if [[ "$(uname -s)" = "Darwin" ]]
 then
-	# disable mouse scrolling inertia, this sucks, i want only one speed
-	defaults write .GlobalPreferences com.apple.scrollwheel.scaling -1
-	defaults write .GlobalPreferences com.apple.mouse.scaling -1
+    # disable mouse scrolling inertia, this sucks, i want only one speed
+    defaults write .GlobalPreferences com.apple.scrollwheel.scaling -1
+    defaults write .GlobalPreferences com.apple.mouse.scaling -1
 fi
 
 ################################################################################
