@@ -135,7 +135,7 @@ fi
 
 ln -s $dir/vim $home/.vim && echo ".vim folder installed"
 ln -s $dir/vim/vimrc $home/.vimrc && echo ".vimrc installed"
-sed -i.bak 's/tlib.git$/tlib.git
+sed -i.bak 's/tlib.git$/tlib.git\
         ignore = dirty/g' .git/config && echo "added ignore option to tlib submodule"
 
 ################################################################################
