@@ -9,6 +9,9 @@
 # gimme some colours
 source ~/.dotfiles/mutt/mutt.colours
 
+# use vim and call command
+set editor="vim -c ':Fip'"
+
 # better date format
 set date_format="%a, %d %b %y (%R.%S)"
 

@@ -1,3 +1,6 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""" general settings
+
 " I WANT EVERYTHING IN UTF-8
 scriptencoding utf-8
 
@@ -37,6 +40,9 @@ set showmode
 " more space for commands
 set ch=2
 
+" Set 7 lines to the cursor - when moving vertically using j/k
+set so=7
+
 " autocomplete ..
 set wildmenu
 
@@ -67,10 +73,25 @@ set number
 " mouse mode in insert mode only
 set mouse=i
 
+" automatically re-read file when change from outside
+set autoread
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+let g:mapleader = ","
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" keymapping in command mode only
 
 " enable/disable line numbering
 map <F5> :set number! number?<CR>
+
+" mark all occurrences of selected string
+nnoremap , :mat Error "<C-R><C-W>"<CR>
 
 " map ctrl arrow keys
 " ctrl right
@@ -91,7 +112,25 @@ map <Esc><Esc> :w<CR>
 " jump to eol with \ (way more comfortable with US layout
 map \ $
 
-"""""""""""""""""""""" END OF keymapping in command mode only
+" Treat long lines as break lines (useful when moving around in them)
+map j gj
+map k gk
+
+" Useful mappings for managing tabs
+map <leader>tc :tabnew<cr>
+map <leader>tC :tabclose<cr>
+map <leader>tn :tabnext<cr>
+map <leader>tN :tabprevious<cr>
+map <leader>to :tabonly<cr>
+map <leader>tl :-tabmove<cr>
+map <leader>tr :+tabmove<cr>
+map <leader>ta :0tabmove<cr>
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" keymapping in insert mode only
 
 " save file with a combo in insert mode
@@ -106,7 +145,8 @@ imap <Esc><Esc> <Esc>:w<CR>a
 " save and exit with Ctrl-X Ctrl-X
 imap <c-x><c-x> <Esc>:wq<CR>
 
-"""""""""""""""""""""" END OF keymapping in insert mode only
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""" commands
 
 "Pathogen syntax highlighting things
 call pathogen#infect()
@@ -125,6 +165,63 @@ fun! <SID>StripTrailingWhitespaces()
 endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
+" Tip: Place the cursor in the optimal position, editing email messages.
+" Author: Davide Alberani
+" Version: 0.1
+" Date: 24 May 2006
+" Description: if you use Vim to edit your emails, having to manually
+" move the cursor to the right position can be quite annoying.
+" This command will place the cursor (and enter insert mode)
+" in the more logical place: at the Subject header if it's
+" empty or at the first line of the body (also taking
+" care of the attribution, to handle replies messages).
+" Usage: I like to call the Fip command by setting the command that is used
+" by my mail reader (mutt) to execute Vim. E.g. in my muttrc I have:
+" set editor="vim -c ':Fip'"
+" Obviously you can prefer to call it using an autocmd:
+" " Modify according to your needs and put this in your vimrc:
+" au BufRead mutt* :Fip
+" Hints: read the comments in the code and modify it according to your needs.
+" Keywords: email, vim, edit, reply, attribution, subject, cursor, place.
+
+" Function used to identify where to place the cursor, editing an email.
+function FirstInPost (...) range
+let cur = a:firstline
+while cur <= a:lastline
+let str = getline(cur)
+" Found an _empty_ subject in the headers.
+" NOTE: you can put similar checks to handle other empty headers
+" like To, From, Newgroups, ...
+if str == 'Subject: '
+  execute cur
+  :start!
+  break
+endif
+" We have reached the end of the headers.
+if str == ''
+  let cur = cur + 1
+  " " If the first line of the body is an attribution, put
+  " " the cursor _after_ that line, otherwise the cursor is
+  " " leaved right after the headers (assuming we're writing
+  " " a new mail, and not editing a reply).
+  " " NOTE: modify the regexp to match your mail client's attribution!
+  " if strlen(matchstr(getline(cur), '^On.*wrote:.*')) > 0
+  "   let cur = cur + 1
+  " endif
+  execute cur
+  :start
+  break
+endif
+let cur = cur + 1
+endwhile
+endfunction
+
+" Command to be called.
+com Fip :set tw=0<Bar>:%call FirstInPost()
+autocmd BufRead mutt* execute 'Fip'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""" local config
 " source local config
 if !empty(glob("~/.dotfiles/vim/vimrc.local"))
   so ~/.dotfiles/vim/vimrc.local
