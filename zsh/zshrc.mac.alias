@@ -8,3 +8,4 @@ alias lock='open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/
 alias curl='/usr/local/opt/curl/bin/curl'
 alias vi='vim'
 alias mtr='sudo /usr/local/opt/mtr/sbin/mtr'
+alias shuf='gshuf'
