@@ -118,9 +118,9 @@ map k gk
 
 " Useful mappings for managing tabs
 map <leader>tc :tabnew<cr>
-map <leader>tC :tabclose<cr>
+map <leader>tx :tabclose<cr>
 map <leader>tn :tabnext<cr>
-map <leader>tN :tabprevious<cr>
+map <leader>tp :tabprevious<cr>
 map <leader>to :tabonly<cr>
 map <leader>tl :-tabmove<cr>
 map <leader>tr :+tabmove<cr>
