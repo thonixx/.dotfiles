@@ -23,7 +23,7 @@ set modelines=5
 set hlsearch
 
 " i want to delete indents and over the start of insert
-set backspace=indent,start
+set backspace=indent,start,eol
 
 " some clipboard magic
 set clipboard+=unnamed
