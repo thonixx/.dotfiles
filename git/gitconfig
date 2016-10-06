@@ -8,5 +8,6 @@
 	clb = checkout -b
 	crb = push -u origin
 	mb = !git prod && git merge --noff --no-commit
+	cd = checkout
 [color]
 	ui = auto
