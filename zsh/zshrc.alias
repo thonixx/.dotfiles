@@ -80,5 +80,5 @@ alias gpu='git push'
 alias gup='git pull'
 alias hahaha='read int; youtube$int http://data2.whicdn.com/images/63406928/original.jpg'
 alias search='find -iname'
-alias tweet='read nachricht; t update "${nachricht} #cli"'
+alias tweet='read nachricht; t update "${nachricht}"; t user thonixx | grep "Last update"'
 alias tmake="tmux new-session -s main -n mail \; split-window -p 40 \; new-window \; send-keys -t 'main:1.0' 'mutt -F ~/mutt-settings-work' Enter \; send-keys -t 'main:1.1' 'mutt -F ~/mutt-settings-mon' Enter \; select-window -t 'mail'"
