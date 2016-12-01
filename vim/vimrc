@@ -109,7 +109,7 @@ map <ESC>[3;5~ bdaw
 " save with ESC ESC
 map <Esc><Esc> :w<CR>
 
-" jump to eol with \ (way more comfortable with US layout
+" jump to eol with \ (way more comfortable with US layout)
 map \ $
 
 " Treat long lines as break lines (useful when moving around in them)
