@@ -158,10 +158,14 @@ call pathogen#helptags()
 
 " Strip trailing whitespace (,ss)
 fun! <SID>StripTrailingWhitespaces()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//e
-  call cursor(l, c)
+    if &ft =~ 'mail'
+        return
+    else
+        let l = line(".")
+        let c = col(".")
+        %s/\s\+$//e
+        call cursor(l, c)
+    endif
 endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
