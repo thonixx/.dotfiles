@@ -73,7 +73,7 @@ set index_format="[%Z] %D %60.60f #%M %s"
 set sort_aux="reverse-last-date-received"
 
 # sort other way round
-set sort="reverse-date"
+set sort="threads"
 
 # strict threads or not
 set strict_threads="no"
