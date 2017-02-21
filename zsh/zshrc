@@ -272,7 +272,7 @@ function whoisch() {
 # spellit
 # spell everything in german
 function spellit() {
-	input="$(echo $1 | sed 's/\./ /g')"
+	input="$(echo $@ | sed 's/\./ /g')"
 	$(which bash) -c "echo -n \"$input\" | while IFS= read -r -n1 c; do [ \"\$c\" ] && echo -n \"\$c \"; [ \"\$c\" ] && echo 'anton
 berta
 cäsar

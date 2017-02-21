@@ -7,7 +7,12 @@ alias readlink='greadlink'
 alias lock='open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app'
 alias curl='/usr/local/opt/curl/bin/curl'
 alias vi='vim'
-alias mtr='sudo /usr/local/opt/mtr/sbin/mtr'
+# alias mtr='sudo /usr/local/opt/mtr/sbin/mtr'
 alias shuf='gshuf'
 alias sysl='sudo tail -f /var/log/system.log'
 unalias pat
+
+# not an alias but needed this way anway
+function mtr() {
+    su admin -c "sudo /usr/local/opt/mtr/sbin/mtr $@"
+}
