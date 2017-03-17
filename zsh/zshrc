@@ -713,6 +713,14 @@ then
 	echo ""
 fi
 
+# warn about broken sw raid
+grep -sq _ /proc/mdstat && {
+  echo ++++++++++++++++++++
+  echo BROKEN MD RAID, please check manually
+  echo press enter to dismiss warning
+  echo ++++++++++++++++++++
+  read blah
+}
 
 # my nice prompt template
 
