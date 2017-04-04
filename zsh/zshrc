@@ -138,7 +138,7 @@ setopt histignorespace
 setopt extended_history
 
 # because i love history, appendixes, and appending things
-setopt appendhistory
+# setopt appendhistory
 
 # don't assume i want to cd, that's fucking rude
 unsetopt autocd
