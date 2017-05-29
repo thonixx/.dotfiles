@@ -29,7 +29,7 @@ bindkey "^[OC" forward-char
 bindkey "^[[C" forward-char
 bindkey "^[OD" backward-char
 bindkey "^[[D" backward-char
-bindkey -s '^F' 'ls -alFh --color=auto\n'
+bindkey -s '^F' 'ls -altrFh --color=auto\n'
 
 # disable flow control
 # and make the ctrl-s and ctrl-q available for keybindings
@@ -39,7 +39,7 @@ stty start undef
 # mac specific keybindings
 if [[ "$(uname -s)" == "Darwin" ]]
 then
-	bindkey -s '^F' 'ls -alFh -G\n'
+	bindkey -s '^F' 'ls -altrFGh\n'
 	bindkey "^[^[[C" forward-word
 	bindkey "^[^[[D" backward-word
 	stty erase "^?"
