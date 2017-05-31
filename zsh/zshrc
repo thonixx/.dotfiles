@@ -90,9 +90,9 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
 if [[ "$(uname -s)" == "Darwin" ]]
 then
-	eval "$(cat ~/.dotfiles/zsh/zshrc.dircolors)"
+    eval "$(cat ~/.dotfiles/zsh/zshrc.dircolors)"
 else
-	eval "$(dircolors -b)"
+    eval "$(dircolors -b)"
 fi
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
@@ -171,7 +171,7 @@ setopt PROMPT_SUBST
 source ~/.dotfiles/zsh/zshrc.alias
 if [[ "$(uname -s)" == "Darwin" ]]
 then
-	source ~/.dotfiles/zsh/zshrc.mac.alias
+    source ~/.dotfiles/zsh/zshrc.mac.alias
 fi
 
 # include keybindings from file
@@ -198,18 +198,18 @@ export PATH="$HOME/local/bin:$PATH"
 # source local config (testing or so)
 if [ -f ~/.dotfiles/zsh/zshrc.local ]
 then
-	source ~/.dotfiles/zsh/zshrc.local
+    source ~/.dotfiles/zsh/zshrc.local
 fi
 # source autojump if installed
 if [ -f /usr/share/autojump/autojump.sh ]
 then
-	source /usr/share/autojump/autojump.sh
+    source /usr/share/autojump/autojump.sh
 elif [ -s ~/.autojump/etc/profile.d/autojump.sh ]
 then
-	source ~/.autojump/etc/profile.d/autojump.sh
+    source ~/.autojump/etc/profile.d/autojump.sh
 elif [ -f /usr/local/Cellar/autojump/22.3.0/share/autojump/autojump.zsh ]
 then
-	source /usr/local/Cellar/autojump/22.3.0/share/autojump/autojump.zsh
+    source /usr/local/Cellar/autojump/22.3.0/share/autojump/autojump.zsh
 fi
 
 ####################
@@ -229,51 +229,51 @@ colors
 # create the makessl command with prefilled whois infos for .ch domains
 # have a look at github.com/thonixx/easyssl
 function whoiscom() {
-	# define .ch domain
-	domain="$1"
-	# sed for address output of whois request
-	output="$(whois "$domain" | grep Registrant)"
+    # define .ch domain
+    domain="$1"
+    # sed for address output of whois request
+    output="$(whois "$domain" | grep Registrant)"
 
-	# parse organisation/holder
-	org="$(echo "$output" | grep -i "Registrant Organization" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
-	# parse country code
-	c="$(echo "$output" | grep -i "Registrant Country" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
-	# parsing a state is difficult so fill with country
-	s="$(echo "$output" | grep -i "Registrant State" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
-	# parse city
-	l="$(echo "$output" | grep -i "Registrant City" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
+    # parse organisation/holder
+    org="$(echo "$output" | grep -i "Registrant Organization" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
+    # parse country code
+    c="$(echo "$output" | grep -i "Registrant Country" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
+    # parsing a state is difficult so fill with country
+    s="$(echo "$output" | grep -i "Registrant State" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
+    # parse city
+    l="$(echo "$output" | grep -i "Registrant City" | awk -F: '{print $2}' | sed -e 's/^[ \t]*//')"
 
-	# print the result
-	echo "makessl -p SSL_ -d $(test -z $2 && echo www || echo $2).$domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
+    # print the result
+    echo "makessl -p SSL_ -d $(test -z $2 && echo www || echo $2).$domain -o \"$org\" -c \"$c\" -l \"$l\" -s \"$s\""
 }
 
 # chwhois
 # create the makessl command with prefilled whois infos for .ch domains
 # have a look at github.com/thonixx/easyssl
 function whoisch() {
-	# define .ch domain
-	domain="$1"
-	# sed for address output of whois request
-	output="$(whois "$domain" | sed -n '/Holder of domain name/,/Contractual Language/p' | head -n -2 | tail -n +2)"
+    # define .ch domain
+    domain="$1"
+    # sed for address output of whois request
+    output="$(whois "$domain" | sed -n '/Holder of domain name/,/Contractual Language/p' | head -n -2 | tail -n +2)"
 
-	# parse organisation/holder
-	org="$(echo "$output" | sed -n -e '1p')"
-	# parse country code
-	c="$(echo "$output" | tail -n 1 | awk -F- '{print $1}')"
-	# parsing a state is difficult so fill with country
-	s="$c"
-	# parse city
-	l="$(echo "$output" | tail -n 1 | awk -F- '{print $2}' | sed -r 's/[[:digit:]][\ ]{0,}//g' | sed -r 's/[,](.*)//g')"
+    # parse organisation/holder
+    org="$(echo "$output" | sed -n -e '1p')"
+    # parse country code
+    c="$(echo "$output" | tail -n 1 | awk -F- '{print $1}')"
+    # parsing a state is difficult so fill with country
+    s="$c"
+    # parse city
+    l="$(echo "$output" | tail -n 1 | awk -F- '{print $2}' | sed -r 's/[[:digit:]][\ ]{0,}//g' | sed -r 's/[,](.*)//g')"
 
-	# print the result
-	echo "makessl -p SSL_ -d $(test -z $2 && echo www || echo $2).$domain -o \"$org\" -c \"$c\" -l \"$l\" -s "
+    # print the result
+    echo "makessl -p SSL_ -d $(test -z $2 && echo www || echo $2).$domain -o \"$org\" -c \"$c\" -l \"$l\" -s "
 }
 
 # spellit
 # spell everything in german
 function spellit() {
-	input="$(echo $@ | sed 's/\./ /g')"
-	$(which bash) -c "echo -n \"$input\" | while IFS= read -r -n1 c; do [ \"\$c\" ] && echo -n \"\$c \"; [ \"\$c\" ] && echo 'anton
+    input="$(echo $@ | sed 's/\./ /g')"
+    $(which bash) -c "echo -n \"$input\" | while IFS= read -r -n1 c; do [ \"\$c\" ] && echo -n \"\$c \"; [ \"\$c\" ] && echo 'anton
 berta
 cäsar
 dora
@@ -304,186 +304,169 @@ zacharias' | grep -iE \"^\$c\" || echo \"\$c\" | head -n1; done"
 # tputcolors
 # source: http://linuxtidbits.wordpress.com/2008/08/11/output-color-on-bash-scripts/
 function tputcolors() {
-	echo
-	echo -e "$(tput bold) reg  bld  und   tput-command-colors$(tput sgr0)"
+    echo
+    echo -e "$(tput bold) reg  bld  und   tput-command-colors$(tput sgr0)"
 
-	for i in $(seq 1 7); do
-		echo " $(tput setaf $i)Text$(tput sgr0) $(tput bold)$(tput setaf $i)Text$(tput sgr0) $(tput sgr 0 1)$(tput setaf $i)Text$(tput sgr0)  \$(tput setaf $i)"
-	done
+    for i in $(seq 1 7); do
+        echo " $(tput setaf $i)Text$(tput sgr0) $(tput bold)$(tput setaf $i)Text$(tput sgr0) $(tput sgr 0 1)$(tput setaf $i)Text$(tput sgr0)  \$(tput setaf $i)"
+    done
 
-	echo ' Bold            $(tput bold)'
-	echo ' Underline       $(tput sgr 0 1)'
-	echo ' Reset           $(tput sgr0)'
-	echo
+    echo ' Bold            $(tput bold)'
+    echo ' Underline       $(tput sgr 0 1)'
+    echo ' Reset           $(tput sgr0)'
+    echo
 }
 
 # simple stopwatch function
 # scripted by github.com/thonixx
 function stopwatch () {
-	########
-	# config
+    ########
+    # config
 
-	# initialise seconds and start with second 1
-	sec=1
-	# define maximum of dots to display
-	maxdots=10
-	# initialise count for the dots at the beginning
-	startdot=1
-	# date when stopwatch was started
-	startdate=$(date +%s)
+    # initialise seconds and start with second 1
+    sec=1
+    # define maximum of dots to display
+    maxdots=10
+    # initialise count for the dots at the beginning
+    startdot=1
+    # date when stopwatch was started
+    startdate=$(date +%s)
 
-	# start the first output with current time
-	echo "Stopwatch started: $(date -d @$startdate)"
+    # start the first output with current time
+    echo "Stopwatch started: $(date -d @$startdate)"
 
-	# while loop to count the seconds
-	while [ true ]
-	do
-		# calculate the time based on date
-		let "sec = $(date +%s) - $startdate + 1"
+    # while loop to count the seconds
+    while [ true ]
+    do
+        # calculate the time based on date
+        let "sec = $(date +%s) - $startdate + 1"
 
-		# display seconds if under 1 minute
-		if [ "$sec" -lt 60 ]
-			# fill time with raw seconds
-			then time="$sec"
-		# switch to minutes if more than 60 seconds
-		else min=$(expr $sec / 60)
-			# calculate the seconds minus the minutes
-			relSec=$(expr $sec - $min \* 60)
-			# fill time with minutes and relative seconds
-			time="$min"'m'" $relSec"
-		fi
+        # display seconds if under 1 minute
+        if [ "$sec" -lt 60 ]
+            # fill time with raw seconds
+            then time="$sec"
+        # switch to minutes if more than 60 seconds
+        else min=$(expr $sec / 60)
+            # calculate the seconds minus the minutes
+            relSec=$(expr $sec - $min \* 60)
+            # fill time with minutes and relative seconds
+            time="$min"'m'" $relSec"
+        fi
 
-		# define the dots (just for beauty)
-		dotloop=0
+        # define the dots (just for beauty)
+        dotloop=0
 
-		# reset the variable
-		dotPrint=""
+        # reset the variable
+        dotPrint=""
 
-		# print the dots
-		while [ "$dotloop" -lt "$startdot" ]
-		do
-			# append
-			dotPrint="$dotPrint."
-			# increase
-			let "dotloop = dotloop + 1"
-		done
+        # print the dots
+        while [ "$dotloop" -lt "$startdot" ]
+        do
+            # append
+            dotPrint="$dotPrint."
+            # increase
+            let "dotloop = dotloop + 1"
+        done
 
-		# calculate required spaces
-		actualChars=$(echo -n "$dotPrint" | wc -c)
-		spacesToPrint=$(expr $maxdots - $actualChars)
+        # calculate required spaces
+        actualChars=$(echo -n "$dotPrint" | wc -c)
+        spacesToPrint=$(expr $maxdots - $actualChars)
 
-		# add the spaces
-		spacesAdded=0
+        # add the spaces
+        spacesAdded=0
 
-		# initialise output
-		spaces=""
+        # initialise output
+        spaces=""
 
-		# add the required spaces
-		while [ "$spacesAdded" -lt "$spacesToPrint" ]
-		do
-			# append the white spaces
-			spaces="$spaces "
+        # add the required spaces
+        while [ "$spacesAdded" -lt "$spacesToPrint" ]
+        do
+            # append the white spaces
+            spaces="$spaces "
 
-			# calculate spaces left
-			let "spacesAdded = $spacesAdded + 1"
-		done
+            # calculate spaces left
+            let "spacesAdded = $spacesAdded + 1"
+        done
 
-		# merge dots and spaces
-		dotPrint="$dotPrint$spaces"
+        # merge dots and spaces
+        dotPrint="$dotPrint$spaces"
 
-		# print the current time
-		# http://stackoverflow.com/questions/11283625/bash-overwrite-last-terminal-line
-		echo -ne "\e[0K\r   Time: $time"'s'" $dotPrint "
+        # print the current time
+        # http://stackoverflow.com/questions/11283625/bash-overwrite-last-terminal-line
+        echo -ne "\e[0K\r   Time: $time"'s'" $dotPrint "
 
-		# wait a second before continueing
-		sleep 1 || echo "hi"
+        # wait a second before continueing
+        sleep 1 || echo "hi"
 
-		# calculate the next count for the dots
-		startdot=$(if [ "$startdot" -lt "$maxdots" ]; then expr $startdot + 1; else echo "1"; fi)
-	done
+        # calculate the next count for the dots
+        startdot=$(if [ "$startdot" -lt "$maxdots" ]; then expr $startdot + 1; else echo "1"; fi)
+    done
 }
 
 # test mail delivery
 # scripted by github.com/thonixx
 function maildelivery {
-	domain=$(echo "$1" | awk -F@ '{print $2}')
-	mailserver=$(dig mx $domain +short | awk {'print $2'} | head -n 1)
+    domain=$(echo "$1" | awk -F@ '{print $2}')
+    mailserver=$(dig mx $domain +short | awk {'print $2'} | head -n 1)
 
-	# test if something is in the output
-	if [ -z "$mailserver" ]
-	then
-	    echo "There was no mailserver or no MX record. :("
-	    echo "Trying A record of $domain."
-	    mailserver=$(dig a $domain +short | awk {'print $1'} | head -n 1)
-	    if [ -z "$mailserver" ]
-	    then
-		    echo "Also no A record found."
-		    return
-	    fi
-	fi
+    # test if something is in the output
+    if [ -z "$mailserver" ]
+    then
+        echo "There was no mailserver or no MX record. :("
+        echo "Trying A record of $domain."
+        mailserver=$(dig a $domain +short | awk {'print $1'} | head -n 1)
+        if [ -z "$mailserver" ]
+        then
+            echo "Also no A record found."
+            return
+        fi
+    fi
 
-	# custom server to connect to
-	if [ ! -z "$2" ]
-	then
-		mailserver="$2"
-	fi
+    # custom server to connect to
+    if [ ! -z "$2" ]
+    then
+        mailserver="$2"
+    fi
 
-	echo "Email: $1"
-	echo "Server: $mailserver"
-	echo ""
+    echo "Email: $1"
+    echo "Server: $mailserver"
+    echo ""
 
-	(echo "helo $(hostname -f)"
-	sleep 2
-	echo "MAIL FROM: <info@$(hostname -f)>"
-	sleep 2
-	echo "RCPT TO:<$1>"
-	sleep 2
-	echo "QUIT") | netcat $mailserver 25
+    (echo "helo $(hostname -f)"
+    sleep 2
+    echo "MAIL FROM: <info@$(hostname -f)>"
+    sleep 2
+    echo "RCPT TO:<$1>"
+    sleep 2
+    echo "QUIT") | netcat $mailserver 25
 }
 
 # test smtp login
 # scripted by github.com/thonixx
 function smtplogin {
-	echo -n "Server: "
-	read server
-	echo ""
+    echo -n "Server: "
+    read server
+    echo ""
 
-	echo -n "Username: "
-	read user
+    echo -n "Username: "
+    read user
 
-	echo -n "Password: "
-	read pass
-	echo ""
+    echo -n "Password: "
+    read pass
+    echo ""
 
-	user64=$(echo -n "$user" | base64)
-	pass64=$(echo -n "$pass" | base64)
+    user64=$(echo -n "$user" | base64)
+    pass64=$(echo -n "$pass" | base64)
 
-	(echo "helo test"
-	sleep 2
-	echo "AUTH LOGIN"
-	sleep 2
-	echo "$user64"
-	sleep 2
-	echo "$pass64"
-	sleep 2
-	echo "QUIT") | netcat $server 25
-}
-
-# loop function
-# run any command in a while loop with 1 second sleep
-function loop() {
-	if [ -z "$@" ]
-	then
-		return
-	fi
-
-	cmd="$@"
-
-	while true
-	do
-		bash -c "$cmd"
-		sleep 1
-	done
+    (echo "helo test"
+    sleep 2
+    echo "AUTH LOGIN"
+    sleep 2
+    echo "$user64"
+    sleep 2
+    echo "$pass64"
+    sleep 2
+    echo "QUIT") | netcat $server 25
 }
 
 # countdown function
@@ -503,155 +486,158 @@ function countdown() {
 
 # translation functions
 function leo() {
-	w3m -dump "http://pda.leo.org/?search=\"$*\"" | sed -n -e :a -e '1,9!{P;N;D;};N;ba' | sed -e '1,14d'
+    w3m -dump "http://pda.leo.org/?search=\"$*\"" | sed -n -e :a -e '1,9!{P;N;D;};N;ba' | sed -e '1,14d'
 }
 function leofr(){
-	w3m -dump "http://pda.leo.org/?lp=frde&search=\"$*\"" | sed -n -e :a -e '1,9!{P;N;D;};N;ba' | sed -e '1,14d'
+    w3m -dump "http://pda.leo.org/?lp=frde&search=\"$*\"" | sed -n -e :a -e '1,9!{P;N;D;};N;ba' | sed -e '1,14d'
 }
 function dictcc() {
-	w3m -dump "http://pocket.dict.cc?s=\"$*\"" | sed -r -e '/^([ ]{5,}.*)$/d' -e '1,2d' -e '/^$/d' -e '/^\[/d'
+    w3m -dump "http://pocket.dict.cc?s=\"$*\"" | sed -r -e '/^([ ]{5,}.*)$/d' -e '1,2d' -e '/^$/d' -e '/^\[/d'
 }
 
 # do a reverse lookup
 reverse() {
-	# put request in variable
-	request="$1"
+    # put request in variable
+    request="$1"
 
-	# check for request
-	if [ -z "$request" ]
-	then
-		echo "Please provide an IP or host name.".
-		return
-	fi
+    # check for request
+    if [ -z "$request" ]
+    then
+        echo "Please provide an IP or host name.".
+        return
+    fi
 
-	# check for "dig" installed
-	if [ -z "$(which dig)" ]
-	then
-		echo "Please install dig, we need it:"
-		echo "sudo apt-get install dig (for Ubuntu/Debian)"
-		return
-	fi
+    # check for "dig" installed
+    if [ -z "$(which dig)" ]
+    then
+        echo "Please install dig, we need it:"
+        echo "sudo apt-get install dig (for Ubuntu/Debian)"
+        return
+    fi
 
-	# decide if its an ip or name
-	if [ "$(echo $request | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
-	then
-		# would be an IP
+    # decide if its an ip or name
+    if [ "$(echo $request | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
+    then
+        # would be an IP
 
-		# for later check of any reverse
-		check="false"
+        # for later check of any reverse
+        check="false"
 
-		# save/set IFS
-		oldifs=$IFS
-		IFS=$'\n'
+        # save/set IFS
+        oldifs=$IFS
+        IFS=$'\n'
 
-		# loop through ptr records
-		for r in $(dig +tcp +short -x $request 2> /dev/null)
-		do
-			# print ip address
-			echo -n "$request"
+        # loop through ptr records
+        for r in $(dig +tcp +short -x $request 2> /dev/null)
+        do
+            # print ip address
+            echo -n "$request"
 
-			# print PTR
-			echo " > $r"
+            # print PTR
+            echo " > $r"
 
-			# set check to true due to at least one PTR
-			check="true"
-		done
+            # set check to true due to at least one PTR
+            check="true"
+        done
 
-		# set the old IFS
-		export IFS=$oldifs
+        # set the old IFS
+        export IFS=$oldifs
 
-		# check if any ptr was found
-		if [ $check == "false" ]
-		then
-			echo -ne "No reverse entry for $request.\n"
-		fi
-	else
-		# would be a hostname
+        # check if any ptr was found
+        if [ $check == "false" ]
+        then
+            echo -ne "No reverse entry for $request.\n"
+        fi
+    else
+        # would be a hostname
 
-		# check if any output there
-		if [ -z "$(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
-		then
-			echo "No A records found for $request."
-			return
-		else
-			# continue with a record(s)
+        # check if any output there
+        if [ -z "$(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
+        then
+            echo "No A records found for $request."
+            return
+        else
+            # continue with a record(s)
 
-			# save/set IFS
-			oldifs=$IFS
-			IFS=$'\n'
+            # save/set IFS
+            oldifs=$IFS
+            IFS=$'\n'
 
-			# loop through A records
-			for i in $(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')
-			do
-				# for later check of any reverse
-				check="false"
+            # loop through A records
+            for i in $(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')
+            do
+                # for later check of any reverse
+                check="false"
 
-				# loop through ptr records
-				for r in $(dig +tcp +short -x $i 2> /dev/null)
-				do
-					# print request and ip
-					echo -n "$request > $i"
+                # loop through ptr records
+                for r in $(dig +tcp +short -x $i 2> /dev/null)
+                do
+                    # print request and ip
+                    echo -n "$request > $i"
 
-					# print PTR
-					echo " > $r"
+                    # print PTR
+                    echo " > $r"
 
-					# set check to true due to at least one PTR
-					check="true"
-				done
+                    # set check to true due to at least one PTR
+                    check="true"
+                done
 
-				# check if any ptr was found
-				if [ $check == "false" ]
-				then
-					echo -ne "$request > $i > No reverse entry.\n"
-				fi
+                # check if any ptr was found
+                if [ $check == "false" ]
+                then
+                    echo -ne "$request > $i > No reverse entry.\n"
+                fi
 
-			done
+            done
 
-			# set the old IFS
-			export IFS=$oldifs
-		fi
-	fi
+            # set the old IFS
+            export IFS=$oldifs
+        fi
+    fi
 }
 
-# check ssl certificate <> private key
-sslcheck() {
-	echo ""
-	# check if its a certificate
-	if [ ! "$1" ] || [ ! "$(grep "CERTIFICATE-" $1 2>/dev/null)" ]
-	then
-		echo 'Give me a certificate.'
-		echo ""
-		return
-	fi
-	# check if its a private key
-	if [ ! "$2" ] || [ ! "$(grep PRIVATE $2 2> /dev/null)" ]
-	then
-		echo 'Give me a private key.'
-		echo ""
-		return
-	fi
+# check certificate request <> private key
+csrcheck() {
+    # check variables
+    if [ ! "$1" ] || [ ! "$2" ]
+    then
+        echo '$1 = csr'
+        echo '$2 = key'
+        return
+    fi
 
-	# better comparing with variables
+    csr="$(openssl req -noout -modulus -in "$1" 2>/dev/null | openssl md5)"
+    key="$(openssl rsa -noout -modulus -in "$2" 2>/dev/null | openssl md5)"
 
-	# try to determine errors with certificate
-	openssl x509 -noout -modulus -in "$1" &> /dev/null
-	if [ $? -ne 0 ] ; then echo "There was an error with your certificate." ; echo "Maybe rather a CSR? Or malformed certificate?" ; echo "" ; return ; fi
-	cert=`openssl x509 -noout -modulus -in "$1" 2>/dev/null | openssl md5`
+    # check with openssl command and hashing
+    if [ "$csr" == "$key" ]
+    then
+        echo '  Yay, everything okay.'
+    else
+        echo '  Sorry, it does not match.'
+    fi
+}
 
-	# try to determine errors with private key
-	openssl rsa -noout -modulus -in "$2" &> /dev/null
-	if [ $? -ne 0 ] ; then echo "There was an error with your private key." ; echo "" ; return ; fi
-	key=`openssl rsa -noout -modulus -in "$2" 2>/dev/null | openssl md5`
+# check certificate <> private key
+crtcheck() {
+    # check variables
+    if [ ! "$1" ] || [ ! "$2" ]
+    then
+        echo '$1 = crt'
+        echo '$2 = key'
+        return
+    fi
 
-	# check with openssl command and hashing
-	if [ "$cert" == "$key" ]
-	then
-		echo '  Yay, everything okay.'
-	else
-		echo '  Sorry, it does not match.'
-	fi
+    crt="$(openssl x509 -noout -modulus -in "$1" 2>/dev/null | openssl md5)"
+    key="$(openssl rsa -noout -modulus -in "$2" 2>/dev/null | openssl md5)"
 
-	echo ""
+    # check with openssl command and hashing
+    if [ "$crt" == "$key" ]
+    then
+        echo '  Yay, everything okay.'
+    else
+        echo '  Sorry, it does not match.'
+    fi
 }
 
 ####################
@@ -661,16 +647,16 @@ sslcheck() {
 
 # if command not found
 if [[ -x /usr/lib/command-not-found ]] ; then
-	function command_not_found_handler() {
-		/usr/lib/command-not-found --no-failure-msg -- $1
-	}
+    function command_not_found_handler() {
+        /usr/lib/command-not-found --no-failure-msg -- $1
+    }
 fi
 
 # set $USER if not exists
 if [ -z "$USER" ]
 then
-	USER="$(whoami)"
-	export USER="$(whoami)"
+    USER="$(whoami)"
+    export USER="$(whoami)"
 fi
 
 # define env file for ssh-agent informations
@@ -680,37 +666,37 @@ PGREP_SSH_AGENT="$(pgrep -u $USER ssh-agent)"
 # start ssh-agent if none is started
 if [ -z "$PGREP_SSH_AGENT" ]
 then
-	# remove agent file
-	rm $AGENT_ENV_FILE 2> /dev/null
-	# write agent info to file
-	eval $(ssh-agent | tee $AGENT_ENV_FILE)
-	# regrep for ssh-agent process since it is running now
-	PGREP_SSH_AGENT="$(pgrep -u $USER ssh-agent)"
+    # remove agent file
+    rm $AGENT_ENV_FILE 2> /dev/null
+    # write agent info to file
+    eval $(ssh-agent | tee $AGENT_ENV_FILE)
+    # regrep for ssh-agent process since it is running now
+    PGREP_SSH_AGENT="$(pgrep -u $USER ssh-agent)"
 elif [ "$PGREP_SSH_AGENT" ] && [ -f "$AGENT_ENV_FILE" ]
 then
-	# source existing agent
-	. $AGENT_ENV_FILE 2> /dev/null
+    # source existing agent
+    . $AGENT_ENV_FILE 2> /dev/null
 fi
 
 # add ssh keys to ssh-agent if running
 if [ "$PGREP_SSH_AGENT" ] && [ "$(ssh-add -l | grep -v "The agent has no identities." | grep -Eio "/+.*" | sort | uniq | wc -l)" -lt "$(ls -l ~/.ssh/ 2>/dev/null | grep -E "(.key|id_[dr]sa)$" | wc -l)" ]
 then
-	ssh-add ~/.ssh/*.key 2> /dev/null
-	ssh-add ~/.ssh/id_rsa 2> /dev/null
-	ssh-add ~/.ssh/id_dsa 2> /dev/null
+    ssh-add ~/.ssh/*.key 2> /dev/null
+    ssh-add ~/.ssh/id_rsa 2> /dev/null
+    ssh-add ~/.ssh/id_dsa 2> /dev/null
 fi
 
 # list tmux sessions if tmux running
 pgrep -u $USER tmux 2> /dev/null > /dev/null
 if [ $? -eq 0 ]
 then
-	# reinitialize envs for tmux server
-	tmux setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK; tmux setenv SSH_AGENT_PID $SSH_AGENT_PID;
-	# list tmux sessions
-	echo ""
-	echo "Running tmux sessions:"
-	tmux ls 2> /dev/null || echo "no tmux session running"
-	echo ""
+    # reinitialize envs for tmux server
+    tmux setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK; tmux setenv SSH_AGENT_PID $SSH_AGENT_PID;
+    # list tmux sessions
+    echo ""
+    echo "Running tmux sessions:"
+    tmux ls 2> /dev/null || echo "no tmux session running"
+    echo ""
 fi
 
 # warn about broken sw raid
@@ -726,99 +712,99 @@ grep -sq _ /proc/mdstat && {
 
 function precmd() {
 
-	# prompt for right side of screen
-	RPROMPT='[%*]'
+    # prompt for right side of screen
+    RPROMPT='[%*]'
 
-	# TMUX <3 stuff
-	test ! -z "$TMUX" && local parsetmux="$(tmux display-message -p 'session: #S, pane: #P')"
+    # TMUX <3 stuff
+    test ! -z "$TMUX" && local parsetmux="$(tmux display-message -p 'session: #S, pane: #P')"
 
-	# display tmux stuff
-	if [ "$parsetmux" ]
-	then
-		local c1="$(tput setaf 172)"
-		local c2="$(tput setaf 227)"
-		local tmuxline=" ${c1}tmux-(${c2}#$(echo "$parsetmux" | tr "," "\n" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "$parsetmux" | tr "," "\n" | grep session | awk '{print $2}')${c1})%{$reset_color%}"
-	else
-		local tmuxline=""
-	fi
+    # display tmux stuff
+    if [ "$parsetmux" ]
+    then
+        local c1="$(tput setaf 172)"
+        local c2="$(tput setaf 227)"
+        local tmuxline=" ${c1}tmux-(${c2}#$(echo "$parsetmux" | tr "," "\n" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "$parsetmux" | tr "," "\n" | grep session | awk '{print $2}')${c1})%{$reset_color%}"
+    else
+        local tmuxline=""
+    fi
 
-	# GIT stuff
-	local git_branch="$(git branch 2> /dev/null || echo NO)"
+    # GIT stuff
+    local git_branch="$(git branch 2> /dev/null || echo NO)"
 
-	# display git stuff at the right side if anything detected
-	if [ "$git_branch" != "NO" ]
-	then
-		local parse_git_branch="$(echo "$git_branch" | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g')"
-		local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $parse_git_branch%{$reset_color%}"
+    # display git stuff at the right side if anything detected
+    if [ "$git_branch" != "NO" ]
+    then
+        local parse_git_branch="$(echo "$git_branch" | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g')"
+        local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $parse_git_branch%{$reset_color%}"
 
-		# get git status
-		local gitstatus="$(git status --porcelain 2> /dev/null)"
+        # get git status
+        local gitstatus="$(git status --porcelain 2> /dev/null)"
 
-		# colorize gitline
-		local gitline="${git}"
-		# calculate files modified
-		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l | tr -d " ")"
-		[[ "$count" -gt 0 ]] && gitline="${gitline} %{$fg[red]%}× ${count}"
-		# calculate files newly added
-		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l | tr -d " ")"
-		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[green]%}+ ${count}"
-		# calculate files renamed
-		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}R" | wc -l | tr -d " ")"
-		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[yellow]%}~ ${count}"
-		# calculate files deleted
-		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}D" | wc -l | tr -d " ")"
-		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[cyan]%}- ${count}"
-		# calculate files untracked
-		local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l | tr -d " ")"
-		[[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}⁙ ${count}"
-		# some symbols/characters for git line:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
-		# reset colors
-		local gitline="${gitline}%{$reset_color%}"
-	else
-		local gitline=""
-	fi
+        # colorize gitline
+        local gitline="${git}"
+        # calculate files modified
+        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l | tr -d " ")"
+        [[ "$count" -gt 0 ]] && gitline="${gitline} %{$fg[red]%}× ${count}"
+        # calculate files newly added
+        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l | tr -d " ")"
+        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[green]%}+ ${count}"
+        # calculate files renamed
+        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}R" | wc -l | tr -d " ")"
+        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[yellow]%}~ ${count}"
+        # calculate files deleted
+        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}D" | wc -l | tr -d " ")"
+        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[cyan]%}- ${count}"
+        # calculate files untracked
+        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l | tr -d " ")"
+        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}⁙ ${count}"
+        # some symbols/characters for git line:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
+        # reset colors
+        local gitline="${gitline}%{$reset_color%}"
+    else
+        local gitline=""
+    fi
 
-	# SVN stuff
-	local svn_info="$(svn info 2> /dev/null || echo NO)"
+    # SVN stuff
+    local svn_info="$(svn info 2> /dev/null || echo NO)"
 
-	# display git stuff at the right side if anything detected
-	if [ "$svn_info" != "NO" ]
-	then
-		local svn_info_url="$(echo "$svn_info" | grep -E "^URL" | awk -F\/ '{print $3}')"
-		local svn=" %{$fg[green]%}svn://%{$fg[cyan]%}$svn_info_url%{$reset_color%}"
-	fi
+    # display git stuff at the right side if anything detected
+    if [ "$svn_info" != "NO" ]
+    then
+        local svn_info_url="$(echo "$svn_info" | grep -E "^URL" | awk -F\/ '{print $3}')"
+        local svn=" %{$fg[green]%}svn://%{$fg[cyan]%}$svn_info_url%{$reset_color%}"
+    fi
 
-	# needed for exit status smiley/char
-	# local exit="%(?,%{$fg[green]%}✔%{$reset_color%},%{$fg[red]%}✘%{$reset_color%})"
-	local exit="%(?..%{ $fg[red]%}✘%{$reset_color%})"
+    # needed for exit status smiley/char
+    # local exit="%(?,%{$fg[green]%}✔%{$reset_color%},%{$fg[red]%}✘%{$reset_color%})"
+    local exit="%(?..%{ $fg[red]%}✘%{$reset_color%})"
 
-	# parse pwd structure and build something nice out of it
-	# dire=$(dirs | sed 's/\// › /g') # »
-	local dire="$(dirs)"
+    # parse pwd structure and build something nice out of it
+    # dire=$(dirs | sed 's/\// › /g') # »
+    local dire="$(dirs)"
 
-	# check if user is root
-	local root=""
-	if [ "$(whoami)" == "root" ]
-	then
-		local root=" %{$fg[white]%}%{$bg[red]%}root%{$reset_color%}"
-	fi
+    # check if user is root
+    local root=""
+    if [ "$(whoami)" == "root" ]
+    then
+        local root=" %{$fg[white]%}%{$bg[red]%}root%{$reset_color%}"
+    fi
 
-	# decide which prompt
-	case "$(hostname -s)" in
-		'woulfair' )
-			local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
-		* )
-			local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
-	esac
+    # decide which prompt
+    case "$(hostname -s)" in
+        'woulfair' )
+            local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
+        * )
+            local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
+    esac
 
-	# append git/svn/other things
-	local firstline="${firstline}${exit}${tmuxline}%{$fg[white]%}${gitline}${svn}${root}"
+    # append git/svn/other things
+    local firstline="${firstline}${exit}${tmuxline}%{$fg[white]%}${gitline}${svn}${root}"
 
-	# define 2nd line globally for all hosts
-	local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
+    # define 2nd line globally for all hosts
+    local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
 
-	# finish the prompt
-	PS1="$firstline
+    # finish the prompt
+    PS1="$firstline
 $secondline"
 
 }
