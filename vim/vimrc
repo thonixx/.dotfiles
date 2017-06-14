@@ -58,6 +58,14 @@ set magic
 " Use spaces instead of tabs
 set expandtab
 
+" usual tab space
+set shiftwidth=4
+set tabstop=4
+
+" yaml tab space
+autocmd BufNewFile,BufRead *.yaml set shiftwidth=2
+autocmd BufNewFile,BufRead *.yaml set tabstop=2
+
 " my vim theme
 colorscheme idleFingers
 
