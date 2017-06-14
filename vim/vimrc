@@ -49,8 +49,14 @@ set wildmenu
 " .. but not everything
 set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpe?g,*.png,*.xpm,*.gif,*.pyc
 
-" incremental search
+" a "better" search
 set incsearch
+set ignorecase
+set smartcase
+set magic
+
+" Use spaces instead of tabs
+set expandtab
 
 " my vim theme
 colorscheme idleFingers
