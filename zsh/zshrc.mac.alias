@@ -11,6 +11,7 @@ alias vi='vim'
 alias shuf='gshuf'
 alias sysl='su - admin -c "sudo tail -f /var/log/system.log"'
 alias search='find . -iname'
+alias vihosts='su - admin -c "sudo vi /etc/hosts"'
 unalias pat
 
 # not an alias but needed this way anway
