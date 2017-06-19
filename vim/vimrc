@@ -1,4 +1,11 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""" local config
+" source local config
+if !empty(glob("~/.dotfiles/vim/vimrc.local"))
+  so ~/.dotfiles/vim/vimrc.local
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" general settings
 
 " I WANT EVERYTHING IN UTF-8
@@ -238,9 +245,3 @@ endfunction
 com Fip :set tw=0<Bar>:%call FirstInPost()
 autocmd BufRead mutt* execute 'Fip'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""" local config
-" source local config
-if !empty(glob("~/.dotfiles/vim/vimrc.local"))
-  so ~/.dotfiles/vim/vimrc.local
-endif
