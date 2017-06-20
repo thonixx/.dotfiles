@@ -12,6 +12,7 @@ alias shuf='gshuf'
 alias sysl='su - admin -c "sudo tail -f /var/log/system.log"'
 alias search='find . -iname'
 alias vihosts='su - admin -c "sudo vi /etc/hosts"'
+alias manpp="sed -nE '/(define |class ).*\(/,/\)/p'"
 unalias pat
 
 # not an alias but needed this way anway
