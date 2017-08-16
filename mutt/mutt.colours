@@ -1,2 +1,4 @@
 # switch here between different colour schemes
 source ~/.dotfiles/mutt/mutt.colours-msdos
+# source ~/.dotfiles/mutt/mutt.colours-solarized-light
+# source ~/.dotfiles/mutt/mutt.colours-solarized-dark
