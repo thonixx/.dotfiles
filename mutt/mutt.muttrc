@@ -60,6 +60,9 @@ macro index \ea "<save-message>+Archive<enter>" "move to Archive"
 macro index \cd "<change-folder>+Done<enter>" "switch to Done"
 macro index \ed "<save-message>+Done<enter>" "move to Done"
 
+# switch to Trash
+macro index \ct "<change-folder>+Trash<enter>" "switch to Trash"
+
 # move messages to trash instead of purging them from the server
 macro index d "<save-message>+Trash<enter>" "move message to the trash"
 
@@ -108,6 +111,9 @@ macro pager \ea "<save-message>+Archive<enter>" "move to Archive"
 # switch/move to Done
 macro pager \cd "<change-folder>+Done<enter>" "switch to Done"
 macro pager \ed "<save-message>+Done<enter>" "move to Done"
+
+# switch to Trash
+macro pager \ct "<change-folder>+Trash<enter>" "switch to Trash"
 
 # move messages to trash instead of purging them from the server
 macro pager d "<save-message>+Trash<enter>" "move message to the trash"
