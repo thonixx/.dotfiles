@@ -33,6 +33,46 @@ set timeout="3"
 # use starttls
 set ssl_starttls="yes"
 
+# nicer looking line wrap
+set smart_wrap
+
+# handle html mails
+auto_view text/html
+
+# number of index lines to show
+set pager_index_lines = 6
+
+# number of context lines to show
+set pager_context = 4
+
+# stop at the end of a message
+set pager_stop
+
+# parse for other quote signs
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+
+# order the other way round
+alternative_order text/plain text/enriched text/html
+
+# do not message myself in reply-to-all
+set metoo="no"
+
+# include msg in reply
+set include="yes"
+
+# do not bother me for recipients and subject in re/fw
+set fast_reply="yes"
+
+# ask for cc (sometimes useful)
+set askcc="yes"
+
+# my signature
+set signature=~/.dotfiles/mutt/mutt.signature
+
+# caching for large mailboxes
+set header_cache = "~/.dotfiles/mutt/cache/headers"
+set message_cachedir = "~/.dotfiles/mutt/cache/messages/"
+
 ################################################################################
 # INDEX SETTINGS________________________________________________________________
 
@@ -120,39 +160,3 @@ macro pager d "<save-message>+Trash<enter>" "move message to the trash"
 
 # Ctrl-u for viewing urls
 macro pager \Cu "|urlview<enter>" "call urlview to open links"
-
-# nicer looking line wrap
-set smart_wrap
-
-# handle html mails
-auto_view text/html
-
-# number of index lines to show
-set pager_index_lines = 6
-
-# number of context lines to show
-set pager_context = 4
-
-# stop at the end of a message
-set pager_stop
-
-# parse for other quote signs
-set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
-
-# order the other way round
-alternative_order text/plain text/enriched text/html
-
-# do not message myself in reply-to-all
-set metoo="no"
-
-# include msg in reply
-set include="yes"
-
-# do not bother me for recipients and subject in re/fw
-set fast_reply="yes"
-
-# ask for cc (sometimes useful)
-set askcc="yes"
-
-# my signature
-set signature=~/.dotfiles/mutt/mutt.signature

@@ -18,3 +18,4 @@ tags-ja
 tmux.conf.local
 vimrc.local
 zshrc.local*
+mutt/cache
