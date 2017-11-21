@@ -81,8 +81,7 @@ HISTFILE=~/.zsh_history
 # Use modern completion system
 autoload -Uz compinit
 compinit
-# some things i do not understand exactly
-# they belong to completion module
+# completion settings
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
@@ -104,6 +103,8 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 zstyle ':completion:*:killall:*' command 'ps -u $USER -o command'
+# I also want to honor IPs (regarding known_hosts files especially)
+zstyle ':completion:*' use-ip true
 
 # turn on interactive comments
 setopt interactivecomments
@@ -138,7 +139,7 @@ setopt histignorespace
 setopt extended_history
 
 # because i love history, appendixes, and appending things
-# setopt appendhistory
+setopt appendhistory
 
 # don't assume i want to cd, that's fucking rude
 unsetopt autocd
@@ -216,8 +217,7 @@ fi
 #################### end of sourcing
 ####################
 
-# colors are beautiful
-# even if I do not understand what this command means exactly
+# enable colours
 autoload -U colors
 colors
 
@@ -822,6 +822,4 @@ ZSH_HIGHLIGHT_STYLES[globbing]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=grey' # bug with cursor color on gnome shell
 # pattern highlight
 ZSH_HIGHLIGHT_PATTERNS+=('sudo' 'fg=white,bold,bg=red')
-ZSH_HIGHLIGHT_PATTERNS+=('rm -rf*' 'fg=white,bold,bg=red')
-ZSH_HIGHLIGHT_PATTERNS+=('rm -rfv*' 'fg=white,bold,bg=red')
-ZSH_HIGHLIGHT_PATTERNS+=('rm -rv*' 'fg=white,bold,bg=red')
+ZSH_HIGHLIGHT_PATTERNS+=('rm -*' 'fg=white,bold,bg=red')
