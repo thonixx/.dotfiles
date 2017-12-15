@@ -160,3 +160,10 @@ macro pager d "<save-message>+Trash<enter>" "move message to the trash"
 
 # Ctrl-u for viewing urls
 macro pager \Cu "|urlview<enter>" "call urlview to open links"
+
+################################################################################
+# BROWSER (FOLDER CHANGE) SETTINGS______________________________________________
+
+# keybindings BROWSER
+bind browser gg       first-entry
+bind browser G        last-entry
