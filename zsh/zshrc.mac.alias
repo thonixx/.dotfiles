@@ -19,3 +19,6 @@ unalias pat
 function mtr() {
     su admin -c "sudo /usr/local/opt/mtr/sbin/mtr $@"
 }
+function ssudo() {
+    su admin -c "sudo $@"
+}
