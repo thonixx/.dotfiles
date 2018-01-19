@@ -78,6 +78,7 @@ set message_cachedir = "~/.dotfiles/mutt/cache/messages/"
 
 # keybindings INDEX
 bind index <tab>    imap-fetch-mail # fetch mail (imap)
+bind index g        noop
 bind index gg       first-entry
 bind index G        last-entry
 bind index R        group-reply
@@ -130,6 +131,7 @@ set hide_thread_subject="no"
 # keybindings PAGER
 bind pager k        previous-line # scroll inside the message rather than the index
 bind pager j        next-line # scroll inside the message rather than the index
+bind pager g        noop
 bind pager gg       top
 bind pager G        bottom
 bind pager R        group-reply
