@@ -1,4 +1,5 @@
 #!/bin/bash
+# colourize tmux status bar red when there is no connection to "the internet"
 
 # dummy echo to prevent flashing status bar while waiting for the first ping
 echo

@@ -1,4 +1,5 @@
 #!/bin/bash
+# display load in tmux status bar
 
 # get the load for mac differently
 uname -s | grep -sq Darwin \

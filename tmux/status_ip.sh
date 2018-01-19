@@ -1,4 +1,5 @@
 #!/bin/bash
+# get the default outgoing IP and display it for tmux status bar
 
 # no matter which locale, display it with C
 export LC_ALL=C
