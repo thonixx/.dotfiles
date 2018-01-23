@@ -30,6 +30,7 @@ bindkey "^[[C" forward-char
 bindkey "^[OD" backward-char
 bindkey "^[[D" backward-char
 bindkey -s '^F' 'ls -altrFh --color=auto\n'
+bindkey -M isearch . self-insert
 
 # disable flow control
 # and make the ctrl-s and ctrl-q available for keybindings
