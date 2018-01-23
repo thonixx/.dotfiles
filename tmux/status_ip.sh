@@ -6,7 +6,7 @@ export LC_ALL=C
 
 # get the ip of the default gateway
 uname | grep -q Darwin \
-    && outgoing_ip="$(netstat -rn | grep default | awk '{print $NF}' | head -n1 | xargs ifconfig | grep inet | grep -ve 127.0.0.1 -e fe80: | sed -E 's/^.*inet6? (.*) netmask.*$/\1/')" \
+    && outgoing_ip="$(netstat -rn | grep default | awk '{print $NF}' | head -n1 | xargs ifconfig | grep inet | grep -ve 127.0.0.1 -e fe80: | sed -E 's/^.*inet6? ([^ ]+).*$/\1/')" \
     || outgoing_ip="$(netstat -rn | grep "^0.0.0.0" | awk '{print $NF}' | xargs -n1 ifconfig | grep inet | head -n1 | grep -Eo "inet ([0-9]{1,3}.){3}[0-9]{1,3}" | awk '{print $NF}')"
 
 # print it centered and nicely
