@@ -1,0 +1,8 @@
+if [[ $# -eq 0 ]]
+then
+    man btrfs
+else
+    man btrfs-$1
+fi
+
+# vim: ft=zsh

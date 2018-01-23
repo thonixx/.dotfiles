@@ -6,12 +6,12 @@ bindkey "^[[3~" delete-char
 bindkey "^[3;5~" delete-char
 bindkey "^A" beginning-of-line
 bindkey "^E" end-of-line
+bindkey "^H" run-help
 bindkey "^J" accept-line
 bindkey "^K" kill-line
 bindkey "^L" clear-screen
 bindkey "^R" history-incremental-search-backward
 bindkey "^T" history-incremental-search-forward
-bindkey -s '^U' 'cd ../\n'
 bindkey "^W" backward-kill-word
 bindkey "^[[5~" history-beginning-search-backward
 bindkey "^[[6~" history-beginning-search-forward
@@ -20,7 +20,7 @@ bindkey "^[^[[D" backward-word
 bindkey "\e[1;5C" forward-word
 bindkey "\e[1;5D" backward-word
 bindkey '^[[3;5~' backward-delete-word # ctrl del delete word
-# i dont know why my bindkey differs sometimes but it should work with the following ones
+# I dont know why my bindkey differs sometimes but it should work with the following ones
 bindkey '^[[A' up-line-or-history
 bindkey '^[OA' up-line-or-history
 bindkey '^[[B' down-line-or-history
@@ -29,7 +29,12 @@ bindkey "^[OC" forward-char
 bindkey "^[[C" forward-char
 bindkey "^[OD" backward-char
 bindkey "^[[D" backward-char
+
+# command shortcuts
 bindkey -s '^F' 'ls -altrFh --color=auto\n'
+bindkey -s '^U' 'cd ../\n'
+
+# I'd like to search for dots as well
 bindkey -M isearch . self-insert
 
 # disable flow control
@@ -40,9 +45,8 @@ stty start undef
 # mac specific keybindings
 if [[ "$(uname -s)" == "Darwin" ]]
 then
-	bindkey -s '^F' 'ls -altrFGh\n'
-	bindkey "^[^[[C" forward-word
-	bindkey "^[^[[D" backward-word
-	stty erase "^?"
+    bindkey -s '^F' 'ls -altrFGh\n'
+    bindkey "^[^[[C" forward-word
+    bindkey "^[^[[D" backward-word
+    stty erase "^?"
 fi
-

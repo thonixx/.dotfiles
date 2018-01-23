@@ -1,0 +1,3 @@
+puppet help ${${@:#-*}[1]} | ${=pager:-less}
+
+# vim: ft=zsh

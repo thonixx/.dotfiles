@@ -1,7 +1,7 @@
 # set the right locale env for myself
 # set de_CH.utf*8 or C
 export LC_CTYPE="$(locale -a 2>/dev/null | grep -i de_ch | grep -i utf || echo "C")"
-export LANG="$(locale -a 2>/dev/null | grep -i de_ch | grep -i utf || echo "C")"
+export LANG="C"
 
 # set the right term
 if [ "$TERM" = "xterm" ] ; then
@@ -106,6 +106,14 @@ zstyle ':completion:*:killall:*' command 'ps -u $USER -o command'
 # I also want to honor IPs (regarding known_hosts files especially)
 zstyle ':completion:*' use-ip true
 
+# load more functions
+fpath=($fpath ~/.dotfiles/zsh/functions)
+
+# run-help functions
+autoload -U run-help-git
+autoload -U run-help-btrfs
+autoload -U run-help-puppet
+
 # turn on interactive comments
 setopt interactivecomments
 
@@ -195,6 +203,7 @@ export EDITOR="vim"
 export GIT_EDITOR="vim +startinsert"
 export PAGER="less"
 export PATH="$HOME/local/bin:$PATH"
+uname | grep -q Darwin && export PATH="/usr/local/opt/gpg-agent/bin:$PATH"
 
 # source local config (testing or so)
 if [ -f ~/.dotfiles/zsh/zshrc.local ]

@@ -1,0 +1,17 @@
+if [[ $# -eq 0 ]]
+then
+    man git
+else
+    local al
+    if al=$(git config --get "alias.$1"); then
+        1=${al%% *}
+    fi
+    if [[ $1 == 'annex' && $# -ge 2 ]]
+    then
+       man git-${1}-$2
+    else
+       man git-$1
+    fi
+fi
+
+# vim: ft=zsh
