@@ -11,7 +11,7 @@ if [ "$HOME" ]
 then
     home="$HOME"
 else
-    home="/home/`whoami`/"
+    home="/home/$USER"
 fi
 
 ################################################################################
@@ -175,13 +175,13 @@ then
 fi
 
 ################################################################################
-##### END PART
+##### END MAC THINGS
 
 echo
 
 # hint about cronjob
 echo "How about adding a cronjob to stay in sync?"
-echo "*/5 *  *   *   *  bash -c 'echo \"\$(date) - start zsh git\" >>/tmp/git.log ; cd /home/user/.dotfiles/; git pull 2>> /tmp/git.log; echo \"\$(date) - end zsh git\" >> /tmp/git.log'"
+echo "*/5 *  *   *   *  bash -c 'git -C $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd ) pull'"
 echo
 
 # end script
