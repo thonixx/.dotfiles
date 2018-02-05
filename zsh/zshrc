@@ -175,6 +175,11 @@ setopt PROMPT_SUBST
 # cd into folder if command doesn't exist but a folder does
 setopt AUTO_CD
 
+# put multiple directorys in cd dir stack
+setopt AUTO_PUSHD
+# but ignore duplicates
+setopt PUSHD_IGNORE_DUPS
+
 ####################
 #################### beginning of sourcing
 ####################
@@ -791,8 +796,7 @@ function precmd() {
     local exit="%(?..%{ $fg[red]%}✘%{$reset_color%})"
 
     # parse pwd structure and build something nice out of it
-    # dire=$(dirs | sed 's/\// › /g') # »
-    local dire="$(dirs)"
+    local dire="$(pwd)"
 
     # check if user is root
     local root=""
