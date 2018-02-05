@@ -172,6 +172,9 @@ setopt noclobber
 # something with prompt things.. actually i do not know what this does
 setopt PROMPT_SUBST
 
+# cd into folder if command doesn't exist but a folder does
+setopt AUTO_CD
+
 ####################
 #################### beginning of sourcing
 ####################
