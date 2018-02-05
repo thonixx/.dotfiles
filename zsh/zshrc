@@ -796,7 +796,7 @@ function precmd() {
     local exit="%(?..%{ $fg[red]%}✘%{$reset_color%})"
 
     # parse pwd structure and build something nice out of it
-    local dire="$(pwd)"
+    local dire="${(%):-%~}"
 
     # check if user is root
     local root=""
