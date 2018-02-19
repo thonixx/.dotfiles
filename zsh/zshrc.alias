@@ -1,4 +1,5 @@
 # some helpful aliases
+alias tellnet='nc -zw2'
 alias wetter='curl wttr.in/wil,switzerland'
 alias randomcommit='git log --pretty=format:"(%h) %ar - %an: %s" | shuf | head -n 1'
 alias tma='tmux a -t'
