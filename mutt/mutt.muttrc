@@ -74,6 +74,25 @@ set header_cache = "~/.dotfiles/mutt/cache/headers"
 set message_cachedir = "~/.dotfiles/mutt/cache/messages/"
 
 ################################################################################
+# SIDEBAR SETTINGS______________________________________________________________
+
+set sidebar_visible="yes"
+set sidebar_width="20"
+set mail_check_stats="yes"
+set imap_check_subscribed="yes"
+
+# keybindings
+bind index \eK sidebar-prev
+bind index \eJ sidebar-next
+bind index \eO sidebar-open
+bind pager \eK sidebar-prev
+bind pager \eJ sidebar-next
+bind pager \eO sidebar-open
+macro index B '<enter-command>toggle sidebar_visible<enter>'
+macro pager B '<enter-command>toggle sidebar_visible<enter>'
+
+
+################################################################################
 # INDEX SETTINGS________________________________________________________________
 
 # keybindings INDEX
@@ -124,6 +143,9 @@ set strict_threads="no"
 
 # i want subjects even in threads
 set hide_thread_subject="no"
+
+# new message should stay new
+unset mark_old
 
 ################################################################################
 # PAGER (MESSAGE VIEW) SETTINGS_________________________________________________
