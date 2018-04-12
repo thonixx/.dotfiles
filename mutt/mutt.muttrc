@@ -78,8 +78,6 @@ set message_cachedir = "~/.dotfiles/mutt/cache/messages/"
 
 set sidebar_visible="yes"
 set sidebar_width="20"
-set mail_check_stats="yes"
-set imap_check_subscribed="yes"
 
 # keybindings
 bind index \eK sidebar-prev
@@ -90,7 +88,6 @@ bind pager \eJ sidebar-next
 bind pager \eO sidebar-open
 macro index B '<enter-command>toggle sidebar_visible<enter>'
 macro pager B '<enter-command>toggle sidebar_visible<enter>'
-
 
 ################################################################################
 # INDEX SETTINGS________________________________________________________________
@@ -124,7 +121,7 @@ macro index \ed "<save-message>+Done<enter>" "move to Done"
 macro index \ct "<change-folder>+Trash<enter>" "switch to Trash"
 
 # move messages to trash instead of purging them from the server
-macro index d "<save-message>+Trash<enter>" "move message to the trash"
+macro index d "<clear-flag>Nk<save-message>+Trash<enter>" "move message to the trash"
 
 # mark all messages as read
 macro index A "<tag-pattern>~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all new as read"
@@ -180,7 +177,7 @@ macro pager \ed "<save-message>+Done<enter>" "move to Done"
 macro pager \ct "<change-folder>+Trash<enter>" "switch to Trash"
 
 # move messages to trash instead of purging them from the server
-macro pager d "<save-message>+Trash<enter>" "move message to the trash"
+macro pager d "<clear-flag>Nk<save-message>+Trash<enter>" "move message to the trash"
 
 # Ctrl-u for viewing urls
 macro pager \Cu "|urlview<enter>" "call urlview to open links"
