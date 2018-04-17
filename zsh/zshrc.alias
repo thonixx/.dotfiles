@@ -88,3 +88,4 @@ alias tmake="uname | grep -q Darwin && ~/.dotfiles/mac/AutoRaise -delay 2 2> /de
 alias saltpw='apg -n 15 -m 30 -a 1 -M SNCL | sed "s/[^a-zA-Z0-9+_?\!$-]//g"'
 alias manpp="sed -nr '/(define |class ).*\(/,/\)/p'"
 alias mu='mutt -F ~/private.mutt'
+alias penv='cd /etc/puppet/environments/'
