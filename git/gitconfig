@@ -1,13 +1,15 @@
 [push]
-	default = simple
+    default = simple
 [alias]
-	prod = checkout production
-	go = !git pull --progress -v && git commit -v && git push;
-	drb = push -u origin
-	dlb = branch -d
-	clb = checkout -b
-	crb = push -u origin
-	mb = !git prod && git merge --noff --no-commit
-	cd = checkout
+    prod = checkout production
+    go = !git pull --progress -v && git commit -v && git push;
+    drb = push -u origin
+    dlb = branch -d
+    clb = checkout -b
+    crb = push -u origin
+    mb = !git prod && git merge --noff --no-commit
+    cd = checkout
 [color]
-	ui = auto
+    ui = auto
+[commit]
+    verbose = 1
