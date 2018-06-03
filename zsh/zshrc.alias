@@ -72,7 +72,7 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias zgrep='zgrep --color=auto'
 alias mplayer='mplayer -lavdopts threads=4' # whats that??
-alias destroy='shred -uvn 35 -z --random-source=/dev/urandom' # destroying is helpful
+alias destroy='shred -uvn 10 -z --random-source=/dev/urandom' # destroying is helpful
 alias pass='openssl rand -base64 15'
 alias apple='chmod +x ~/Insync/01sync/mkapple && ~/Insync/01sync/mkapple' # for my apple keyboard
 alias dusch='du -sch'
