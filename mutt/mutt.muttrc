@@ -150,6 +150,10 @@ unset mark_old
 ################################################################################
 # PAGER (MESSAGE VIEW) SETTINGS_________________________________________________
 
+# forward attachments too
+set mime_forward=yes
+set mime_forward_rest=yes
+
 # keybindings PAGER
 bind pager k        previous-line # scroll inside the message rather than the index
 bind pager j        next-line # scroll inside the message rather than the index
