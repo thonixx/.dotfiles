@@ -130,7 +130,8 @@ macro index d "<clear-flag>Nk<save-message>+Trash<enter>" "move message to the t
 macro index A "<tag-pattern>~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" "mark all new as read"
 
 # design my own index view
-set index_format="[%Z] %D %60.60f #%M %s"
+folder-hook . "set index_format=\"[%Z] %D %50.50f #%M %s\""
+folder-hook +Sent "set index_format=\"[%Z] %D %50.50r #%M %s\""
 
 # sort it
 set sort_aux="reverse-last-date-received"
