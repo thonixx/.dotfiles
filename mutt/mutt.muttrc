@@ -76,7 +76,7 @@ set signature=~/.dotfiles/mutt/mutt.signature
 set header_cache = "~/.dotfiles/mutt/cache/headers"
 set message_cachedir = "~/.dotfiles/mutt/cache/messages/"
 
-# GPG
+# GPG base settings
 set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
 set pgp_verify_command="gpg --no-verbose --batch --output - --verify %s %f"
 set pgp_decrypt_command="gpg --passphrase-fd 0 --no-verbose --batch --output - %f"
@@ -89,7 +89,16 @@ set pgp_export_command="gpg --no-verbose --export --armor %r"
 set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
 set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r"
 set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r"
+
+# always reply encrypted to gpg mails
+set pgp_replyencrypt="yes"
+
+# always sign mails
 set pgp_autosign
+set pgp_timeout=1800
+
+# for copy paste to every account
+# set pgp_sign_as=0x*****
 
 ################################################################################
 # SIDEBAR SETTINGS______________________________________________________________

@@ -13,6 +13,7 @@ away.log
 mutt.aliases
 mutt.certs
 mutt.signature
+mutt.*.signature
 tags
 tags-ja
 tmux.conf.local
