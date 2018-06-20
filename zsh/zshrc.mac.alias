@@ -15,6 +15,9 @@ alias vihosts='su - admin -c "sudo vi /etc/hosts"'
 alias manpp="sed -nE '/(define |class ).*\(/,/\)/p'"
 unalias pat
 
+# gpg needs tty
+export GPG_TTY=$(tty)
+
 # not an alias but needed this way anway
 function mtr() {
     su admin -c "sudo /usr/local/opt/mtr/sbin/mtr $@"
