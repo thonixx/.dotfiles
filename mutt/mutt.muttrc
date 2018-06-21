@@ -10,31 +10,31 @@
 source ~/.dotfiles/mutt/mutt.colours
 
 # use vim and call command
-set editor="vim -c ':Fip'"
+set editor = "vim -c ':Fip'"
 
 # check folders
-set imap_check_subscribed="yes"
+set imap_check_subscribed = "yes"
 
 # better date format
-set date_format="%a, %d %b %y (%R.%S)"
+set date_format = "%a, %d %b %y (%R.%S)"
 
 # tell mutt where to save accepted certificates
-set certificate_file=~/.dotfiles/mutt/mutt.certs
+set certificate_file = "~/.dotfiles/mutt/mutt.certs"
 
 # use my own mailcap path
-set mailcap_path="~/.dotfiles/mutt/mutt.mailcap"
+set mailcap_path = "~/.dotfiles/mutt/mutt.mailcap"
 
 # suppress unneeded pause
-set sleep_time=0
+set sleep_time = "0"
 
 # seconds until network timeout
-set connect_timeout="5"
+set connect_timeout = "5"
 
 # poll more often
-set timeout="3"
+set timeout = "3"
 
 # use starttls
-set ssl_starttls="yes"
+set ssl_starttls = "yes"
 
 # nicer looking line wrap
 set smart_wrap
@@ -43,10 +43,10 @@ set smart_wrap
 auto_view text/html
 
 # number of index lines to show
-set pager_index_lines = 6
+set pager_index_lines = "6"
 
 # number of context lines to show
-set pager_context = 4
+set pager_context = "4"
 
 # stop at the end of a message
 set pager_stop
@@ -58,53 +58,53 @@ set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
 alternative_order text/plain text/enriched text/html
 
 # do not message myself in reply-to-all
-set metoo="no"
+set metoo = "no"
 
 # include msg in reply
-set include="yes"
+set include = "yes"
 
 # do not bother me for recipients and subject in re/fw
-set fast_reply="yes"
+set fast_reply = "yes"
 
 # ask for cc (sometimes useful)
-set askcc="yes"
+set askcc = "yes"
 
 # my signature
-set signature=~/.dotfiles/mutt/mutt.signature
+set signature = "~/.dotfiles/mutt/mutt.signature"
 
 # caching for large mailboxes
 set header_cache = "~/.dotfiles/mutt/cache/headers"
 set message_cachedir = "~/.dotfiles/mutt/cache/messages/"
 
 # GPG base settings
-set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
-set pgp_verify_command="gpg --no-verbose --batch --output - --verify %s %f"
-set pgp_decrypt_command="gpg --passphrase-fd 0 --no-verbose --batch --output - %f"
-set pgp_sign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
-set pgp_clearsign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
-set pgp_encrypt_only_command="pgpewrap gpg --batch --quiet --verbose --output - --encrypt --textmode --armor --always-trust -- -r %r -- %f"
-set pgp_encrypt_sign_command="pgpewrap gpg --passphrase-fd 0 --batch --quiet --verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust -- -r %r -- %f"
-set pgp_import_command="gpg --no-verbose --import -v %f"
-set pgp_export_command="gpg --no-verbose --export --armor %r"
-set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
-set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r"
-set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r"
+set pgp_decode_command = "gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
+set pgp_verify_command = "gpg --no-verbose --batch --output - --verify %s %f"
+set pgp_decrypt_command = "gpg --passphrase-fd 0 --no-verbose --batch --output - %f"
+set pgp_sign_command = "gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+set pgp_clearsign_command = "gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
+set pgp_encrypt_only_command = "pgpewrap gpg --batch --quiet --verbose --output - --encrypt --textmode --armor --always-trust -- -r %r -- %f"
+set pgp_encrypt_sign_command = "pgpewrap gpg --passphrase-fd 0 --batch --quiet --verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust -- -r %r -- %f"
+set pgp_import_command = "gpg --no-verbose --import -v %f"
+set pgp_export_command = "gpg --no-verbose --export --armor %r"
+set pgp_verify_key_command = "gpg --no-verbose --batch --fingerprint --check-sigs %r"
+set pgp_list_pubring_command = "gpg --no-verbose --batch --with-colons --list-keys %r"
+set pgp_list_secring_command = "gpg --no-verbose --batch --with-colons --list-secret-keys %r"
 
 # always reply encrypted to gpg mails
-set pgp_replyencrypt="yes"
+set pgp_replyencrypt = "yes"
 
 # always sign mails
 set pgp_autosign
-set pgp_timeout=1800
+set pgp_timeout = "1800"
 
 # for copy paste to every account
-# set pgp_sign_as=0x*****
+# set pgp_sign_as = "0x*****"
 
 ################################################################################
 # SIDEBAR SETTINGS______________________________________________________________
 
-set sidebar_visible="yes"
-set sidebar_width="20"
+set sidebar_visible = "yes"
+set sidebar_width = "20"
 
 # keybindings
 bind index \eK sidebar-prev
@@ -158,16 +158,16 @@ folder-hook . "set index_format=\"[%Z] %D %50.50f #%M %s\""
 folder-hook +Sent "set index_format=\"[%Z] %D %50.50r #%M %s\""
 
 # sort it
-set sort_aux="reverse-last-date-received"
+set sort_aux = "reverse-last-date-received"
 
 # sort other way round
-set sort="threads"
+set sort = "threads"
 
 # strict threads or not
-set strict_threads="no"
+set strict_threads = "no"
 
 # i want subjects even in threads
-set hide_thread_subject="no"
+set hide_thread_subject = "no"
 
 # new message should stay new
 unset mark_old
@@ -176,8 +176,8 @@ unset mark_old
 # PAGER (MESSAGE VIEW) SETTINGS_________________________________________________
 
 # forward attachments too
-set mime_forward=yes
-set mime_forward_rest=yes
+set mime_forward = "yes"
+set mime_forward_rest = "yes"
 
 # keybindings PAGER
 bind pager k        previous-line # scroll inside the message rather than the index
