@@ -1,0 +1,28 @@
+# vim: set ft=config
+
+# imap settings
+set imap_user="example@example.org"
+set imap_authenticators="login"
+set imap_keepalive="300"
+
+# smtp settings
+set smtp_url="smtps://example@exmample.org@mail.example.org:465/"
+
+# define folders
+set spoolfile="imaps://mail.example.org:993/"
+set folder="imaps://mail.example.org:993/"
+set record="imaps://mail.example.org:993/Sent"
+set postponed="imaps://mail.example.org:993/Drafts"
+
+# configure how messages look like
+set realname = ""
+set from="example@example.org"
+set edit_headers="yes"
+
+# gpg
+set pgp_sign_as=0x00000000
+
+# source global settings
+source ~/.dotfiles/mutt/mutt.muttrc
+
+# set mail_check=30
