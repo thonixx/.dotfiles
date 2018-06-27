@@ -31,7 +31,7 @@ set sleep_time = "0"
 set connect_timeout = "5"
 
 # poll more often
-set timeout = "3"
+set timeout = "15"
 
 # use starttls
 set ssl_starttls = "yes"
