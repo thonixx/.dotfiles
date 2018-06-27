@@ -31,13 +31,16 @@ set sleep_time = "0"
 set connect_timeout = "5"
 
 # poll more often
-set timeout = "15"
+set timeout = "10"
 
 # use starttls
 set ssl_starttls = "yes"
 
 # nicer looking line wrap
-set smart_wrap
+set smart_wrap = "yes"
+
+# do not print makers at wrapped lines
+set markers = "no"
 
 # handle html mails
 auto_view text/html
@@ -49,7 +52,7 @@ set pager_index_lines = "6"
 set pager_context = "4"
 
 # stop at the end of a message
-set pager_stop
+set pager_stop = "yes"
 
 # parse for other quote signs
 set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
@@ -76,7 +79,7 @@ set signature = "~/.dotfiles/mutt/mutt.signature"
 set header_cache = "~/.dotfiles/mutt/cache/headers"
 set message_cachedir = "~/.dotfiles/mutt/cache/messages/"
 
-# GPG base settings
+# GPG basic settings
 set pgp_decode_command = "gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
 set pgp_verify_command = "gpg --no-verbose --batch --output - --verify %s %f"
 set pgp_decrypt_command = "gpg --passphrase-fd 0 --no-verbose --batch --output - %f"
@@ -90,11 +93,17 @@ set pgp_verify_key_command = "gpg --no-verbose --batch --fingerprint --check-sig
 set pgp_list_pubring_command = "gpg --no-verbose --batch --with-colons --list-keys %r"
 set pgp_list_secring_command = "gpg --no-verbose --batch --with-colons --list-secret-keys %r"
 
+# key sort
+set pgp_sort_keys = "trust"
+
+# encrypt postponed
+set postpone_encrypt = "yes"
+
 # always reply encrypted to gpg mails
 set pgp_replyencrypt = "yes"
 
 # always sign mails
-set pgp_autosign
+set pgp_autosign = "yes"
 set pgp_timeout = "1800"
 
 # for copy paste to every account
@@ -170,7 +179,7 @@ set strict_threads = "no"
 set hide_thread_subject = "no"
 
 # new message should stay new
-unset mark_old
+set mark_old = "no"
 
 ################################################################################
 # PAGER (MESSAGE VIEW) SETTINGS_________________________________________________
