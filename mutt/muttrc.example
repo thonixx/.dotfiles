@@ -21,6 +21,8 @@ set edit_headers="yes"
 
 # gpg
 set pgp_sign_as=0x00000000
+set pgp_encrypt_only_command="pgpewrap gpg --batch --quiet --no-verbose --output - --encrypt --textmode --armor --always-trust --encrypt-to 0x00000000 -- -r %r -- %f"
+set pgp_encrypt_sign_command="pgpewrap gpg --passphrase-fd 0 --batch --quiet --no-verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust --encrypt-to 0x00000000 -- -r %r -- %f"
 
 # source global settings
 source ~/.dotfiles/mutt/mutt.muttrc
