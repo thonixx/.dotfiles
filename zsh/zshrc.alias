@@ -95,6 +95,7 @@ alias megapdlist='megacli -pdlist -a0 | grep -e state -e Enclosure -e Slot'
 alias megagrep='megacli -h | grep -i'
 alias lastcommit="for f in \$(git branch | awk '{print \$NF}'); do echo +++; echo \$f; echo +++; git log -1 \$f; done"
 alias calc="galculator"
+alias gba='git branch -av'
 
 # global aliases
 alias -g G="| grep"
