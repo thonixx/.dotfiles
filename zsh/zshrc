@@ -832,10 +832,18 @@ LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 
 # include the awesome and colorful zsh highlighting
 source ~/.dotfiles/zsh/highlighting/zsh-syntax-highlighting.zsh
+
 # tweak the highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
 ZSH_HIGHLIGHT_STYLES[globbing]='fg=magenta'
 ZSH_HIGHLIGHT_STYLES[cursor]='bg=grey' # bug with cursor color on gnome shell
+
 # pattern highlight
 ZSH_HIGHLIGHT_PATTERNS+=('sudo' 'fg=white,bold,bg=red')
 ZSH_HIGHLIGHT_PATTERNS+=('rm -*' 'fg=white,bold,bg=red')
+
+# source local config after everything else (testing or so, too)
+if [ -f ~/.dotfiles/zsh/zshrc.local.after ]
+then
+    source ~/.dotfiles/zsh/zshrc.local.after
+fi
