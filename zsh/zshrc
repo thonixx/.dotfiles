@@ -250,7 +250,20 @@ function wtime {
     # get current status
     current_timer_status="$(curl -s --connect-timeout 2 -H X-Auth-Token:$HAKUNA_TOKEN 'https://pixelwolf.hakuna.ch/api/v1/timer' | tr ',' '\n' | tr -d '[" ]' | grep start_time | cut -d: -f2-)"
 
-    if [ "xx$1" == "xxstop" ] && [ "$current_timer_status" != 'null' ]
+    if [ "xx$1" == "xxstatus" ]
+    then
+        # report status
+        case $current_timer_status in
+            null)
+                echo "(Hakuna) Timer not running."
+                return
+                ;;
+            *)
+                echo "(Hakuna) Timer is running."
+                return
+                ;;
+        esac
+    elif [ "xx$1" == "xxstop" ] && [ "$current_timer_status" != 'null' ]
     then
         # stop it
         curl -s --connect-timeout 2 -H X-Auth-Token:$HAKUNA_TOKEN -X PUT 'https://pixelwolf.hakuna.ch/api/v1/timer' \
