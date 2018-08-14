@@ -42,6 +42,9 @@ set smart_wrap = "yes"
 # do not print makers at wrapped lines
 set markers = "no"
 
+# handle ics files
+auto_view text/calendar
+
 # handle html mails
 auto_view text/html
 
@@ -58,7 +61,7 @@ set pager_stop = "yes"
 set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
 
 # order the other way round
-alternative_order text/plain text/enriched text/html
+alternative_order text/calendar text/plain text/enriched text/html
 
 # do not message myself in reply-to-all
 set metoo = "no"

@@ -1,5 +1,5 @@
 text/html; lynx -display_charset='utf8' -dump %s; copiousoutput; nametemplate=%s.html
-# application/pdf; pdftohtml -q -stdout %s | w3m -T text/html; copiousoutput
+application/pdf; open %s & sleep 2
+text/calendar; ~/.dotfiles/mutt/scripts/icalshow; copiousoutput;
 # following only works on mac
 image/*; open %s & sleep 2
-application/pdf; open %s & sleep 2
