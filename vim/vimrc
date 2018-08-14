@@ -76,11 +76,17 @@ autocmd BufNewFile,BufRead *.yaml set tabstop=2
 " my vim theme
 colorscheme idleFingers
 
+" adjust highlighting
+highlight ColorColumn ctermbg=137 guibg=green
+
 " with which keys to wrap text
 set whichwrap+=<,>,h,l,[,]
 
 " foldlevel setting
 set foldlevel=999
+
+" set format options
+set fo=ctqnM1
 
 " non-printable chars ..
 set list
@@ -246,6 +252,6 @@ endwhile
 endfunction
 
 " Command to be called.
-com Fip :set tw=0<Bar>:%call FirstInPost()
+com Fip :set tw=80<Bar>:set colorcolumn=+1<Bar>:set fo=ctqnM1<Bar>:highlight ColorColumn ctermbg=137 guibg=green<Bar>:%call FirstInPost()
 autocmd BufRead mutt* execute 'Fip'
 
