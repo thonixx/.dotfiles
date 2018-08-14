@@ -38,7 +38,7 @@ foreach my $year (keys(%{$ical->{events}}))
             printf "      %s-%s (%s)\n\n", $termin->{DTSTART}->strftime('%a %e. %b %Y %k:%M'), $termin->{DTEND}->strftime('%k:%M'), $termin->{DTSTART}->time_zone_short_name;
             print "   Where:\n";
             printf "      %s\n\n\n\n", $termin->{LOCATION}?$termin->{LOCATION}:'unbekannt';
-            printf "   Organisator:\n      %s\n\n", $termin->{ORGANIZER}{CN};
+            printf "   Organizer:\n      %s\n\n", $termin->{ORGANIZER}{CN};
             print "   Invitees:\n";
             foreach my $teil (@{$termin->{ATTENDEE}})
             {
