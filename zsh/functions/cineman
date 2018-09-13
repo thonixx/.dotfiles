@@ -39,7 +39,7 @@ function cineman(){
     CINEMAN_URL="https://www.cineman.ch/${movie/\//}"
 
     # look for runtimes
-    echo "Looking for runtimes for the next $days..."
+    echo "Looking for runtimes for the next $days days..."
     i=0
     while true
     do
