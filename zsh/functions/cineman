@@ -2,6 +2,7 @@ function cineman(){
 
     # for mac
     uname | grep -q Darwin && SED=gsed || SED=sed
+    uname | grep -q Darwin && DATE=gdate || DATE=date
 
     # how far in the future should we be looking for?
     days=21
@@ -47,7 +48,7 @@ function cineman(){
     i=0
     while true
     do
-        date="$(date +%Y-%m-%d -d "+$i day")"
+        date="$($DATE +%Y-%m-%d -d "+$i day")"
 
         curl -L "$(echo "$CINEMAN_URL" | $SED -r 's%/+$%%g')/cinema.html?date=$date" 2> /dev/null \
             | grep -q "showtimes-list" \
