@@ -1,0 +1,57 @@
+function cineman(){
+    # how far in the future should we be looking for?
+    days=21
+
+    # ask user for his movie wish
+    read '?Search movie: ' search
+    search="${search// /%20}"
+
+    # get the choices from cineman website
+    choices=( $(curl -s "https://www.cineman.ch/en/finder/movie/?q=$search" \
+        | sed -n '/div class="teaser-block"/,/Page /p' \
+        | grep '<a class="link-block"' \
+        | grep -Eom10 'href="[^"]*' \
+        | sed 's/href="//' \
+        | sort -nrt/ -k3 \
+        | tr "\n" ' '))
+
+    # check if there are any choices
+    test "x$choices" = "x" && { echo "Nothing found, exiting."; exit 1; }
+
+    # ask for movie
+    echo "Which movie?"
+    echo
+
+    # let user decide
+    PS3="Choose wisely: "
+    select opt in "${choices[@]}"; do
+
+        case "$REPLY" in
+
+        * ) test ! -z "$opt" && echo -e "\nMovie chosen: $opt" && movie="$opt" && break || echo "No valid option. Try again.";;
+
+        esac
+
+    done
+    echo
+
+    # build cineman url
+    CINEMAN_URL="https://www.cineman.ch/${movie/\//}"
+
+    # look for runtimes
+    echo "Looking for runtimes for the next $days..."
+    i=0
+    while true
+    do
+        date="$(date +%Y-%m-%d -d "+$i day")"
+
+        curl -L "$(echo "$CINEMAN_URL" | sed -r 's%/+$%%g')/cinema.html?date=$date" 2> /dev/null \
+            | grep -q "showtimes-list" \
+                && echo "$date: RUNNING" \
+                || echo "$date: not on show"
+
+        let i+=1
+
+        test "$i" -gt $days && break
+    done
+}
