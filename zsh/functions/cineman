@@ -1,4 +1,8 @@
 function cineman(){
+
+    # for mac
+    uname | grep -q Darwin && SED=gsed || SED=sed
+
     # how far in the future should we be looking for?
     days=21
 
@@ -8,10 +12,10 @@ function cineman(){
 
     # get the choices from cineman website
     choices=( $(curl -s "https://www.cineman.ch/en/finder/movie/?q=$search" \
-        | sed -n '/div class="teaser-block"/,/Page /p' \
+        | $SED -n '/div class="teaser-block"/,/Page /p' \
         | grep '<a class="link-block"' \
         | grep -Eom10 'href="[^"]*' \
-        | sed 's/href="//' \
+        | $SED 's/href="\/en\/movie\///' \
         | sort -nrt/ -k3 \
         | tr "\n" ' '))
 
@@ -36,7 +40,7 @@ function cineman(){
     echo
 
     # build cineman url
-    CINEMAN_URL="https://www.cineman.ch/${movie/\//}"
+    CINEMAN_URL="https://www.cineman.ch/en/movie/$movie"
 
     # look for runtimes
     echo "Looking for runtimes for the next $days days..."
@@ -45,7 +49,7 @@ function cineman(){
     do
         date="$(date +%Y-%m-%d -d "+$i day")"
 
-        curl -L "$(echo "$CINEMAN_URL" | sed -r 's%/+$%%g')/cinema.html?date=$date" 2> /dev/null \
+        curl -L "$(echo "$CINEMAN_URL" | $SED -r 's%/+$%%g')/cinema.html?date=$date" 2> /dev/null \
             | grep -q "showtimes-list" \
                 && echo "$date: RUNNING" \
                 || echo "$date: not on show"
