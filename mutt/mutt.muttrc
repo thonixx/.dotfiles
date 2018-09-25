@@ -105,6 +105,21 @@ set postpone_encrypt = "yes"
 # always reply encrypted to gpg mails
 set pgp_replyencrypt = "yes"
 
+# always encrypt whereever possible
+set crypt_opportunistic_encrypt = "yes"
+
+# use long ids
+set pgp_long_ids = "yes"
+
+# reply signed
+set crypt_replysign = "yes"
+
+# don't show unusable
+set pgp_show_unusable = "no"
+
+# use agent
+set pgp_use_gpg_agent = "yes"
+
 # always sign mails
 set pgp_autosign = "yes"
 set pgp_timeout = "1800"
