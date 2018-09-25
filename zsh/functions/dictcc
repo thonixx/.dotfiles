@@ -1,0 +1,6 @@
+function dictcc() {
+    # for mac
+    uname | grep -q Darwin && SED=gsed || SED=sed
+
+    w3m -dump "http://pocket.dict.cc?s=\"$*\"" | $SED -r -e '/^([ ]{5,}.*)$/d' -e '1,2d' -e '/^$/d' -e '/^\[/d'
+}

@@ -1,0 +1,27 @@
+# test smtp login
+# scripted by github.com/thonixx
+function smtplogin {
+    echo -n "Server: "
+    read server
+    echo ""
+
+    echo -n "Username: "
+    read user
+
+    echo -n "Password: "
+    read pass
+    echo ""
+
+    user64=$(echo -n "$user" | base64)
+    pass64=$(echo -n "$pass" | base64)
+
+    (echo "helo test"
+    sleep 2
+    echo "AUTH LOGIN"
+    sleep 2
+    echo "$user64"
+    sleep 2
+    echo "$pass64"
+    sleep 2
+    echo "QUIT") | netcat $server 25
+}

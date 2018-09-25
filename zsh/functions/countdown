@@ -1,0 +1,14 @@
+# countdown function
+# source http://ubuntuforums.org/showpost.php?p=9817891&postcount=9
+function countdown() {
+    [[ -z $1 ]] && seconds=60 || seconds=$1
+    since=$(date +%s)
+    remaining=$seconds
+    while (( remaining >= 0 ))
+    do
+        printf "\r%-10d" $remaining
+        sleep 0.5
+        remaining=$(( seconds - $(date +%s) + since ))
+    done
+    echo ""
+}

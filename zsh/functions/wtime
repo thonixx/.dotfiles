@@ -1,0 +1,49 @@
+# work time logging
+function wtime {
+    # check auth token
+    test ! "$HAKUNA_TOKEN" && { echo 'Need $HAKUNA_TOKEN'; return; }
+
+    # get current status
+    current_timer_status="$(curl -s --connect-timeout 2 -H X-Auth-Token:$HAKUNA_TOKEN 'https://pixelwolf.hakuna.ch/api/v1/timer' | tr ',' '\n' | tr -d '[" ]' | grep start_time | cut -d: -f2-)"
+
+    if [ "xx$1" == "xxstatus" ]
+    then
+        # report status
+        case $current_timer_status in
+            null)
+                echo "(Hakuna) Timer not running."
+                return
+                ;;
+            *)
+                echo "(Hakuna) Timer is running."
+                return
+                ;;
+        esac
+    elif [ "xx$1" == "xxstop" ] && [ "$current_timer_status" != 'null' ]
+    then
+        # stop it
+        curl -s --connect-timeout 2 -H X-Auth-Token:$HAKUNA_TOKEN -X PUT 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+            | tr ',' '\n' | tr -d '[" ]' | grep end_time | cut -d: -f 2- | xargs -n1 echo "(Hakuna) Work timer ended at"
+        return
+    elif [ "xx$1" == "xxstop" ] && [ "$current_timer_status" == 'null' ]
+    then
+        # can't stop.. still running
+        # echo "(Hakuna) Timer not running, therefore nothing to stop."
+        return
+    fi
+
+    # decide whether to start or just leave it
+    case $current_timer_status in
+        null)
+            # start it
+            curl -s --connect-timeout 2 -H X-Auth-Token:$HAKUNA_TOKEN -X POST -H "Content-Type: application/json; charset=utf-8" -d '{"time_type_id": 1}' 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+                | tr ',' '\n' | tr -d '[" ]' | grep start_time | cut -d: -f 2- | xargs -n1 echo "(Hakuna) Work timer started at"
+            return
+            ;;
+        *)
+            # already running
+            # echo "(Hakuna) Timer already running, type 'wtime stop' to stop it."
+            return
+            ;;
+    esac
+}

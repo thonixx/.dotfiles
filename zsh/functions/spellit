@@ -1,0 +1,31 @@
+# spellit
+# spell everything in german
+function spellit() {
+    input="$(echo $@ | sed 's/\./ /g')"
+    $(which bash) -c "echo -n \"$input\" | while IFS= read -r -n1 c; do [ \"\$c\" ] && echo -n \"\$c \"; [ \"\$c\" ] && echo 'anton
+berta
+cäsar
+dora
+emil
+friedrich
+gustav
+heinrich
+ida
+julius
+kaufmann
+ludwig
+martha
+nordpol
+otto
+paula
+quelle
+richard
+samuel
+theodor
+ulrich
+viktor
+wilhelm
+xaver
+ypsilon
+zacharias' | grep -iE \"^\$c\" || echo \"\$c\" | head -n1; done"
+}

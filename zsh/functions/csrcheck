@@ -1,0 +1,21 @@
+# check certificate request <> private key
+csrcheck() {
+    # check variables
+    if [ ! "$1" ] || [ ! "$2" ]
+    then
+        echo '$1 = csr'
+        echo '$2 = key'
+        return
+    fi
+
+    csr="$(openssl req -noout -modulus -in "$1" 2>/dev/null | openssl md5)"
+    key="$(openssl rsa -noout -modulus -in "$2" 2>/dev/null | openssl md5)"
+
+    # check with openssl command and hashing
+    if [ "$csr" == "$key" ]
+    then
+        echo '  Yay, everything okay.'
+    else
+        echo '  Sorry, it does not match.'
+    fi
+}

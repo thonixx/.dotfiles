@@ -1,0 +1,37 @@
+# test mail delivery
+# scripted by github.com/thonixx
+function maildelivery {
+    domain=$(echo "$1" | awk -F@ '{print $2}')
+    mailserver=$(dig mx $domain +short | awk {'print $2'} | head -n 1)
+
+    # test if something is in the output
+    if [ -z "$mailserver" ]
+    then
+        echo "There was no mailserver or no MX record. :("
+        echo "Trying A record of $domain."
+        mailserver=$(dig a $domain +short | awk {'print $1'} | head -n 1)
+        if [ -z "$mailserver" ]
+        then
+            echo "Also no A record found."
+            return
+        fi
+    fi
+
+    # custom server to connect to
+    if [ ! -z "$2" ]
+    then
+        mailserver="$2"
+    fi
+
+    echo "Email: $1"
+    echo "Server: $mailserver"
+    echo ""
+
+    (echo "helo $(hostname -f)"
+    sleep 2
+    echo "MAIL FROM: <info@$(hostname -f)>"
+    sleep 2
+    echo "RCPT TO:<$1>"
+    sleep 2
+    echo "QUIT") | netcat $mailserver 25
+}
