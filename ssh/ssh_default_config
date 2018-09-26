@@ -1,0 +1,8 @@
+Host *
+    Include ~/.dotfiles/ssh/before_*[!~]
+
+Host *
+    Include ~/.dotfiles/ssh.local/*[!~]
+
+Host *
+    Include ~/.dotfiles/ssh/after_*[!~]

@@ -1,0 +1,15 @@
+Host *.onion
+    ProxyCommand socat - SOCKS4A:localhost:%h:%p,socksport=9050
+    ControlPath ~/.ssh/%r@%h:%p.s
+
+Host *
+    Protocol 2
+    VisualHostKey yes
+    ControlPath ~/.ssh/%r@%h:%p.sock
+    ControlMaster auto
+    ControlPersist 300
+    ForwardX11 no
+    ForwardAgent no
+    UseRoaming no
+    # IdentityAgent /home/%u/.gnupg/S.gpg-agent.ssh
+    # VerifyHostKeyDNS yes

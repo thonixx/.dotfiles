@@ -1,0 +1,3 @@
+Host localhost
+    NoHostAuthenticationForLocalhost yes
+    VerifyHostKeyDNS no

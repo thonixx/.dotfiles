@@ -52,6 +52,14 @@ else
     mv $home/.vim $home/.vim.bak 2> /dev/null && echo ".vim backed up."
 fi
 
+# backup ssh config if file exists or unlink it
+if [ -h "$home/.ssh/config" ]
+then
+    unlink $home/.ssh/config && echo ".ssh/config is now unlinked."
+else
+    mv $home/.ssh/config $home/.ssh/config.bak 2> /dev/null && echo ".ssh/config backed up."
+fi
+
 ################################################################################
 ##### IRSSI INSTALL
 
