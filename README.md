@@ -7,15 +7,28 @@ At this stage the zsh configuration with its mods and the tmux.conf are synchron
 #### Sync
 To stay in sync I have the following cronjob activated:
 
-    */5 *  *   *   *  bash -c 'echo "$(date) - start dotfiles git" >>/tmp/git.log ; cd /home/user/.dotfiles/; git pull &> /tmp/git.log; echo "$(date) - end dotfiles git" >> /tmp/git.log'
+    */5 *  *   *   *  git -C /home/user/.dotfiles/ pull
 
-#### Zsh
-The zsh config is designed to work on 256-colours terminals, therefore install "ncurses-term" to get the colours working.
+#### git
+Local config: not available
 
-#### Tmux
-The tmux config applies to version 1.8 which is currently only available in Ubuntu 14.04 LTS.
-I compiled tmux by myself with version 1.8 to get some config tweaks working.
-Compiling tmux is very simple and basically just requires "configure" and "make" - just give it a try ;-).
+#### irssi
+Local config: not available
 
-#### Vim
+#### mutt
+Local config: not available
+
+#### ssh / ssh.local
+Local config: ~/dotfiles/ssh.local/\*
+
+#### tmux
+The tmux config applies works from version 1.8.
+Local config: not available
+
+#### vim
 In the folder vim/ a file called vimrc.local can be created for testing purposes
+Local config: ~/.dotfiles/vim/vimrc.local
+
+#### zsh
+The zsh config is designed to work on 256-colours terminals, therefore install "ncurses-term" to get the colours working.
+Local config: ~/.dotfiles/zsh/zshrc.local
