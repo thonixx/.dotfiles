@@ -23,12 +23,15 @@ Local config: ~/dotfiles/ssh.local/\*
 
 #### tmux
 The tmux config applies works from version 1.8.
+
 Local config: not available
 
 #### vim
-In the folder vim/ a file called vimrc.local can be created for testing purposes
+In the folder vim/ a file called vimrc.local can be created for testing purposes.
+
 Local config: ~/.dotfiles/vim/vimrc.local
 
 #### zsh
 The zsh config is designed to work on 256-colours terminals, therefore install "ncurses-term" to get the colours working.
+
 Local config: ~/.dotfiles/zsh/zshrc.local
