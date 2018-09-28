@@ -4,47 +4,77 @@
 use strict;
 use warnings;
 
+# use custom lib
 use lib $ENV{HOME} . '/.dotfiles/mutt/scripts/libs';
-
 use iCal::Parser;
 use DateTime;
 use Encode qw(decode);
 
 my $in = decode('UTF-8', eval {local $/ = undef; <>});
 my $ical = iCal::Parser->new->parse_strings($in);
+
+# go through the year
 foreach my $year (keys(%{$ical->{events}}))
 {
-   foreach my $month (sort {$a <=> $b} keys(%{$ical->{events}->{$year}}))
-   {
-      foreach my $day (sort {$a <=> $b} keys(%{$ical->{events}->{$year}->{$month}}))
-      {
-         foreach my $termin (sort {DateTime->compare($a->{DTSTART}, $b->{DTSTART})} values(%{$ical->{events}->{$year}->{$month}->{$day}}))
-         {
-            print "\ngcal line:\n";
-            printf "   %04d%02d%02d %d:%02d-%d:%02d %s%s\n\n",
-               $termin->{DTSTART}->year,
-               $termin->{DTSTART}->month,
-               $termin->{DTSTART}->day,
-               $termin->{DTSTART}->hour,
-               $termin->{DTSTART}->minute,
-               $termin->{DTEND}->hour,
-               $termin->{DTEND}->minute,
-               $termin->{SUMMARY},
-               $termin->{LOCATION}?' ('.$termin->{LOCATION}.')':'';
-            print "Appointment:\n\n";
-            print "   What:\n";
-            printf "      %s\n\n", $termin->{SUMMARY};
-            print "   When:\n";
-            printf "      %s-%s (%s)\n\n", $termin->{DTSTART}->strftime('%a %e. %b %Y %k:%M'), $termin->{DTEND}->strftime('%k:%M'), $termin->{DTSTART}->time_zone_short_name;
-            print "   Where:\n";
-            printf "      %s\n\n\n\n", $termin->{LOCATION}?$termin->{LOCATION}:'unbekannt';
-            printf "   Organizer:\n      %s\n\n", $termin->{ORGANIZER}{CN};
-            print "   Invitees:\n";
-            foreach my $teil (@{$termin->{ATTENDEE}})
+    # go through the month
+    foreach my $month (sort {$a <=> $b} keys(%{$ical->{events}->{$year}}))
+    {
+        # go through the day
+        foreach my $day (sort {$a <=> $b} keys(%{$ical->{events}->{$year}->{$month}}))
+        {
+            # go through specific events
+            foreach my $termin (sort {DateTime->compare($a->{DTSTART}, $b->{DTSTART})} values(%{$ical->{events}->{$year}->{$month}->{$day}}))
             {
-               printf "      %s\n", $teil->{CN};
-            }
-         } ## end foreach my $termin (keys(%...
-      } ## end foreach my $day (keys(%...
-   } ## end foreach my $month (keys(%...
+                # print line for gcal
+                print "\ngcal line:\n";
+                printf "   %04d%02d%02d %d:%02d-%d:%02d %s%s\n\n",
+                    $termin->{DTSTART}->year,
+                    $termin->{DTSTART}->month,
+                    $termin->{DTSTART}->day,
+                    $termin->{DTSTART}->hour,
+                    $termin->{DTSTART}->minute,
+                    $termin->{DTEND}->hour,
+                    $termin->{DTEND}->minute,
+                    $termin->{SUMMARY},
+                    $termin->{LOCATION}?' ('.$termin->{LOCATION}.')':'';
+
+                # print human readable info
+                print "Appointment:\n\n";
+
+                # event title
+                print "   What:\n";
+                printf "      %s\n\n", $termin->{SUMMARY};
+
+                # event timing info
+                print "   When:\n";
+                printf "      %s-%s (%s)\n\n", $termin->{DTSTART}->strftime('%a %e. %b %Y %k:%M'), $termin->{DTEND}->strftime('%k:%M'), $termin->{DTSTART}->time_zone_short_name;
+
+                # event location
+                print "   Where:\n";
+                printf "      %s\n\n\n\n", $termin->{LOCATION}?$termin->{LOCATION}:'unbekannt';
+
+                # print organizer of event
+                my $organizer = $termin->{ORGANIZER}{CN};
+                unless($organizer)
+                {
+                    # replace MAILTO in value if no common name
+                    ($organizer = $termin->{ORGANIZER}{value}) =~ s/^MAILTO://;
+                }
+                printf "   Organizer:\n      %s\n\n", $organizer;
+
+                # print invitees of event
+                print "   Invitees:\n";
+                foreach my $teil (@{$termin->{ATTENDEE}})
+                {
+                    my $attendee = $teil->{CN};
+                    unless($attendee)
+                    {
+                        # replace MAILTO in value if no common name
+                        ($attendee = $teil->{value}) =~ s/^MAILTO://;
+                    }
+                    printf "      %s\n", $attendee;
+                }
+            } ## end foreach my $termin (keys(%...
+        } ## end foreach my $day (keys(%...
+    } ## end foreach my $month (keys(%...
 } ## end foreach my $year (keys(%...
