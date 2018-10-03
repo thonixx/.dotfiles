@@ -4,7 +4,8 @@
 ##### CONFIG
 
 # define directory where all files are stored
-dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+SCRIPT_NAME="${0##*/}"
+SCRIPT_PWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # check for env var HOME or assume /home/USER
 if [ "$HOME" ]
@@ -17,82 +18,76 @@ fi
 ################################################################################
 ##### PREPARATIONS (backup, move, etc)
 
-# path to zshrc configuration
-zshrc="$home/.zshrc"
+function backup(){
 
-# backup zshrc if file exists or unlink it
-if [ -h "$zshrc" ]
-then
-    unlink $zshrc && echo ".zshrc is now unlinked."
-else
-    mv $zshrc "$zshrc".bak 2> /dev/null && echo ".zshrc backed up."
-fi
+    # backup config if file exists or unlink it
+    config="$1"
+    path="$home/$config"
 
-# backup tmuxconf if file exists or unlink it
-if [ -h "$home/.tmux.conf" ]
-then
-    unlink $home/.tmux.conf && echo ".tmux.conf is now unlinked."
-else
-    mv $home/.tmux.conf $home/.tmux.conf.bak 2> /dev/null && echo ".tmux.conf backed up."
-fi
+    # do the magic
+    if [ -h "$path" ]
+    then
+        # remove symlink
+        rm "$path" && echo "$config: symlink removed"
+    elif [ -e "$path" ]
+    then
+        # backup config
+        mv "$path" "$path.bak" && echo "$config: backup done"
+    else
+        # do nothing
+        echo "$config: nothing to do, continuing"
+    fi
+}
 
-# backup vim if file exists or unlink it
-if [ -h "$home/.vimrc" ]
-then
-    unlink $home/.vimrc && echo ".vimrc is now unlinked."
-else
-    mv $home/.vimrc $home/.vimrc.bak 2> /dev/null && echo ".vimrc backed up."
-fi
-
-# backup vim folder if file exists or unlink it
-if [ -h "$home/.vim" ]
-then
-    unlink $home/.vim && echo ".vim is now unlinked."
-else
-    mv $home/.vim $home/.vim.bak 2> /dev/null && echo ".vim backed up."
-fi
-
-# backup ssh config if file exists or unlink it
-if [ -h "$home/.ssh/config" ]
-then
-    unlink $home/.ssh/config && echo ".ssh/config is now unlinked."
-else
-    mv $home/.ssh/config $home/.ssh/config.bak 2> /dev/null && echo ".ssh/config backed up."
-fi
+backup .zshrc
+backup .tmux.conf
+backup .vimrc
+backup .vim
+backup .ssh/config
+backup .gitconfig
 
 ################################################################################
-##### IRSSI INSTALL
+##### INSTALL CONFIGS
 
-# backup irssi if folder exists or unlink it
-if [ -h "$home/.irssi" ]
-then
-    unlink $home/.irssi && echo ".irssi is now unlinked."
-else
-    mv $home/.irssi $home/.irssi.bak 2> /dev/null && echo ".irssi backed up."
-fi
+function putconfig(){
+    # arguments
+    source="$SCRIPT_PWD/$1"
+    target="$2"
 
-################################################################################
-##### ZSH INSTALL
+    # link it
+    config="$(basename $target)"
+    test -e "$source" && ln -s "$source" "$target" && echo "$config: installed"
+}
 
-# define directory where zsh is stored
-dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+# irssi
+putconfig irssi "$home/.irssi"
 
-# install new config
-echo ""
-echo "beginning with installation:"
+# tmux
+putconfig tmux/tmux.conf "$home/.tmux.conf"
 
 # link zshrc
-ln -s $dir/zsh/zshrc $zshrc && echo ".zshrc is now installed"
+putconfig zsh/zshrc "$home/.zshrc"
 
-# link irssi directory
-ln -s $dir/irssi $home/.irssi && echo ".irssi is now installed"
+# link vim
+putconfig vim "$home/.vim"
 
-# link tmux.conf
-if [ -f "$dir/tmux.conf.local" ]
+# link vimrc
+putconfig vim/vimrc "$home/.vimrc"
+
+################################################################################
+##### POST INSTALL STUFF
+
+# modify tlib dir option
+if [[ -z "$(grep -A 3 tlib.git .git/config | grep "ignore = dirty")" ]]
 then
-    ln -s $dir/tmux/tmux.conf.local $home/.tmux.conf && echo ".tmux.conf.local is now installed"
-else
-    ln -s $dir/tmux/tmux.conf $home/.tmux.conf && echo ".tmux.conf is now installed"
+    sed -i.bak 's/tlib.git$/tlib.git\
+    ignore = dirty/g' .git/config && echo "added ignore option to tlib submodule"
+fi
+
+# link dotfiles folder
+if [ ! -d "$home/.dotfiles" ]
+then
+    ln -s $SCRIPT_PWD $home/.dotfiles && echo ".dotfiles folder installed"
 fi
 
 ################################################################################
@@ -104,14 +99,6 @@ gitversion="$(git --version | grep -Eo "\ [1-9]\.[0-9]" | sed 's/\ //')"
 # only append gpg encrypted content if not already there
 if [[ -z "$(grep -s email ~/.gitconfig)" ]]
 then
-    # backup gitconfig if file exists or unlink it
-    if [ -h "$home/.gitconfig" ]
-    then
-        unlink $home/.gitconfig && echo ".gitconfig is now unlinked."
-    else
-        mv $home/.gitconfig $home/.gitconfig.bak 2> /dev/null && echo ".gitconfig backed up."
-    fi
-
     # ask whether use personal or work settings
     echo -n "type 'personal' or 'work' and press enter: "
     read env
@@ -131,9 +118,9 @@ then
             ;;
         esac
         # decrypt and save it
-        gpg < $dir/git/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is now installed"
+        gpg < $SCRIPT_PWD/git/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is now installed"
         # append gitconfig content
-        cat $dir/git/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
+        cat $SCRIPT_PWD/git/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
     fi
 fi
 
@@ -143,26 +130,6 @@ then
     # push setting not supported, so removing it
     sed -i '/\[push\]/d;/default\ =\ /d;' ~/.gitconfig
     echo "removed push default setting due to low version"
-fi
-
-################################################################################
-##### VIM INSTALL
-
-ln -s $dir/vim $home/.vim && echo ".vim folder installed"
-ln -s $dir/vim/vimrc $home/.vimrc && echo ".vimrc installed"
-if [[ -z "$(grep -A 3 tlib.git .git/config | grep "ignore = dirty")" ]]
-then
-    sed -i.bak 's/tlib.git$/tlib.git\
-    ignore = dirty/g' .git/config && echo "added ignore option to tlib submodule"
-fi
-
-################################################################################
-##### LINK DOTFILES FOLDER
-
-# link dotfiles folder
-if [ ! -d "$home/.dotfiles" ]
-then
-    ln -s $dir $home/.dotfiles && echo ".dotfiles folder installed"
 fi
 
 ################################################################################
@@ -181,17 +148,9 @@ then
     defaults write .GlobalPreferences com.apple.scrollwheel.scaling -1
     defaults write .GlobalPreferences com.apple.mouse.scaling -1
 fi
-
-################################################################################
-##### END MAC THINGS
-
 echo
 
 # hint about cronjob
 echo "How about adding a cronjob to stay in sync?"
-echo "*/5 *  *   *   *  bash -c 'git -C $( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd ) pull'"
+echo "*/5 *  *   *   *  bash -c 'git -C $SCRIPT_PWD pull'"
 echo
-
-# end script
-echo "vim should be ready to use. maybe install the 256 color ability for your terminal (ncurses-term)."
-echo "script ended"
