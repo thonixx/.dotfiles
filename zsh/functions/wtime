@@ -47,3 +47,5 @@ function wtime {
             ;;
     esac
 }
+
+# vim: ft=zsh

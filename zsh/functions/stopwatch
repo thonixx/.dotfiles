@@ -101,3 +101,5 @@ function stopwatch () {
         # startdot=$(if [ "$startdot" -lt "$maxdots" ]; then expr $startdot + 1; else echo "1"; fi)
     done
 }
+
+# vim: ft=zsh

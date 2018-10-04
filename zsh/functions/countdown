@@ -12,3 +12,5 @@ function countdown() {
     done
     echo ""
 }
+
+# vim: ft=zsh

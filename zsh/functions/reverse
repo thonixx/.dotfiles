@@ -98,3 +98,5 @@ reverse() {
         fi
     fi
 }
+
+# vim: ft=zsh

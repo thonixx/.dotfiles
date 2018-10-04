@@ -29,3 +29,5 @@ xaver
 ypsilon
 zacharias' | grep -iE \"^\$c\" || echo \"\$c\" | head -n1; done"
 }
+
+# vim: ft=zsh

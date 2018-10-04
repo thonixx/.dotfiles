@@ -19,3 +19,5 @@ csrcheck() {
         echo '  Sorry, it does not match.'
     fi
 }
+
+# vim: ft=zsh

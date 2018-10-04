@@ -35,3 +35,5 @@ function maildelivery {
     sleep 2
     echo "QUIT") | netcat $mailserver 25
 }
+
+# vim: ft=zsh

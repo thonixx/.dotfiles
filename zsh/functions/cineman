@@ -60,3 +60,5 @@ function cineman(){
         test "$i" -gt $days && break
     done
 }
+
+# vim: ft=zsh

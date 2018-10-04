@@ -4,3 +4,5 @@ function dictcc() {
 
     w3m -dump "http://pocket.dict.cc?s=\"$*\"" | $SED -r -e '/^([ ]{5,}.*)$/d' -e '1,2d' -e '/^$/d' -e '/^\[/d'
 }
+
+# vim: ft=zsh

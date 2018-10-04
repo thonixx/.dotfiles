@@ -13,3 +13,5 @@ function tputcolors() {
     echo ' Reset           $(tput sgr0)'
     echo
 }
+
+# vim: ft=zsh

@@ -25,3 +25,5 @@ function smtplogin {
     sleep 2
     echo "QUIT") | netcat $server 25
 }
+
+# vim: ft=zsh
