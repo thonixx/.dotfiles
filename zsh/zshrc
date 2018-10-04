@@ -115,6 +115,7 @@ autoload -U run-help-btrfs
 autoload -U run-help-puppet
 
 # custom functions
+autoload -U gitgrep
 autoload -U cineman
 autoload -U wtime
 autoload -U stopwatch

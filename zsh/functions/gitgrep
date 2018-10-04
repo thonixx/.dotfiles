@@ -1,0 +1,9 @@
+function gitgrep(){
+    # grep query
+    grep="$@"
+
+    # go through every branch to search
+    for g in $(git branch -r | awk '{print $1}'); do echo ===== $g =====; eval git grep $grep $g; done
+}
+
+# vim: ft=zsh
