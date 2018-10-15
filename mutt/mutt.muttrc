@@ -127,6 +127,9 @@ set pgp_timeout = "1800"
 # for copy paste to every account
 # set pgp_sign_as = "0x*****"
 
+set dsn_notify = "failure,delay"
+set dsn_return = "hdrs"
+
 ################################################################################
 # SIDEBAR SETTINGS______________________________________________________________
 
