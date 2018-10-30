@@ -7,8 +7,8 @@ function cineman(){
     # how far in the future should we be looking for?
     days=21
 
-    # ask user for his movie wish
-    read '?Search movie: ' search
+    # ask user for his movie wish if no arg given
+    test "x$@" == 'x' && read '?Search movie: ' search || search="$@"
     search="${search// /%20}"
 
     # get the choices from cineman website
@@ -21,27 +21,39 @@ function cineman(){
         | tr "\n" ' '))
 
     # check if there are any choices
-    test "x$choices" = "x" && { echo "Nothing found, exiting."; exit 1; }
+    test "x$choices" = "x" && { echo "Nothing found, exiting."; return; }
 
-    # ask for movie
-    echo "Which movie?"
-    echo
+    # if there's only one choice, skip decision
+    test "${#choices}" -gt 0 \
+        && { echo "Only option: ${choices[@]}"; echo; } \
+        || {
 
-    # let user decide
-    PS3="Choose wisely: "
-    select opt in "${choices[@]}"; do
+            # ask for movie
+            echo "Which movie?"
+            echo
 
-        case "$REPLY" in
+            # let user decide
+            PS3="Choose wisely: "
+            select opt in "${choices[@]}"; do
 
-        * ) test ! -z "$opt" && echo -e "\nMovie chosen: $opt" && movie="$opt" && break || echo "No valid option. Try again.";;
+                case "$REPLY" in
 
-        esac
+                * ) test ! -z "$opt" && echo -e "\nMovie chosen: $opt" && movie="$opt" && break || echo "No valid option. Try again.";;
 
-    done
-    echo
+                esac
+
+            done
+            echo
+        }
 
     # build cineman url
     CINEMAN_URL="https://www.cineman.ch/en/movie/$movie"
+
+    # release date
+    curl -s $CINEMAN_URL \
+        | grep -A 20 "Release date" \
+        | grep -m1 '<p>' \
+        | $SED -r 's%.*<p>.*</strong> ?(.*)</p>.*%Release date: \1\n%g'
 
     # look for runtimes
     echo "Looking for runtimes for the next $days days..."
@@ -50,7 +62,7 @@ function cineman(){
     do
         date="$($DATE +%Y-%m-%d -d "+$i day")"
 
-        curl -L "$(echo "$CINEMAN_URL" | $SED -r 's%/+$%%g')/cinema.html?date=$date" 2> /dev/null \
+        curl -sL "$(echo "$CINEMAN_URL" | $SED -r 's%/+$%%g')/cinema.html?date=$date" \
             | grep -q "showtimes-list" \
                 && echo "$date: RUNNING" \
                 || echo "$date: not on show"
