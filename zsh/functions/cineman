@@ -25,7 +25,7 @@ function cineman(){
 
     # if there's only one choice, skip decision
     test "${#choices}" -eq 1 \
-        && { echo "Only option: ${choices[@]}"; echo; } \
+        && { movie="${choices[@]}"; echo "Only option: $movie"; echo; } \
         || {
 
             # ask for movie
