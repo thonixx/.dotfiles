@@ -8,7 +8,7 @@ function cineman(){
     days=21
 
     # ask user for his movie wish if no arg given
-    test "x$@" == 'x' && read '?Search movie: ' search || search="$@"
+    test "${#@}" -eq 0 && read '?Search movie: ' search || search="$@"
     search="${search// /%20}"
 
     # get the choices from cineman website
@@ -24,7 +24,7 @@ function cineman(){
     test "x$choices" = "x" && { echo "Nothing found, exiting."; return; }
 
     # if there's only one choice, skip decision
-    test "${#choices}" -gt 0 \
+    test "${#choices}" -eq 1 \
         && { echo "Only option: ${choices[@]}"; echo; } \
         || {
 
