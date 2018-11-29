@@ -39,6 +39,7 @@ function backup(){
     fi
 }
 
+backup .irssi
 backup .zshrc
 backup .tmux.conf
 backup .vimrc
