@@ -74,6 +74,9 @@ putconfig vim "$home/.vim"
 # link vimrc
 putconfig vim/vimrc "$home/.vimrc"
 
+# link ssh config
+putconfig ssh/ssh_default_config "$home/.ssh/config"
+
 ################################################################################
 ##### POST INSTALL STUFF
 
