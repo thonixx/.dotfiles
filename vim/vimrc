@@ -83,7 +83,7 @@ highlight ColorColumn ctermbg=137 guibg=green
 set whichwrap+=<,>,h,l,[,]
 
 " foldlevel setting
-set foldlevel=999
+set foldlevel=1
 
 " set format options
 set fo=ctqnM1
@@ -152,6 +152,9 @@ map <leader>to :tabonly<cr>
 map <leader>tl :-tabmove<cr>
 map <leader>tr :+tabmove<cr>
 map <leader>ta :0tabmove<cr>
+
+" fold with space
+map <Space> za
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
