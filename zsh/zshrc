@@ -327,7 +327,7 @@ function precmd() {
     RPROMPT='[%*]'
 
     # TMUX <3 stuff
-    test ! -z "$TMUX" && local parsetmux="$(tmux display-message -p 'session: #S, pane: #P')"
+    test ! -z "$TMUX" && local parsetmux="$(tmux display-message -p 'session: #S, pane: #P' 2> /dev/null)"
 
     # display tmux stuff
     if [ "$parsetmux" ]
