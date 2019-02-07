@@ -35,6 +35,12 @@ set backspace=indent,start,eol
 " some clipboard magic
 set clipboard+=unnamed
 
+" simpler way of dealing with clipboard without compiling vim
+" to xclip
+map <F7> :w !xclip<CR><CR>
+" from xclip
+map <S-F7> :r!xclip -o<CR>
+
 " paste mode with key combo
 set pastetoggle=<f4>
 
