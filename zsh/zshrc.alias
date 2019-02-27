@@ -96,6 +96,8 @@ alias megagrep='megacli -h | grep -i'
 alias lastcommit='for f in $(git branch | awk "{print \$NF}"); do echo +++; echo $f; echo +++; git log -1 $f; done'
 alias calc='galculator'
 alias gba='git branch -av'
+alias low='echo 1800 | sudo tee /sys/class/backlight/intel_backlight/brightness'
+alias bright='echo 7500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 
 # global aliases
 alias -g G='| grep'
