@@ -94,6 +94,7 @@ alias lastcommit='for f in $(git branch | awk "{print \$NF}"); do echo +++; echo
 alias calc='galculator'
 alias gba='git branch -av'
 alias low='echo 1800 | sudo tee /sys/class/backlight/intel_backlight/brightness'
+alias middle='echo 3500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias bright='echo 7500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias gstaub='git commit -m "done some vacuum cleaning
 
