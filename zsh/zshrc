@@ -243,9 +243,9 @@ then
 elif [ -s ~/.autojump/etc/profile.d/autojump.sh ]
 then
     source ~/.autojump/etc/profile.d/autojump.sh
-elif [ -f /usr/local/Cellar/autojump/22.3.0/share/autojump/autojump.zsh ]
+elif [ -f /usr/local/etc/profile.d/autojump.sh ]
 then
-    source /usr/local/Cellar/autojump/22.3.0/share/autojump/autojump.zsh
+    source /usr/local/etc/profile.d/autojump.sh
 fi
 
 ####################
