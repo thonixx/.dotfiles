@@ -98,6 +98,21 @@ alias calc='galculator'
 alias gba='git branch -av'
 alias low='echo 1800 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias bright='echo 7500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
+alias gstaub='git commit -m "done some vacuum cleaning
+
+.........................................................
+.                                                       .
+.                       __                              .
+.   |_|     _______    /  \                             .
+.    |     / ----- \__/    \                            .
+.    +-----|_-__-__|        \__ ..#@.. <-- dust & dirt  .
+.                                                       .
+.    ^        ^                                         .
+.    |        |_____ vacuum cleaner                     .
+.    |                                                  .
+.    |__ power cable                                    .
+.                                                       .
+........................................................."'
 
 # global aliases
 alias -g G='| grep'
