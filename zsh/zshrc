@@ -401,7 +401,7 @@ function precmd() {
 
     # decide which prompt
     case "$(hostname -s)" in
-        'woulfair' )
+        'woulfair' | 'woulfpad' )
             local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
         * )
             local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
