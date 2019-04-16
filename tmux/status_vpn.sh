@@ -7,7 +7,7 @@ export LC_ALL=C
 # get status of vpn
 test -f "$(which openfortivpn)" || exit 0
 
-pgrep -a openfortivpn && ifconfig ppp0 | grep -Eo "inet [^ ]*" | awk '{print $NF}' | xargs ping -c1 -W1 > /dev/null \
+pgrep -a openfortivpn > /dev/null && ifconfig ppp0 | grep -Eo "inet [^ ]*" | awk '{print $NF}' | xargs ping -c1 -W1 > /dev/null \
     && {
         colour="#[fg=black]#[bg=green]"
         fvpn="VPN up"
