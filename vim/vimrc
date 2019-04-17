@@ -39,7 +39,7 @@ set clipboard+=unnamed
 " to xclip
 map <F7> :w !xclip<CR><CR>
 " from xclip
-map <S-F7> :r!xclip -o<CR>
+map <F8> :r!xclip -o<CR>
 
 " paste mode with key combo
 set pastetoggle=<f4>
