@@ -1,5 +1,4 @@
 text/html; lynx -display_charset='utf8' -dump %s; copiousoutput; nametemplate=%s.html
-application/pdf; open %s & sleep 2
 text/calendar; ~/.dotfiles/mutt/scripts/icalshow; copiousoutput;
-image/*; xdg-open %s & sleep 10
-application/pdf; xdg-open %s & sleep 10
+image/*; ~/.dotfiles/mutt/scripts/open %s
+application/pdf; ~/.dotfiles/mutt/scripts/open %s

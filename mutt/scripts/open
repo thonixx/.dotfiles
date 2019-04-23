@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# temp dir
+temp_dir="$(mktemp -d)"
+
+# temp file
+mutt_location="$1"
+mutt_file="$(basename "$mutt_location")"
+
+# move to more temp area
+# (mutt is removing the temp file immediately which leads to problems)
+cp "$mutt_location" "$temp_dir"/"$mutt_file"
+
+# open the file
+# xdg-open "$temp_dir"/"$mutt_file" & true; disown %1
+xdg-open "$temp_dir"/"$mutt_file"
