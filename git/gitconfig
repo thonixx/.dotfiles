@@ -1,5 +1,5 @@
 [push]
-        default = simple
+        default = upstream
 [alias]
         prod = checkout production
         go = !git pull --progress -v && git commit -v && git push;
