@@ -13,4 +13,4 @@ cp "$mutt_location" "$temp_dir"/"$mutt_file"
 
 # open the file
 # xdg-open "$temp_dir"/"$mutt_file" & true; disown %1
-xdg-open "$temp_dir"/"$mutt_file"
+xdg-open "$temp_dir"/"$mutt_file" > /dev/null 2> /dev/null
