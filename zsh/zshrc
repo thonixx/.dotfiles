@@ -377,10 +377,10 @@ function precmd() {
     fi
 
     # SVN stuff
-    local svn_info="$(svn info 2> /dev/null || echo NO)"
+    local svn_info="$(which svn > /dev/null 2> /dev/null && svn info 2> /dev/null)"
 
     # display git stuff at the right side if anything detected
-    if [ "$svn_info" != "NO" ]
+    if [ "x$svn_info" != 'x' ]
     then
         local svn_info_url="$(echo "$svn_info" | grep -E "^URL" | awk -F\/ '{print $3}')"
         local svn=" %{$fg[green]%}svn://%{$fg[cyan]%}$svn_info_url%{$reset_color%}"
