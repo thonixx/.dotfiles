@@ -132,6 +132,7 @@ then
     fi
 else
     # config is there already, displaying a diff if there are changed settings from dotfiles repo
+    echo
     echo 'Here is a possible diff of your local config compared to the remote repo config:'
     diff "$home/.gitconfig" "$SCRIPT_PWD/git/gitconfig"
     echo
