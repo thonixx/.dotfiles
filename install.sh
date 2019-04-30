@@ -35,7 +35,7 @@ function backup(){
         mv "$path" "$path.bak" && echo "$config: backup done"
     else
         # do nothing
-        echo "$config: nothing to do, continuing"
+        echo "$config: no previous config, continuing"
     fi
 }
 
@@ -45,7 +45,8 @@ backup .tmux.conf
 backup .vimrc
 backup .vim
 backup .ssh/config
-backup .gitconfig
+# backup .gitconfig # should be removed/backed up
+backup .config/zathura
 
 ################################################################################
 ##### INSTALL CONFIGS
@@ -56,8 +57,8 @@ function putconfig(){
     target="$2"
 
     # link it
-    config="$(basename $target)"
-    test -e "$source" && ln -s "$source" "$target" && echo "$config: installed"
+    config="$(basename "$target")"
+    test -e "$source" && ln -s "$source" "$target" && echo "$config: linked"
 }
 
 # irssi
@@ -78,6 +79,9 @@ putconfig vim/vimrc "$home/.vimrc"
 # link ssh config
 putconfig ssh/ssh_default_config "$home/.ssh/config"
 
+# link zathura config
+putconfig zathura "$home/.config/zathura"
+
 ################################################################################
 ##### POST INSTALL STUFF
 
@@ -91,7 +95,7 @@ fi
 # link dotfiles folder
 if [ ! -d "$home/.dotfiles" ]
 then
-    ln -s $SCRIPT_PWD $home/.dotfiles && echo ".dotfiles folder installed"
+    ln -s "$SCRIPT_PWD" "$home/.dotfiles" && echo ".dotfiles folder linked"
 fi
 
 ################################################################################
@@ -122,10 +126,17 @@ then
             ;;
         esac
         # decrypt and save it
-        gpg < $SCRIPT_PWD/git/gitconfig.$type.gpg > $home/.gitconfig && echo ".gitconfig.$type is now installed"
+        gpg < "$SCRIPT_PWD/git/gitconfig.$type.gpg" > "$home/.gitconfig" && echo ".gitconfig.$type is now installed"
         # append gitconfig content
-        cat $SCRIPT_PWD/git/gitconfig >> $home/.gitconfig && echo ".gitconfig content appended"
+        cat "$SCRIPT_PWD/git/gitconfig" >> "$home/.gitconfig" && echo ".gitconfig content appended"
     fi
+else
+    # config is there already, displaying a diff if there are changed settings from dotfiles repo
+    echo 'Here is a possible diff of your local config compared to the remote repo config:'
+    diff "$home/.gitconfig" "$SCRIPT_PWD/git/gitconfig"
+    echo
+    echo 'You can decide later which settings you want to apply.'
+    echo
 fi
 
 # remove push setting for older git versions
