@@ -1,4 +1,4 @@
 text/html; lynx -display_charset='utf8' -dump %s; copiousoutput; nametemplate=%s.html
 text/calendar; ~/.dotfiles/mutt/scripts/icalshow; copiousoutput;
 image/*; ~/.dotfiles/mutt/scripts/open %s
-application/pdf; ~/.dotfiles/mutt/scripts/open %s
+application/*; ~/.dotfiles/mutt/scripts/open %s
