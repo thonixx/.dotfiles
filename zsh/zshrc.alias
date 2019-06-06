@@ -111,6 +111,7 @@ alias gstaub='git commit -m "done some vacuum cleaning
 .    |__ power cable                                    .
 .                                                       .
 ........................................................."'
+alias hardhof="curl -s 'http://restaurant-hardhof.ch/print/index.php?page=3&id=219' | sed -n '/MENU/,/ZUM MENÜ/p' | sed -r 's/(<[^>]+>)|(&nbsp;)//g'"
 
 # global aliases
 alias -g G='| grep'
