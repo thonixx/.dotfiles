@@ -36,7 +36,7 @@ function wtime {
     case $current_timer_status in
         null)
             # start it
-            curl -s --connect-timeout 2 -H X-Auth-Token:$HAKUNA_TOKEN -X POST -H "Content-Type: application/json; charset=utf-8" -d '{"time_type_id": 1}' 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+            curl -s --connect-timeout 2 -H X-Auth-Token:$HAKUNA_TOKEN -X POST -H "Content-Type: application/json; charset=utf-8" -d '{"task_id": 1}' 'https://pixelwolf.hakuna.ch/api/v1/timer' \
                 | tr ',' '\n' | tr -d '[" ]' | grep start_time | cut -d: -f 2- | xargs -n1 echo "(Hakuna) Work timer started at"
             return
             ;;
