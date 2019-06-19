@@ -71,7 +71,7 @@ alias zgrep='zgrep --color=auto'
 alias mplayer='mplayer -lavdopts threads=4' # whats that??
 alias destroy='shred -uvn 10 -z --random-source=/dev/urandom' # destroying is helpful
 alias passgen='openssl rand -base64 15'
-alias pw='pass -c'
+# alias pw='pass -c'
 alias apple='chmod +x ~/Insync/01sync/mkapple && ~/Insync/01sync/mkapple' # for my apple keyboard
 alias dusch='du -sch'
 alias l='ll'

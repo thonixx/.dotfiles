@@ -108,6 +108,8 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 zstyle ':completion:*:killall:*' command 'ps -u $USER -o command'
 # I also want to honor IPs (regarding known_hosts files especially)
 zstyle ':completion:*' use-ip true
+# pass completion for pw function
+compdef '_pass' pw
 
 # load more functions
 fpath=($fpath ~/.dotfiles/zsh/functions)
@@ -118,6 +120,7 @@ autoload -U run-help-btrfs
 autoload -U run-help-puppet
 
 # custom functions
+autoload -U pw
 autoload -U gitgrep
 autoload -U cineman
 autoload -U wtime

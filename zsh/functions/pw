@@ -1,0 +1,12 @@
+function pw(){
+    # password name var
+    pw="$1"
+
+    # show pass info
+    pass show "$1" | tail -n +2
+
+    # copy password
+    pass -c "$1"
+}
+
+# vim: ft=zsh
