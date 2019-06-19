@@ -109,7 +109,7 @@ zstyle ':completion:*:killall:*' command 'ps -u $USER -o command'
 # I also want to honor IPs (regarding known_hosts files especially)
 zstyle ':completion:*' use-ip true
 # pass completion for pw function
-compdef '_pass' pw
+compdef '_pass_complete_entries' pw
 
 # load more functions
 fpath=($fpath ~/.dotfiles/zsh/functions)

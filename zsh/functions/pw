@@ -1,4 +1,7 @@
 function pw(){
+    # unset DISPLAY
+    local unset DISPLAY
+
     # password name var
     pw="$1"
 
