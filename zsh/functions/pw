@@ -1,12 +1,32 @@
 function pw(){
-    # password name var
-    pw="$1"
+    # pass directory
+    local prefix="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 
-    # show pass info
-    pass show "$1" | tail -n +2
+    # pass timeout
+    local timeout="${PASSWORD_STORE_CLIP_TIME:-45}"
 
-    # copy password
-    pass -c "$1"
+    # password var
+    pw="$@"
+
+    # check if exact match given
+    if [[ ! -e "${prefix}/${pw}.gpg" ]]
+    then
+        # search for pass using completion helper
+        # local IFS=$'\n'
+        find -L "$prefix" -type f -not -path '*.git*' -not -name '.gpg-id' | sed -e "s#${prefix}/##" -e 's#\.gpg$##' | sort | grep -i "$pw"
+    else
+        # show pass info
+        pass show "$pw" | tail -n +2
+
+        # copy password
+        (pass -c "$pw" > /dev/null) &!
+
+        # notify user
+        notify-send "Copied password of '${pw}' to clipboard!"
+
+        # notify about restoring clipboard
+        (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
+    fi
 }
 
 # vim: ft=zsh
