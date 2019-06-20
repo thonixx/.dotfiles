@@ -118,6 +118,8 @@ fpath=($fpath ~/.dotfiles/zsh/functions)
 autoload -U run-help-git
 autoload -U run-help-btrfs
 autoload -U run-help-puppet
+autoload -U _pass_complete_entries
+autoload -U _pass_complete_entries_helper
 
 # custom functions
 autoload -U pw

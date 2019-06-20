@@ -1,0 +1,3 @@
+_pass_complete_entries () {
+            _pass_complete_entries_helper -type f
+}
