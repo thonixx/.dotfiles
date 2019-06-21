@@ -12,21 +12,33 @@ function pw(){
     if [[ ! -e "${prefix}/${pw}.gpg" ]]
     then
         # search for pass using completion helper
-        # local IFS=$'\n'
-        find -L "$prefix" -type f -not -path '*.git*' -not -name '.gpg-id' | sed -e "s#${prefix}/##" -e 's#\.gpg$##' | sort | grep -i "$pw"
-    else
-        # show pass info
-        pass show "$pw" | tail -n +2
+        pass_results="$(find -L "$prefix" -type f -not -path '*.git*' -not -name '.gpg-id' | sed -e "s#${prefix}/##" -e 's#\.gpg$##' | sort | grep -i "$pw")"
 
-        # copy password
-        (pass -c "$pw" > /dev/null) &!
+        # show results when more than one
+        if [[ "$(echo "${pass_results}" | wc -l)" -gt 1 ]]
+        then
+            echo "${pass_results}"
+            return
+        else
+            # print only result
+            pw="${pass_results}"
 
-        # notify user
-        notify-send "Copied password of '${pw}' to clipboard!"
-
-        # notify about restoring clipboard
-        (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
+            echo "${0}: Only password matching search: '${pw}'"
+            echo
+        fi
     fi
+
+    # show pass info
+    pass show "$pw" | tail -n +2
+
+    # copy password
+    (pass -c "$pw" > /dev/null) &!
+
+    # notify user
+    notify-send "Copied password of '${pw}' to clipboard!"
+
+    # notify about restoring clipboard
+    (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
 }
 
 # vim: ft=zsh
