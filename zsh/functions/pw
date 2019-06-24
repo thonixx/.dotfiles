@@ -5,15 +5,21 @@ function pw(){
     # pass timeout
     local timeout="${PASSWORD_STORE_CLIP_TIME:-45}"
 
+    # last xclip content
+    local xclip_content_before="$(xclip -o)"
+
+    # xclip command
+    local XCLIP=(xclip -selection primary -loops 1 -quiet)
+
     # password var
-    pw="$@"
+    local pw="$@"
 
     # check if exact match given
     if [[ ! -e "${prefix}/${pw}.gpg" ]]
     then
         # search for pass using completion helper
-        pass_results="$(find -L "${prefix}" -type f -not -path '*.git*' -not -name '.gpg-id' | sed -e "s#${prefix}/##" -e 's#\.gpg$##' | sort | grep -i "${pw}")"
-        no_pass_results="$(echo "${pass_results}" | grep -c .)"
+        local pass_results="$(find -L "${prefix}" -type f -not -path '*.git*' -not -name '.gpg-id' | sed -e "s#${prefix}/##" -e 's#\.gpg$##' | sort | grep -i "${pw}")"
+        local no_pass_results="$(echo "${pass_results}" | grep -c .)"
 
         # parse results
         if [[ "$no_pass_results" -gt 1 ]]
@@ -24,7 +30,7 @@ function pw(){
         elif [[ "$no_pass_results" -eq 1 ]]
         then
             # print only result
-            pw="${pass_results}"
+            local pw="${pass_results}"
 
             echo "${0}: Only password matching search: '${pw}'"
             echo
@@ -37,17 +43,34 @@ function pw(){
         fi
     fi
 
-    # show pass info
-    pass show "$pw" | tail -n +2
+    # get pass content
+    local pass_info="$(pass show "${pw}")"
 
-    # copy password
-    (pass -c "$pw" > /dev/null) &!
+    # show non confidential stuff
+    echo "${pass_info}" | tail -n +2
+
+    # copy username if it exists
+    echo "${pass_info}" | grep -qiE 'user(name)?:'
+    if [[ "$?" -eq 0 ]]
+    then
+        # notify user
+        echo
+        echo "Copying username of '${pw}' to clipboard..."
+
+        # copy username
+        echo -n "${pass_info}" | grep -iE 'user(name)?:' | cut -d: -f2- | sed 's/^\s*//' | tr -d '\n' | $XCLIP 2> /dev/null
+    fi
 
     # notify user
-    notify-send "Copied password of '${pw}' to clipboard!"
+    echo "Now copying password of '${pw}' to clipboard (only one chance to paste)!"
 
-    # notify about restoring clipboard
-    (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
+    # copy password
+    echo -n "$pass_info" | head -n1 | tr -d '\n' | $XCLIP 2> /dev/null
+
+    # restore clipboard
+    echo -n "${xclip_content_before}" | xclip -selection primary
+    echo
+    echo 'Previous clipboard restored.'
 }
 
 # vim: ft=zsh
