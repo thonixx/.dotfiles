@@ -12,19 +12,28 @@ function pw(){
     if [[ ! -e "${prefix}/${pw}.gpg" ]]
     then
         # search for pass using completion helper
-        pass_results="$(find -L "$prefix" -type f -not -path '*.git*' -not -name '.gpg-id' | sed -e "s#${prefix}/##" -e 's#\.gpg$##' | sort | grep -i "$pw")"
+        pass_results="$(find -L "${prefix}" -type f -not -path '*.git*' -not -name '.gpg-id' | sed -e "s#${prefix}/##" -e 's#\.gpg$##' | sort | grep -i "${pw}")"
+        no_pass_results="$(echo "${pass_results}" | grep -c .)"
 
-        # show results when more than one
-        if [[ "$(echo "${pass_results}" | wc -l)" -gt 1 ]]
+        # parse results
+        if [[ "$no_pass_results" -gt 1 ]]
         then
+            # print all results
             echo "${pass_results}"
             return
-        else
+        elif [[ "$no_pass_results" -eq 1 ]]
+        then
             # print only result
             pw="${pass_results}"
 
             echo "${0}: Only password matching search: '${pw}'"
             echo
+        elif [[ "$no_pass_results" -eq 0 ]]
+        then
+            # no pw match
+            echo "${0}: No password match for: '${pw}'"
+
+            return 1
         fi
     fi
 
