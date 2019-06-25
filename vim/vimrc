@@ -54,7 +54,7 @@ set showmode
 set ch=2
 
 " Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
+set so=10
 
 " autocomplete ..
 set wildmenu
@@ -111,6 +111,26 @@ set autoread
 
 " Don't redraw while executing macros (good performance config)
 set lazyredraw
+
+" underline where cursor is
+set cursorline
+hi CursorLine cterm=NONE ctermbg=52 ctermfg=white
+
+" gimme tabs
+set tabpagemax=100
+
+" colon should not be a word and should separate it
+" set iskeyword=-,@,48-57,_,192-255
+set iskeyword-=:
+
+" auto indent
+set ai
+
+" smart indent
+set si
+
+" wrap lines
+set wrap
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
