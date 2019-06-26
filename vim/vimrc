@@ -85,8 +85,14 @@ colorscheme idleFingers
 " adjust highlighting
 highlight ColorColumn ctermbg=137 guibg=green
 
+" wrap lines
+set wrap
+
 " with which keys to wrap text
 set whichwrap+=<,>,h,l,[,]
+
+" wrapped line design
+let &showbreak = '↪ '
 
 " foldlevel setting
 set foldlevel=1
@@ -98,7 +104,7 @@ set fo=ctqnM1
 set list
 
 " .. and their appearance
-set listchars=nbsp:¬,eol:¶,tab:>-,extends:»,precedes:«,trail:•
+set listchars=nbsp:␣,eol:¶,tab:>-,extends:»,precedes:«,trail:•
 
 " set line numbering
 set number
@@ -128,9 +134,6 @@ set ai
 
 " smart indent
 set si
-
-" wrap lines
-set wrap
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
