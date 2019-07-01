@@ -5,9 +5,7 @@
 export LC_ALL=C
 
 # get the ip of the default gateway
-uname | grep -q Darwin \
-    && outgoing_ip="$(netstat -rn | grep default | awk '{print $NF}' | head -n1 | xargs ifconfig | grep inet | grep -ve 127.0.0.1 -e fe80: | sed -E 's/^.*inet6? ([^ ]+).*$/\1/' | head -n1)" \
-    || outgoing_ip="$(netstat -rn | grep "^0.0.0.0" | awk '{print $NF}' | xargs -n1 ifconfig | grep inet | head -n1 | grep -Eo "inet ([0-9]{1,3}.){3}[0-9]{1,3}" | awk '{print $NF}' | head -n1)"
+outgoing_ip="$(ip route get 8.8.8.8 | head -n1 | sed -r 's/.*src ([^ ]+).*/\1/g')"
 
 # default when no IP
 test "x$outgoing_ip" == "x" && outgoing_ip="no_ip"
