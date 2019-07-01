@@ -376,7 +376,12 @@ function precmd() {
         # calculate files untracked
         local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l | tr -d " ")"
         [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}⁙ ${count}"
-        # some symbols/characters for git line:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    
+
+        # calculate stash list
+        local count="$(git stash list | wc -l)"
+        [[ "$count" -gt 0 ]] && gitline="$gitline %{$(tput bold)$fg[magenta]%}⁙ ${count}${reset_color}"
+
+        # some symbols/characters for git line:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    ¤
         # reset colors
         local gitline="${gitline}%{$reset_color%}"
     else
