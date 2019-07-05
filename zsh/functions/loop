@@ -1,0 +1,6 @@
+function loop(){
+    while sleep 1
+    do
+        eval $@
+    done
+}

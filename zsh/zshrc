@@ -136,6 +136,7 @@ autoload -U dictcc
 autoload -U reverse
 autoload -U csrcheck
 autoload -U crtcheck
+autoload -U loop
 
 # turn on interactive comments
 setopt interactivecomments
