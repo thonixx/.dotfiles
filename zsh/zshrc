@@ -76,6 +76,7 @@ promptinit
 # I love history in ZSH
 HISTSIZE=100000000
 SAVEHIST=100000000
+HISTORY_IGNORE='(rm*|sudo rm*)'
 HISTFILE=~/.zsh_history
 
 # Use modern completion system
@@ -122,6 +123,8 @@ autoload -U _pass_complete_entries
 autoload -U _pass_complete_entries_helper
 
 # custom functions
+autoload -U zshaddhistory
+autoload -U loop
 autoload -U pw
 autoload -U gitgrep
 autoload -U cineman
@@ -136,7 +139,6 @@ autoload -U dictcc
 autoload -U reverse
 autoload -U csrcheck
 autoload -U crtcheck
-autoload -U loop
 
 # turn on interactive comments
 setopt interactivecomments
