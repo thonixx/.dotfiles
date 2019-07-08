@@ -239,6 +239,7 @@ export GIT_EDITOR="vim +startinsert"
 export PAGER="less"
 export PATH="$HOME/local/bin:$HOME/local/bin2:$PATH"
 uname | grep -q Darwin && export PATH="/usr/local/opt/gpg-agent/bin:$PATH"
+export GPG_TTY=$(tty)
 
 # source local config (testing or so)
 if [ -f ~/.dotfiles/zsh/zshrc.local ]
