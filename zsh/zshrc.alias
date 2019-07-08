@@ -114,6 +114,7 @@ alias gstaub='git commit -m "done some vacuum cleaning
 ........................................................."'
 alias hardhof="curl -s 'http://restaurant-hardhof.ch/print/index.php?page=3&id=219' | sed -rn '/MENU/,/ZUM MEN(Ü|&Uuml;)/p' | sed -r 's/(<[^>]+>)|(&nbsp;)//g'"
 alias cgrep='sudo grep -r /etc/cron* /var/spool/cron* -e'
+alias vlist='sudo virsh list --all'
 
 # global aliases
 alias -g G='| grep'
