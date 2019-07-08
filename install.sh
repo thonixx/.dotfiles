@@ -47,6 +47,7 @@ backup .vim
 backup .ssh/config
 # backup .gitconfig # should be removed/backed up
 backup .config/zathura
+backup .gnupg/gpg-agent.conf
 
 ################################################################################
 ##### INSTALL CONFIGS
@@ -81,6 +82,9 @@ putconfig ssh/ssh_default_config "$home/.ssh/config"
 
 # link zathura config
 putconfig zathura "$home/.config/zathura"
+
+# link gpg-agent config
+putconfig gpg/gpg-agent.conf "$home/.gnupg/gpg-agent.conf"
 
 ################################################################################
 ##### POST INSTALL STUFF
