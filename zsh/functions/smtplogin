@@ -1,6 +1,6 @@
 # test smtp login
 # scripted by github.com/thonixx
-function smtplogin {
+function smtplogin () {
     echo -n "Server: "
     read server
     echo ""

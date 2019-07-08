@@ -1,6 +1,6 @@
 # tputcolors
 # source: http://linuxtidbits.wordpress.com/2008/08/11/output-color-on-bash-scripts/
-function tputcolors() {
+function tputcolors () {
     echo
     echo -e "$(tput bold) reg  bld  und   tput-command-colors$(tput sgr0)"
 

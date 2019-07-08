@@ -1,4 +1,4 @@
-function pw(){
+function pw () {
     # pass directory
     local prefix="${PASSWORD_STORE_DIR:-$HOME/.password-store}"
 

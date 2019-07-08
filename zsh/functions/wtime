@@ -1,5 +1,5 @@
 # work time logging
-function wtime {
+function wtime () {
     # check auth token
     test ! "$HAKUNA_TOKEN" && { echo 'Need $HAKUNA_TOKEN'; return; }
 

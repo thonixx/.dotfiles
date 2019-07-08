@@ -1,6 +1,6 @@
 # test mail delivery
 # scripted by github.com/thonixx
-function maildelivery {
+function maildelivery () {
     domain=$(echo "$1" | awk -F@ '{print $2}')
     mailserver=$(dig mx $domain +short | awk {'print $2'} | head -n 1)
 

@@ -1,4 +1,4 @@
-function cineman(){
+function cineman () {
 
     # for mac
     uname | grep -q Darwin && SED=gsed || SED=sed

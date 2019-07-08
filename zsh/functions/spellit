@@ -1,6 +1,6 @@
 # spellit
 # spell everything in german
-function spellit() {
+function spellit () {
     input="$(echo $@ | sed 's/\./ /g')"
     $(which bash) -c "echo -n \"$input\" | while IFS= read -r -n1 c; do [ \"\$c\" ] && echo -n \"\$c \"; [ \"\$c\" ] && echo 'anton
 berta

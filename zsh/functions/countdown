@@ -1,6 +1,6 @@
 # countdown function
 # source http://ubuntuforums.org/showpost.php?p=9817891&postcount=9
-function countdown() {
+function countdown () {
     [[ -z $1 ]] && seconds=60 || seconds=$1
     since=$(date +%s)
     remaining=$seconds

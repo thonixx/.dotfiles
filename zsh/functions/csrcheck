@@ -1,5 +1,5 @@
 # check certificate request <> private key
-csrcheck() {
+function csrcheck () {
     # check variables
     if [ ! "$1" ] || [ ! "$2" ]
     then
