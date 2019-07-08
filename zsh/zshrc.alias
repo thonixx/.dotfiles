@@ -76,7 +76,7 @@ alias apple='chmod +x ~/Insync/01sync/mkapple && ~/Insync/01sync/mkapple' # for 
 alias dusch='du -sch'
 alias l='ll'
 # this shows the default ip address where your traffic goes out
-alias ipaddr='ip -4 addr show | grep inet | grep "scope global" | grep eth | awk "{print \$2}" | sed -r "s/\/(.*)//"'
+alias ipaddr="ip route get 8.8.8.8 | head -n1 | sed -r 's/.*src ([^ ]+).*/\1/g'"
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
 alias gpu='git push'
