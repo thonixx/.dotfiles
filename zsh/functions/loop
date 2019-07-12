@@ -1,6 +1,10 @@
 function loop () {
     while sleep 1
     do
+        echo +++
+        date
+        echo +++
+
         eval $@
     done
 }
