@@ -383,7 +383,7 @@ function precmd() {
 
         # calculate stash list
         local count="$(git stash list | wc -l)"
-        [[ "$count" -gt 0 ]] && gitline="$gitline %{$(tput bold)$fg[magenta]%}⁂ ${count}${reset_color}"
+        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[magenta]%}⁂  ${count}${reset_color}"
 
         # some symbols/characters for git line:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    ¤
         # reset colors
