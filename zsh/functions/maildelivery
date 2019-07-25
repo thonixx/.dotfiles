@@ -29,7 +29,7 @@ function maildelivery () {
 
     (echo "helo $(hostname -f)"
     sleep 2
-    echo "MAIL FROM: <info@$(hostname -f)>"
+    echo "MAIL FROM: <example@pixelwolf.ch>"
     sleep 2
     echo "RCPT TO:<$1>"
     sleep 2
