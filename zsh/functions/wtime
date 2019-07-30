@@ -25,6 +25,12 @@ function wtime () {
         curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X PUT 'https://pixelwolf.hakuna.ch/api/v1/timer' \
             | tr ',' '\n' | tr -d '[" ]' | grep end_time | cut -d: -f 2- | xargs -n1 echo "(Hakuna) Work timer ended at"
         return
+    elif [ "xx$1" == "xxdel" ] && [ "$current_timer_status" != 'null' ]
+    then
+        # cancel current timer
+        curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X DELETE 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+            && echo "(Hakuna) Work timer cancelled"
+        return
     elif [ "xx$1" == "xxstop" ] && [ "$current_timer_status" == 'null' ]
     then
         # can't stop.. still running
