@@ -310,8 +310,7 @@ then
 fi
 
 # list tmux sessions if tmux running
-pgrep -u $USER tmux 2> /dev/null > /dev/null
-if [[ "$?" -eq 0 ]]
+if ! pgrep -u $USER tmux 2> /dev/null > /dev/null
 then
     # reinitialize envs for tmux server
     tmux setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK; tmux setenv SSH_AGENT_PID $SSH_AGENT_PID;
@@ -403,8 +402,7 @@ function precmd() {
     fi
 
     # needed for exit status smiley/char
-    # local exit="%(?,%{$fg[green]%}✔%{$reset_color%},%{$fg[red]%}✘%{$reset_color%})"
-    local exit="%(?..%{ $fg[red]%}✘%{$reset_color%})"
+    local exit="%(?..%{ $fg[red]%}☹  %?%{$reset_color%})"
 
     # parse pwd structure and build something nice out of it
     local dire="${(%):-%~}"
