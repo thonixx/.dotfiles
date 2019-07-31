@@ -3,55 +3,132 @@ function wtime () {
     # check auth token
     test ! "$HAKUNA_TOKEN" && { echo 'Need $HAKUNA_TOKEN'; return; }
 
-    # get current status
-    current_timer_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN 'https://pixelwolf.hakuna.ch/api/v1/timer' | tr ',' '\n' | tr -d '[" ]' | grep start_time | cut -d: -f2-)"
+    # argument
+    local cmd="${1}"
 
-    if [ "xx$1" == "xxstatus" ]
-    then
-        # report status
-        case $current_timer_status in
+    # get current status
+    local function timer_status() {
+        timer_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+            | tr ',' '\n' \
+            | tr -d '[" ]' \
+            | grep start_time  \
+            | cut -d: -f2- \
+            || echo 'curl_fail')"
+
+        # report
+        case ${timer_status-:EMPTY} in
+            EMPTY)
+                echo "(Hakuna) Could not obtain timer status (curl failed)"
+                return 2
+                ;;
             null)
-                echo "(Hakuna) Timer not running."
-                return
+                echo "(Hakuna) Timer not running"
+                return 0
                 ;;
             *)
-                echo "(Hakuna) Timer is running."
-                return
+                echo "(Hakuna) Timer is running"
+                return 1
                 ;;
         esac
-    elif [ "xx$1" == "xxstop" ] && [ "$current_timer_status" != 'null' ]
-    then
-        # stop it
-        curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X PUT 'https://pixelwolf.hakuna.ch/api/v1/timer' \
-            | tr ',' '\n' | tr -d '[" ]' | grep end_time | cut -d: -f 2- | xargs -n1 echo "(Hakuna) Work timer ended at"
-        return
-    elif [ "xx$1" == "xxdel" ] && [ "$current_timer_status" != 'null' ]
-    then
-        # cancel current timer
-        curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X DELETE 'https://pixelwolf.hakuna.ch/api/v1/timer' \
-            && echo "(Hakuna) Work timer cancelled"
-        return
-    elif [ "xx$1" == "xxstop" ] && [ "$current_timer_status" == 'null' ]
-    then
-        # can't stop.. still running
-        # echo "(Hakuna) Timer not running, therefore nothing to stop."
-        return
-    fi
+    }
 
-    # decide whether to start or just leave it
-    case $current_timer_status in
-        null)
-            # start it
-            curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X POST -H "Content-Type: application/json; charset=utf-8" -d '{"task_id": 1}' 'https://pixelwolf.hakuna.ch/api/v1/timer' \
-                | tr ',' '\n' | tr -d '[" ]' | grep start_time | cut -d: -f 2- | xargs -n1 echo "(Hakuna) Work timer started at"
+    # start timer
+    local function timer_start() {
+        start_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X POST -H "Content-Type: application/json; charset=utf-8" -d '{"task_id": 1}' 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+            | tr ',' '\n' \
+            | tr -d '[" ]' \
+            | grep start_time \
+            | cut -d: -f 2-)"
+
+        # report
+        case ${start_status-:EMPTY} in
+            EMPTY)
+                echo '(Hakuna) Could not start timer (curl failed)'
+                return 1
+                ;;
+            *)
+                echo "(Hakuna) Work timer started at $start_status"
+                return 0
+                ;;
+        esac
+    }
+
+    # stop timer
+    local function timer_stop() {
+        stop_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X PUT 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+            | tr ',' '\n' \
+            | tr -d '[" ]' \
+            | grep end_time \
+            | cut -d: -f 2-)"
+
+        # report
+        case ${stop_status-:EMPTY} in
+            EMPTY)
+                echo '(Hakuna) Could not stop timer (curl failed)'
+                return 1
+                ;;
+            *)
+                echo "(Hakuna) Work timer ended at $stop_status"
+                return 0
+                ;;
+        esac
+    }
+
+    # delete timer
+    local function timer_del() {
+        del_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X DELETE 'https://pixelwolf.hakuna.ch/api/v1/timer')"
+
+        # report
+        case ${del_status-:EMPTY} in
+            EMPTY)
+                echo '(Hakuna) Could not cancel timer (curl failed)'
+                return 1
+                ;;
+            *)
+                echo "(Hakuna) Work timer cancelled"
+                return 0
+                ;;
+        esac
+    }
+
+    case $cmd in
+        status)
+            # return pure status information
+            timer_status
             return
             ;;
-        *)
-            # already running
-            # echo "(Hakuna) Timer already running, type 'wtime stop' to stop it."
-            return
+        stop)
+            # get status
+            timer_status > /dev/null
+
+            # only stop if there is a running timer
+            if [[ "$?" -eq 1 ]]
+            then
+                timer_stop
+                return $?
+            fi
+            ;;
+        del)
+            # get status
+            timer_status > /dev/null
+
+            # only delete if there is a running timer
+            if [[ "$?" -eq 1 ]]
+            then
+                timer_del
+                return $?
+            fi
+            ;;
+        start|*)
+            # only start if it's not already started
+            if timer_status > /dev/null
+            then
+                timer_start
+                return $?
+            fi
             ;;
     esac
+
 }
 
 # vim: ft=zsh
