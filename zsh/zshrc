@@ -310,7 +310,7 @@ then
 fi
 
 # list tmux sessions if tmux running
-if ! pgrep -u $USER tmux 2> /dev/null > /dev/null
+if pgrep -u $USER tmux 2> /dev/null > /dev/null
 then
     # reinitialize envs for tmux server
     tmux setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK; tmux setenv SSH_AGENT_PID $SSH_AGENT_PID;
