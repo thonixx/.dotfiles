@@ -153,12 +153,6 @@ then
 fi
 
 ################################################################################
-##### INSTALL SUBMODULES
-
-# updating submodules
-git submodule init > /dev/null && git submodule update > /dev/null && echo "configured submodules"
-
-################################################################################
 ##### DO MAC SPECIFIC THINGS
 
 # now some configs only for mac
