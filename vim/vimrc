@@ -47,6 +47,9 @@ set pastetoggle=<f4>
 " i always want a status line
 set laststatus=2
 
+" tweak airline
+let g:airline#extensions#tabline#enabled = 1
+
 " show the mode
 set showmode
 
