@@ -117,6 +117,8 @@ function wtime () {
             then
                 timer_del
                 return $?
+            else
+                timer_status
             fi
             ;;
         start|*)
