@@ -62,7 +62,7 @@ alias pubkey='cat ~/.ssh/id_rsa.pub'
 alias acs='apt-cache search'
 alias update='sudo apt update && sudo apt upgrade'
 alias ll='ls -altrFh --color=auto'
-alias speed='wget -O /dev/null http://speedtest.init7.net/10GB.dat'
+alias speed='wget -O /dev/null http://speedtest.init7.net/10GB.dd'
 alias nano='sl 2> /dev/null || echo "Nano is baaaaad!!"' # for trolling myself using nano (nano is bad)
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
