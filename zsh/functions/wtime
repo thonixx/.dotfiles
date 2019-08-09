@@ -3,17 +3,80 @@ function wtime () {
     # check auth token
     test ! "$HAKUNA_TOKEN" && { echo 'Need $HAKUNA_TOKEN'; return; }
 
+    # tr for json stuff
+    # so I don't have to parse json externally
+    TR="tr '[,;[]{}]' '\n'"
+
     # argument
     local cmd="${1}"
+
+    # get timer list
+    local function timer_list() {
+
+        timer_info="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+            | eval $TR)"
+        timer_begin="$(echo "$timer_info" | grep -w 'start_time' | cut -d: -f 2- | tr -d '"')"
+
+        local function timer_list_running() {
+            # time info
+            timer_duration="$(echo "$timer_info" | grep -w 'duration' | cut -d: -f 2- | tr -d '"')"
+
+            # print running timer
+            echo 'Running timer:'
+            echo "${timer_begin}-(for ${timer_duration} h now)"
+        }
+
+        local function timer_list_stopped() {
+            # time entries
+            timer_entries="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN "https://pixelwolf.hakuna.ch/api/v1/time_entries?date=$(date +%d-%m-%Y)" \
+                | eval $TR)"
+            timer_times="$(echo "$timer_entries" | grep -we 'start_time' -e 'end_time')"
+
+            # go through already ended timers
+            echo 'Finished entries:'
+            echo "${timer_times}" | while read entry
+            do
+                if [ "${entry/:*/}" == '"start_time"' ]
+                then
+                    time="$(echo "${entry}" | cut -d: -f2- | tr -d '"')"
+                    echo -n "${time} - "
+                elif [ "${entry/:*/}" == '"end_time"' ]
+                then
+                    time="$(echo "${entry}" | cut -d: -f2- | tr -d '"')"
+                    echo "${time}"
+                fi
+            done | tac
+        }
+
+        # report
+        case ${timer_begin-:EMPTY} in
+            EMPTY)
+                echo "(Hakuna) Could not obtain timer status (curl failed)"
+                return 2
+                ;;
+            null)
+                echo '(Hakuna status)'
+                echo
+                timer_list_stopped
+                return 0
+                ;;
+            *)
+                echo '(Hakuna status)'
+                echo
+                timer_list_stopped
+                echo
+                timer_list_running
+                return 0
+                ;;
+        esac
+    }
 
     # get current status
     local function timer_status() {
         timer_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN 'https://pixelwolf.hakuna.ch/api/v1/timer' \
-            | tr ',' '\n' \
-            | tr -d '[" ]' \
-            | grep start_time  \
-            | cut -d: -f2- \
-            || echo 'curl_fail')"
+            | eval $TR \
+            | grep 'start_time'  \
+            | cut -d: -f2-)"
 
         # report
         case ${timer_status-:EMPTY} in
@@ -35,8 +98,7 @@ function wtime () {
     # start timer
     local function timer_start() {
         start_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X POST -H "Content-Type: application/json; charset=utf-8" -d '{"task_id": 1}' 'https://pixelwolf.hakuna.ch/api/v1/timer' \
-            | tr ',' '\n' \
-            | tr -d '[" ]' \
+            | eval $TR \
             | grep start_time \
             | cut -d: -f 2-)"
 
@@ -56,8 +118,7 @@ function wtime () {
     # stop timer
     local function timer_stop() {
         stop_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X PUT 'https://pixelwolf.hakuna.ch/api/v1/timer' \
-            | tr ',' '\n' \
-            | tr -d '[" ]' \
+            | eval $TR \
             | grep end_time \
             | cut -d: -f 2-)"
 
@@ -92,6 +153,11 @@ function wtime () {
     }
 
     case $cmd in
+        list)
+            # return pure status information
+            timer_list
+            return
+            ;;
         status)
             # return pure status information
             timer_status
