@@ -49,7 +49,7 @@ function wtime () {
         }
 
         # report
-        case ${timer_begin-:EMPTY} in
+        case ${timer_begin:-EMPTY} in
             EMPTY)
                 echo "(Hakuna) Could not obtain timer status (curl failed)"
                 return 2
@@ -79,7 +79,7 @@ function wtime () {
             | cut -d: -f2-)"
 
         # report
-        case ${timer_status-:EMPTY} in
+        case ${timer_status:-EMPTY} in
             EMPTY)
                 echo "(Hakuna) Could not obtain timer status (curl failed)"
                 return 2
@@ -103,7 +103,7 @@ function wtime () {
             | cut -d: -f 2-)"
 
         # report
-        case ${start_status-:EMPTY} in
+        case ${start_status:-EMPTY} in
             EMPTY)
                 echo '(Hakuna) Could not start timer (curl failed)'
                 return 1
@@ -123,7 +123,7 @@ function wtime () {
             | cut -d: -f 2-)"
 
         # report
-        case ${stop_status-:EMPTY} in
+        case ${stop_status:-EMPTY} in
             EMPTY)
                 echo '(Hakuna) Could not stop timer (curl failed)'
                 return 1
@@ -140,7 +140,7 @@ function wtime () {
         del_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X DELETE 'https://pixelwolf.hakuna.ch/api/v1/timer')"
 
         # report
-        case ${del_status-:EMPTY} in
+        case ${del_status:-EMPTY} in
             EMPTY)
                 echo '(Hakuna) Could not cancel timer (curl failed)'
                 return 1
