@@ -193,8 +193,11 @@ map <Space> za
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/<cr>
 
 " copy-paste a whole word under current cursor
-map <C-y> "<Esc>b<C-v>ey<Esc>"
+map <C-y> <Esc>b<C-v>ey<Esc>
 map <C-p> <Esc>b<C-v>e"_dP<Esc>
+
+" be consistent with variable stuff in shell
+map $$ <Esc>ea}<Esc>bha{<Esc>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" keymapping in insert mode only
