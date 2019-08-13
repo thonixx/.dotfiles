@@ -1,5 +1,20 @@
 # work time logging
 function wtime () {
+
+    # little help
+    local function usage () {
+        echo "Available commands:
+
+        help: Showing (this) help
+
+        list: List stopped and running timers
+        status: Show status of timer
+
+        start (default if no command given): Starting a new timer
+        stop: Stop a running timer
+        del: Cancel a running timer"
+    }
+
     # check auth token
     test ! "$HAKUNA_TOKEN" && { echo 'Need $HAKUNA_TOKEN'; return; }
 
@@ -153,6 +168,11 @@ function wtime () {
     }
 
     case $cmd in
+        help)
+            # overview of commands
+            usage
+            return
+            ;;
         list)
             # return pure status information
             timer_list
