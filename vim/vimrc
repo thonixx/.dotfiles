@@ -143,6 +143,9 @@ set si
 let mapleader = ","
 let g:mapleader = ","
 
+" custom timeout settings
+set timeout timeoutlen=300 ttimeoutlen=100
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" keymapping in command mode only
 
