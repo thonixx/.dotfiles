@@ -8,4 +8,4 @@ echo
 uname | grep -q Darwin && w=1000 || w=1
 
 # ping it
-ping -W $w -qc1 8.8.8.8 > /dev/null && { tmux set status-style fg=black,bg=colour46; exit 0; } || { tmux set status-style fg=white,bg=red; exit 1; }
+ping -W $w -qc1 8.8.8.8 > /dev/null && { tmux set status-style fg=black,bg=colour46; echo 'online' > /tmp/tmux_onlineoffline; exit 0; } || { tmux set status-style fg=white,bg=red; echo 'OFFLINE' > /tmp/tmux_onlineoffline; exit 1; }
