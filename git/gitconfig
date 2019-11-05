@@ -1,15 +1,22 @@
 [push]
-        default = upstream
+	default = upstream
 [alias]
-        prod = checkout production
-        go = !git pull --progress -v && git commit -v && git push;
-        drb = push -u origin
-        dlb = branch -d
-        clb = checkout -b
-        crb = push -u origin
-        mb = !git prod && git merge --noff --no-commit
-        cd = checkout
+	prod = checkout production
+	go = !git pull --progress -v && git commit -v && git push;
+	drb = push -u origin
+	dlb = branch -d
+	clb = checkout -b
+	crb = push -u origin
+	mb = !git prod && git merge --noff --no-commit
+	cd = checkout
+	cp = cherry-pick
 [color]
-        ui = auto
+	ui = auto
 [commit]
-        verbose = 1
+	verbose = 1
+[merge]
+	stat = true
+[rerere]
+	enabled = true
+
+# vim: noexpandtab shiftwidth=4 tabstop=4
