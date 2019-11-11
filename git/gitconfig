@@ -2,7 +2,7 @@
 	default = upstream
 [alias]
 	prod = checkout production
-	go = !git pull --progress -v && git commit -v && git push;
+	go = !git pull --progress -v --rebase=false && git commit -v && git push;
 	drb = push -u origin
 	dlb = branch -d
 	clb = checkout -b
