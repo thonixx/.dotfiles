@@ -129,19 +129,30 @@ then
                 type='personal'
             ;;
         esac
+
+        # add header
+        cat "$SCRIPT_PWD/git/gitconfig_head" > "$home/.gitconfig" && echo ".gitconfig head is now installed"
+
         # decrypt and save it
-        gpg < "$SCRIPT_PWD/git/gitconfig.$type.gpg" > "$home/.gitconfig" && echo ".gitconfig.$type is now installed"
+        gpg < "$SCRIPT_PWD/git/gitconfig.$type.gpg" >> "$home/.gitconfig" && echo ".gitconfig $type appended"
+
         # append gitconfig content
-        cat "$SCRIPT_PWD/git/gitconfig" >> "$home/.gitconfig" && echo ".gitconfig content appended"
+        cat "$SCRIPT_PWD/git/gitconfig_body" >> "$home/.gitconfig" && echo ".gitconfig body appended"
+
     fi
 else
     # config is there already, displaying a diff if there are changed settings from dotfiles repo
     echo
-    echo 'Here is a possible diff of your local config compared to the remote repo config:'
-    diff "$home/.gitconfig" "$SCRIPT_PWD/git/gitconfig"
-    echo
-    echo 'You can decide later which settings you want to apply.'
-    echo
+    echo 'Diffing git config file...'
+
+    # create a temporary git config for diffing
+    tempfile="$(mktemp)"
+
+    # add head & body
+    cat "$SCRIPT_PWD/git/gitconfig_head" "$SCRIPT_PWD/git/gitconfig_body" > $tempfile
+
+    # do the diff
+    vimdiff "$home/.gitconfig" $tempfile
 fi
 
 # remove push setting for older git versions
