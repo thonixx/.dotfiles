@@ -8,11 +8,11 @@ SCRIPT_NAME="${0##*/}"
 SCRIPT_PWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # check for env var HOME or assume /home/USER
-if [ "$HOME" ]
+if [ "${HOME}" ]
 then
-    home="$HOME"
+    home="${HOME}"
 else
-    home="/home/$USER"
+    home="/home/${USER}"
 fi
 
 ################################################################################
@@ -21,21 +21,21 @@ fi
 function backup(){
 
     # backup config if file exists or unlink it
-    config="$1"
-    path="$home/$config"
+    config="${1}"
+    path="${home}/${config}"
 
     # do the magic
-    if [ -h "$path" ]
+    if [ -h "${path}" ]
     then
         # remove symlink
-        rm "$path" && echo "$config: symlink removed"
-    elif [ -e "$path" ]
+        rm "${path}" && echo "${config}: symlink removed"
+    elif [ -e "${path}" ]
     then
         # backup config
-        mv "$path" "$path.bak" && echo "$config: backup done"
+        mv "${path}" "${path}.bak" && echo "${config}: backup done"
     else
         # do nothing
-        echo "$config: no previous config, continuing"
+        echo "${config}: no previous config, continuing"
     fi
 }
 
@@ -54,37 +54,37 @@ backup .gnupg/gpg-agent.conf
 
 function putconfig(){
     # arguments
-    source="$SCRIPT_PWD/$1"
-    target="$2"
+    source="${SCRIPT_PWD}/${1}"
+    target="${2}"
 
     # link it
-    config="$(basename "$target")"
-    test -e "$source" && ln -s "$source" "$target" && echo "$config: linked"
+    config="$(basename "${target}")"
+    test -e "${source}" && ln -s "${source}" "${target}" && echo "${config}: linked"
 }
 
 # irssi
-putconfig irssi "$home/.irssi"
+putconfig irssi "${home}/.irssi"
 
 # tmux
-putconfig tmux/tmux.conf "$home/.tmux.conf"
+putconfig tmux/tmux.conf "${home}/.tmux.conf"
 
 # link zshrc
-putconfig zsh/zshrc "$home/.zshrc"
+putconfig zsh/zshrc "${home}/.zshrc"
 
 # link vim
-putconfig vim "$home/.vim"
+putconfig vim "${home}/.vim"
 
 # link vimrc
-putconfig vim/vimrc "$home/.vimrc"
+putconfig vim/vimrc "${home}/.vimrc"
 
 # link ssh config
-putconfig ssh/ssh_default_config "$home/.ssh/config"
+putconfig ssh/ssh_default_config "${home}/.ssh/config"
 
 # link zathura config
-putconfig zathura "$home/.config/zathura"
+putconfig zathura "${home}/.config/zathura"
 
 # link gpg-agent config
-putconfig gpg/gpg-agent.conf "$home/.gnupg/gpg-agent.conf"
+putconfig gpg/gpg-agent.conf "${home}/.gnupg/gpg-agent.conf"
 
 ################################################################################
 ##### POST INSTALL STUFF
@@ -97,9 +97,9 @@ then
 fi
 
 # link dotfiles folder
-if [ ! -d "$home/.dotfiles" ]
+if [ ! -d "${home}/.dotfiles" ]
 then
-    ln -s "$SCRIPT_PWD" "$home/.dotfiles" && echo ".dotfiles folder linked"
+    ln -s "${SCRIPT_PWD}" "${home}/.dotfiles" && echo ".dotfiles folder linked"
 fi
 
 ################################################################################
@@ -116,12 +116,12 @@ then
     read env
 
     # check for input
-    if [ -z "$env" ]
+    if [ -z "${env}" ]
     then
         echo "no input given. skipping gitconfig."
     else
-        # copy gitconfig.$type
-        case $env in
+        # copy type specific git config
+        case ${env} in
             'work')
                 type='work'
             ;;
@@ -131,13 +131,13 @@ then
         esac
 
         # add header
-        cat "$SCRIPT_PWD/git/gitconfig_head" > "$home/.gitconfig" && echo ".gitconfig head is now installed"
+        cat "${SCRIPT_PWD}/git/gitconfig_head" > "${home}/.gitconfig" && echo ".gitconfig head is now installed"
 
         # decrypt and save it
-        gpg < "$SCRIPT_PWD/git/gitconfig.$type.gpg" >> "$home/.gitconfig" && echo ".gitconfig $type appended"
+        gpg < "${SCRIPT_PWD}/git/gitconfig.${type}.gpg" >> "${home}/.gitconfig" && echo ".gitconfig ${type} appended"
 
         # append gitconfig content
-        cat "$SCRIPT_PWD/git/gitconfig_body" >> "$home/.gitconfig" && echo ".gitconfig body appended"
+        cat "${SCRIPT_PWD}/git/gitconfig_body" >> "${home}/.gitconfig" && echo ".gitconfig body appended"
 
     fi
 else
@@ -149,14 +149,14 @@ else
     tempfile="$(mktemp)"
 
     # add head & body
-    cat "$SCRIPT_PWD/git/gitconfig_head" "$SCRIPT_PWD/git/gitconfig_body" > $tempfile
+    cat "${SCRIPT_PWD}/git/gitconfig_head" "${SCRIPT_PWD}/git/gitconfig_body" > ${tempfile}
 
     # do the diff
-    vimdiff "$home/.gitconfig" $tempfile
+    vimdiff "${home}/.gitconfig" ${tempfile}
 fi
 
 # remove push setting for older git versions
-if [ "$(echo "$gitversion" | sed 's/\ //' | egrep "1\.[1-7]")" ] && [ -e "$home/.gitconfig" ]
+if [ "$(echo "${gitversion}" | sed 's/\ //' | egrep "1\.[1-7]")" ] && [ -e "${home}/.gitconfig" ]
 then
     # push setting not supported, so removing it
     sed -i '/\[push\]/d;/default\ =\ /d;' ~/.gitconfig
@@ -177,5 +177,5 @@ echo
 
 # hint about cronjob
 echo "How about adding a cronjob to stay in sync?"
-echo "*/5 *  *   *   *  bash -c 'git -C $SCRIPT_PWD pull'"
+echo "*/5 *  *   *   *  bash -c 'git -C ${SCRIPT_PWD} pull'"
 echo
