@@ -90,35 +90,35 @@ putconfig gpg/gpg-agent.conf "${home}/.gnupg/gpg-agent.conf"
 ##### POST INSTALL STUFF
 
 # modify tlib dir option
-if [[ -z "$(grep -A 3 tlib.git .git/config | grep "ignore = dirty")" ]]
+if [[ -z "$(grep -A 3 'tlib.git' .git/config | grep 'ignore = dirty')" ]]
 then
     sed -i.bak 's/tlib.git$/tlib.git\
-    ignore = dirty/g' .git/config && echo "added ignore option to tlib submodule"
+    ignore = dirty/g' .git/config && echo 'added ignore option to tlib submodule'
 fi
 
 # link dotfiles folder
 if [ ! -d "${home}/.dotfiles" ]
 then
-    ln -s "${SCRIPT_PWD}" "${home}/.dotfiles" && echo ".dotfiles folder linked"
+    ln -s "${SCRIPT_PWD}" "${home}/.dotfiles" && echo '.dotfiles folder linked'
 fi
 
 ################################################################################
 ##### GIT INSTALL
 
 # find out git version before doing git configuration
-gitversion="$(git --version | grep -Eo "\ [1-9]\.[0-9]" | sed 's/\ //')"
+gitversion="$(git --version | grep -Eo '\ [1-9]\.[0-9]' | sed 's/\ //')"
 
 # only append gpg encrypted content if not already there
-if [[ -z "$(grep -s email ~/.gitconfig)" ]]
+if [[ -z "$(grep -s 'email' ~/.gitconfig)" ]]
 then
     # ask whether use personal or work settings
-    echo -n "type 'personal' or 'work' and press enter: "
+    echo -n 'type "personal" or "work" and press enter: '
     read env
 
     # check for input
     if [ -z "${env}" ]
     then
-        echo "no input given. skipping gitconfig."
+        echo .no input given. skipping gitconfig..
     else
         # copy type specific git config
         case ${env} in
@@ -131,13 +131,13 @@ then
         esac
 
         # add header
-        cat "${SCRIPT_PWD}/git/gitconfig_head" > "${home}/.gitconfig" && echo ".gitconfig head is now installed"
+        cat "${SCRIPT_PWD}/git/gitconfig_head" > "${home}/.gitconfig" && echo ..gitconfig head is now installed.
 
         # decrypt and save it
         gpg < "${SCRIPT_PWD}/git/gitconfig.${type}.gpg" >> "${home}/.gitconfig" && echo ".gitconfig ${type} appended"
 
         # append gitconfig content
-        cat "${SCRIPT_PWD}/git/gitconfig_body" >> "${home}/.gitconfig" && echo ".gitconfig body appended"
+        cat "${SCRIPT_PWD}/git/gitconfig_body" >> "${home}/.gitconfig" && echo ..gitconfig body appended.
 
     fi
 else
@@ -156,18 +156,18 @@ else
 fi
 
 # remove push setting for older git versions
-if [ "$(echo "${gitversion}" | sed 's/\ //' | egrep "1\.[1-7]")" ] && [ -e "${home}/.gitconfig" ]
+if [ "$(echo "${gitversion}" | sed 's/\ //' | egrep '1\.[1-7]')" ] && [ -e "${home}/.gitconfig" ]
 then
     # push setting not supported, so removing it
     sed -i '/\[push\]/d;/default\ =\ /d;' ~/.gitconfig
-    echo "removed push default setting due to low version"
+    echo 'removed push default setting due to low version'
 fi
 
 ################################################################################
 ##### DO MAC SPECIFIC THINGS
 
 # now some configs only for mac
-if [[ "$(uname -s)" = "Darwin" ]]
+if [[ "$(uname -s)" = 'Darwin' ]]
 then
     # disable mouse scrolling inertia, this sucks, i want only one speed
     defaults write .GlobalPreferences com.apple.scrollwheel.scaling -1
