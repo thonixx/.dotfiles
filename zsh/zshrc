@@ -239,7 +239,7 @@ export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswi
 export EDITOR="vim"
 export GIT_EDITOR="vim +startinsert"
 export PAGER="less"
-export PATH="$HOME/local/bin:$HOME/local/bin2:$PATH"
+export PATH="$HOME/local/bin:$HOME/local/bin2:$HOME/.dotfiles/bin:$PATH"
 uname | grep -q Darwin && export PATH="/usr/local/opt/gpg-agent/bin:$PATH"
 export GPG_TTY=$(tty)
 
