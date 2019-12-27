@@ -32,7 +32,7 @@ function check_ping {
 }
 
 function check_ns {
-    grep -q '^inameserver' /etc/resolv.conf || return 1
+    grep -q '^nameserver' /etc/resolv.conf || return 1
 }
 
 function check_dns {
