@@ -152,7 +152,7 @@ else
     cat "${SCRIPT_PWD}/git/gitconfig_head" "${SCRIPT_PWD}/git/gitconfig_body" > ${tempfile}
 
     # do the diff
-    vimdiff "${home}/.gitconfig" ${tempfile}
+    vimdiff ${tempfile} "${home}/.gitconfig"
 fi
 
 # remove push setting for older git versions
