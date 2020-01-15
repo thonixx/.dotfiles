@@ -12,7 +12,7 @@ function cineman () {
     search="${search// /%20}"
 
     # get the choices from cineman website
-    choices=( $(curl -s "https://www.cineman.ch/en/finder/movie/?q=$search" \
+    choices=( $(curl -s "https://www.cineman.ch/en/finder/movie/?q=${search}" \
         | $SED -n '/div class="teaser-block"/,/Page /p' \
         | grep '<a class="link-block"' \
         | grep -Eom10 'href="[^"]*' \
@@ -50,7 +50,7 @@ function cineman () {
     CINEMAN_URL="https://www.cineman.ch/en/movie/$movie"
 
     # release date
-    curl -s $CINEMAN_URL \
+    curl -s "${CINEMAN_URL}" \
         | grep -A 20 "Release date" \
         | grep -m1 '<p>' \
         | $SED -r 's%.*<p>.*</strong> ?(.*)</p>.*%Release date: \1\n%g'
@@ -61,10 +61,11 @@ function cineman () {
     while true
     do
         date="$($DATE +%Y-%m-%d -d "+$i day")"
+        date_url="$(echo "${CINEMAN_URL}" | $SED -r 's%/+$%%g')/cinema.html?date=$date"
 
-        curl -sL "$(echo "$CINEMAN_URL" | $SED -r 's%/+$%%g')/cinema.html?date=$date" \
+        curl -sL "${date_url}" \
             | grep -q "showtimes-list" \
-                && echo "$date: RUNNING" \
+                && echo "$date: RUNNING ( ${date_url} )" \
                 || echo "$date: not on show"
 
         let i+=1
