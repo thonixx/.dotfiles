@@ -9,6 +9,9 @@
 # gimme some colours
 source ~/.dotfiles/mutt/mutt.colours
 
+# print command
+set print_command='set -e; f=$(mktemp); muttprint -P A4 -p TO_FILE:"$f".ps; xdg-open "$f".ps; rm "$f"'
+
 # use vim and call command
 set editor = "vim -c ':Fip'"
 
