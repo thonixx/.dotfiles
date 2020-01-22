@@ -174,8 +174,8 @@ macro index \cs "<change-folder>+Sent<enter>" "switch to Sent"
 macro index \es "<save-message>+Sent<enter>" "move to Sent"
 
 # switch/move to Archive
-macro index \ca "<change-folder>+Archives.2019<enter>" "switch to Archive"
-macro index \ea "<save-message>+Archives.2019<enter>" "move to Archive"
+macro index \ca "<change-folder>+Archives.2020<enter>" "switch to Archive"
+macro index \ea "<save-message>+Archives.2020<enter>" "move to Archive"
 
 # switch/move to Done
 macro index \cd "<change-folder>+Done<enter>" "switch to Done"
@@ -238,8 +238,8 @@ macro pager \cs "<change-folder>+Sent<enter>" "switch to Sent"
 macro pager \es "<save-message>+Sent<enter>" "move to Sent"
 
 # switch/move to Archive
-macro pager \ca "<change-folder>+Archives.2019<enter>" "switch to Archive"
-macro pager \ea "<save-message>+Archives.2019<enter>" "move to Archive"
+macro pager \ca "<change-folder>+Archives.2020<enter>" "switch to Archive"
+macro pager \ea "<save-message>+Archives.2020<enter>" "move to Archive"
 
 # switch/move to Done
 macro pager \cd "<change-folder>+Done<enter>" "switch to Done"
