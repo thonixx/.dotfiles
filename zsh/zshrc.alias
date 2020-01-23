@@ -114,7 +114,7 @@ alias gstaub='git commit -m "done some vacuum cleaning
 .    |__ power cable                                    .
 .                                                       .
 ........................................................."'
-alias hardhof="curl -s 'http://restaurant-hardhof.ch/print/index.php?page=3&id=219' | sed -rn '/MENU/,/ZUM MEN(Ü|&Uuml;)/p' | sed -re 's/(<[^>]+>)|(&nbsp;)//g' -e 's/&[aA]uml;/ä/g' -e 's/&[oO]uml;/ö/g' -e 's/&[uU]uml;/ü/g' -e 's/&frac12;/½/g' -e 's/&ecirc;/ê/g' -e 's/&eacute;/é/g'"
+alias hardhof="curl -s 'https://restaurant-hardhof.ch/print/index.php?page=3&id=219' | sed -rn '/MENU/,/ZUM MEN(Ü|&Uuml;)/p' | sed -re 's/(<[^>]+>)|(&nbsp;)//g' -e 's/&[aA]uml;/ä/g' -e 's/&[oO]uml;/ö/g' -e 's/&[uU]uml;/ü/g' -e 's/&frac12;/½/g' -e 's/&ecirc;/ê/g' -e 's/&eacute;/é/g'"
 alias cgrep='sudo grep -r /etc/cron* /var/spool/cron* -e'
 alias vlist='sudo virsh list --all'
 
