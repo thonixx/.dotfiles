@@ -48,6 +48,7 @@ backup .ssh/config
 # backup .gitconfig # should be removed/backed up
 backup .config/zathura
 backup .gnupg/gpg-agent.conf
+backup .config/redshift
 
 ################################################################################
 ##### INSTALL CONFIGS
@@ -85,6 +86,9 @@ putconfig zathura "${home}/.config/zathura"
 
 # link gpg-agent config
 putconfig gpg/gpg-agent.conf "${home}/.gnupg/gpg-agent.conf"
+
+# link redshift config
+putconfig redshift "${home}/.config/redshift"
 
 ################################################################################
 ##### POST INSTALL STUFF
