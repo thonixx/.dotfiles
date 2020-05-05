@@ -38,7 +38,7 @@ function pw () {
     fi
 
     # show pass info
-    pass show "${pw}" | tail -n +2
+    DISPLAY= pass show "${pw}" | tail -n +2
 
     # copy password
     (pass -c "${pw}" > /dev/null) &!
