@@ -50,6 +50,7 @@ backup .config/zathura
 backup .gnupg/gpg-agent.conf
 backup .config/redshift
 backup .xscreensaver
+backup .xsessionrc
 
 ################################################################################
 ##### INSTALL CONFIGS
@@ -93,6 +94,7 @@ putconfig redshift "${home}/.config/redshift"
 
 # link xscreensaver config
 putconfig xscreensaver/xscreensaver "${home}/.xscreensaver"
+putconfig xscreensaver/xsessionrc "${home}/.xsessionrc"
 
 ################################################################################
 ##### POST INSTALL STUFF
