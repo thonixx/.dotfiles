@@ -152,7 +152,7 @@ function wtime () {
 
     # delete timer
     local function timer_del() {
-        del_status="$(curl -Is --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X DELETE 'https://pixelwolf.hakuna.ch/api/v1/timer' | grep 'HTTP/1.1 204')"
+        del_status="$(curl -Is --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X DELETE 'https://pixelwolf.hakuna.ch/api/v1/timer' | grep 'HTTP/2 204')"
 
         # report
         case ${del_status:-EMPTY} in
