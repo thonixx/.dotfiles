@@ -82,6 +82,7 @@ putconfig vim/vimrc "${home}/.vimrc"
 
 # link ssh config
 putconfig ssh/ssh_default_config "${home}/.ssh/config"
+putconfig ssh.local "${home}/.ssh/ssh.local"
 
 # link zathura config
 putconfig zathura "${home}/.config/zathura"
