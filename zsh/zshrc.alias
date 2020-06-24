@@ -1,8 +1,41 @@
 # some helpful aliases
+
+# git stuff
+alias randomcommit='git log --pretty=format:"(%h) %ar - %an: %s" | shuf | head -n 1'
+alias lastcommit='for f in $(git branch | awk "{print \$NF}"); do echo +++; echo $f; echo +++; git log -1 $f; done'
+alias gitdiff='git diff --color HEAD^ HEAD'
+alias ga='git add'
+alias gabort='git checkout -f && git clean -f -d'
+alias gba='git branch -av'
+alias gco='git commit -a -m'
+alias gdc='git diff --cached'
+alias gitup='git fetch --all --verbose --prune --progress && git pull --all --verbose --rebase --progress'
+alias glp='git log -p'
+alias gm='git mergetool'
+alias gpu='git push'
+alias gs='git status'
+alias gsl='git stash list'
+alias gup='git pull'
+alias gstaub='git commit -m "done some vacuum cleaning
+
+.........................................................
+.                                                       .
+.                       __                              .
+.   |_|     _______    /  \                             .
+.    |     / ----- \__/    \                            .
+.    +-----|_-__-__|        \__ ..#@.. <-- dust & dirt  .
+.                                                       .
+.    ^        ^                                         .
+.    |        |_____ vacuum cleaner                     .
+.    |                                                  .
+.    |__ power cable                                    .
+.                                                       .
+........................................................."'
+
+# other stuff
 alias notes='vim ~/notes'
 alias tellnet='nc -zw2'
 alias wetter='curl wttr.in/wil,switzerland'
-alias randomcommit='git log --pretty=format:"(%h) %ar - %an: %s" | shuf | head -n 1'
 alias tma='tmux a -t'
 alias pat='puppet agent --test'
 alias lasthist='fc -ldE -100'
@@ -35,19 +68,10 @@ alias agent='ssh -A'
 alias extip='curl icanhazip.com'
 alias vihosts='sudo vi /etc/hosts'
 alias proctime='ps -eo pid,user,cmd,etime | grep --color=never -i'
-alias gitdiff='git diff --color HEAD^ HEAD'
-alias gdc='git diff --cached'
-alias gco='git commit -a -m'
-alias gs='git status'
-alias ga='git add'
-alias gabort='git checkout -f && git clean -f -d'
-alias glp='git log -p'
-alias gsl='git stash list'
 alias swap='for file in /proc/*/status ; do awk '"'"'/VmSwap|Name/{printf $2 " " $3}END{ print ""}'"'"' $file; done | sort -k 2 -n -r | less'
 alias rainbow='for c in {0..255} ; do echo -e "\e[38;05;${c}m ${c} Raiiiiinbooooow" ; sleep 0.01 ; done'
 alias grepcolors='for i in 1 2 4 7 8 9 30 31 32 33 34 35 36 37 38 41 42 43 44 45 46 47 90 91 92 93 94 95 96 97 100 101 102 103 104 105 106 107; do echo -n "GREP_COLOR=$i  " ; GREP_COLOR=$i grep -oE "[^\"]{1,15}" /var/log/syslog --color=always | head -n 1 ; done'
 alias findproc='ps faux | head -n1; ps faux | grep -i'
-alias gitup='git fetch --all --verbose --prune --progress && git pull --all --verbose --rebase --progress'
 alias toptables='mysql -e "SELECT CONCAT(table_schema, '"'"'.'"'"', table_name),
        CONCAT(ROUND(table_rows / 1000000, 2), '"'"'M'"'"')                                    rows,
        CONCAT(ROUND(data_length / ( 1024 * 1024 * 1024 ), 2), '"'"'G'"'"')                    DATA,
@@ -81,8 +105,6 @@ alias l='ll'
 alias ipaddr="ip route get 8.8.8.8 | head -n1 | sed -r 's/.*src ([^ ]+).*/\1/g'"
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
-alias gpu='git push'
-alias gup='git pull'
 alias hahaha='read int; youtube$int http://data2.whicdn.com/images/63406928/original.jpg'
 alias search='find -iname'
 alias tweet='echo _____________________________________________________________________________________________________________________#_url_starts_here______; read nachricht; t update "${nachricht}"; t user thonixx | grep "Last update"'
@@ -93,27 +115,10 @@ alias mu='mutt -F ~/private.mutt'
 alias penv='cd /etc/puppet/environments/'
 alias megapdlist='megacli -pdlist -a0 | grep -e state -e Enclosure -e Slot'
 alias megagrep='megacli -h | grep -i'
-alias lastcommit='for f in $(git branch | awk "{print \$NF}"); do echo +++; echo $f; echo +++; git log -1 $f; done'
 alias calc='galculator'
-alias gba='git branch -av'
 alias low='echo 1800 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias middle='echo 3500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias bright='echo 7500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
-alias gstaub='git commit -m "done some vacuum cleaning
-
-.........................................................
-.                                                       .
-.                       __                              .
-.   |_|     _______    /  \                             .
-.    |     / ----- \__/    \                            .
-.    +-----|_-__-__|        \__ ..#@.. <-- dust & dirt  .
-.                                                       .
-.    ^        ^                                         .
-.    |        |_____ vacuum cleaner                     .
-.    |                                                  .
-.    |__ power cable                                    .
-.                                                       .
-........................................................."'
 alias hardhof="curl -s 'https://restaurant-hardhof.ch/print/index.php?page=3&id=219' | sed -rn '/MENU/,/ZUM MEN(Ü|&Uuml;)/p' | sed -re 's/(<[^>]+>)|(&nbsp;)//g' -e 's/&[aA]uml;/ä/g' -e 's/&[oO]uml;/ö/g' -e 's/&[uU]uml;/ü/g' -e 's/&frac12;/½/g' -e 's/&ecirc;/ê/g' -e 's/&eacute;/é/g' -e 's/&bdquo;/„/g' -e 's/&ldquo;/“/g'"
 alias cgrep='sudo grep -r /etc/cron* /var/spool/cron* -e'
 alias vlist='sudo virsh list --all'
