@@ -51,6 +51,7 @@ backup .gnupg/gpg-agent.conf
 backup .config/redshift
 backup .xscreensaver
 backup .xsessionrc
+backup .Xresources
 
 ################################################################################
 ##### INSTALL CONFIGS
@@ -96,6 +97,7 @@ putconfig redshift "${home}/.config/redshift"
 # link xscreensaver config
 putconfig xscreensaver/xscreensaver "${home}/.xscreensaver"
 putconfig xscreensaver/xsessionrc "${home}/.xsessionrc"
+putconfig xscreensaver/Xresources "${home}/.Xresources"
 
 ################################################################################
 ##### POST INSTALL STUFF

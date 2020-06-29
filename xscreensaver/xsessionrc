@@ -1,2 +1,3 @@
+test -e ~/.Xresources && xrdb -merge ~/.Xresources
 xscreensaver -no-splash &
 xss-lock -- xscreensaver-command --lock &
