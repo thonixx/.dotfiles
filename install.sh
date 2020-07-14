@@ -45,6 +45,7 @@ backup .tmux.conf
 backup .vimrc
 backup .vim
 backup .ssh/config
+backup .ssh/ssh.local
 # backup .gitconfig # should be removed/backed up
 backup .config/zathura
 backup .gnupg/gpg-agent.conf
