@@ -49,6 +49,7 @@ backup .ssh/ssh.local
 # backup .gitconfig # should be removed/backed up
 backup .config/zathura
 backup .gnupg/gpg-agent.conf
+backup .gnupg/gpg.conf
 backup .config/redshift
 backup .xscreensaver
 backup .xsessionrc
@@ -91,6 +92,13 @@ putconfig zathura "${home}/.config/zathura"
 
 # link gpg-agent config
 putconfig gpg/gpg-agent.conf "${home}/.gnupg/gpg-agent.conf"
+
+# create gpg.conf
+echo
+gpg -k | less -S
+echo
+read -p 'Provide GPG key id (0x...): ' gpg
+echo "hidden-encrypt-to $gpg" > $HOME/.gnupg/gpg.conf
 
 # link redshift config
 putconfig redshift "${home}/.config/redshift"
