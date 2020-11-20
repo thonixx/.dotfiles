@@ -32,6 +32,12 @@ alias gstaub='git commit -m "done some vacuum cleaning
 .                                                       .
 ........................................................."'
 
+# ansible stuff
+alias ap='ansible-playbook'
+alias play='ansible-playbook --diff'
+alias playtags='ansible-playbook --list-tags'
+alias ad='ansible-doc'
+
 # other stuff
 alias notes='vim ~/notes'
 alias tellnet='nc -zw2'
