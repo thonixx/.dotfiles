@@ -123,7 +123,7 @@ set dsn_return = "hdrs"
 # SIDEBAR SETTINGS______________________________________________________________
 
 set sidebar_visible = "yes"
-set sidebar_width = "15"
+set sidebar_width = "20"
 set sidebar_short_path = "yes"
 set sidebar_folder_indent = "yes"
 set sidebar_indent_string = "--"
