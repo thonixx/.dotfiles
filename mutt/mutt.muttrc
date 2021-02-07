@@ -178,7 +178,7 @@ macro index A "<tag-pattern>~U<enter><tag-prefix><clear-flag>N<untag-pattern>.<e
 
 # design my own index view
 folder-hook . "set index_format=\"[%Z] %D %50.50f #%M %s\""
-folder-hook +Sent "set index_format=\"[%Z] %D %50.50r #%M %s\""
+folder-hook Sent "set index_format=\"[%Z] %D %50.50r #%M %s\""
 
 # search Sent for "to" instead of "from"
 folder-hook +Sent 'set simple_search="~t %s | ~s %s"'
