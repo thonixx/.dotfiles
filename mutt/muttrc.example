@@ -1,12 +1,31 @@
 # vim: set ft=config
 
+# source global settings
+source ~/.dotfiles/mutt/mutt.muttrc
+
+# BEGIN SEND-HOOKS
+
+# general
+send-hook . my_hdr from: "usualmail@example.org"
+send-hook . set crypt_autosign = "yes"
+send-hook . set signature=~/.dotfiles/mutt/mutt.example.signature
+
+# some other recipient/sender
+send-hook "(~t @example.org|~c @example.org|~c somesender@example.org)" my_hdr from: "<somesender@example.org>"
+send-hook "(~t @example.org|~c @example.org|~c somesender@example.org)" unset crypt_autosign
+send-hook "(~t @example.org|~c @example.org|~c somesender@example.org)" unset signature
+
+# END SEND-HOOKS
+
 # imap settings
 set imap_user="example@example.org"
+set imap_pass="examplepassword"
 set imap_authenticators="login"
-set imap_keepalive="300"
+set imap_keepalive="30"
 
 # smtp settings
-set smtp_url="smtps://example@exmample.org@mail.example.org:465/"
+set smtp_url="smtp://$imap_user@example.org:587/"
+set smtp_pass=$imap_pass
 
 # define folders
 set spoolfile="imaps://mail.example.org:993/"
@@ -22,7 +41,7 @@ set edit_headers="yes"
 # gpg
 set pgp_sign_as=0x00000000
 
-# source global settings
-source ~/.dotfiles/mutt/mutt.muttrc
+# signature
+set signature=~/.dotfiles/mutt/mutt.example.signature
 
 # set mail_check=30
