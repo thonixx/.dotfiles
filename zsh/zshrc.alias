@@ -129,6 +129,7 @@ alias hardhof="curl -s 'https://restaurant-hardhof.ch/print/index.php?page=3&id=
 alias cgrep='sudo grep -r /etc/cron* /var/spool/cron* -e'
 alias vlist='sudo virsh list --all'
 alias x='xdg-open'
+alias standby='export DISPLAY=:0 && xscreensaver-command -l; sleep 3 && echo deep | sudo tee /sys/power/mem_sleep && echo mem | sudo tee /sys/power/state'
 
 # global aliases
 alias -g G='| grep'
