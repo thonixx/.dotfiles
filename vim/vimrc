@@ -217,6 +217,9 @@ imap <Esc><Esc> <Esc>:w<CR>a
 " save and exit with Ctrl-X Ctrl-X
 imap <c-x><c-x> <Esc>:wq<CR>
 
+" delete current line with C-k
+inoremap <C-k> <Esc>dd0i
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" commands
 
