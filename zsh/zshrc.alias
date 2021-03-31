@@ -111,7 +111,6 @@ alias l='ll'
 alias ipaddr="ip route get 8.8.8.8 | head -n1 | sed -r 's/.*src ([^ ]+).*/\1/g'"
 alias s='ssh'
 alias nssh='ssh -q -o StrictHostKeyChecking=false -o UserKnownHostsFile=/dev/null'
-alias hahaha='read int; youtube$int http://data2.whicdn.com/images/63406928/original.jpg'
 alias search='find -iname'
 alias tweet='echo _____________________________________________________________________________________________________________________#_url_starts_here______; read nachricht; t update "${nachricht}"; t user thonixx | grep "Last update"'
 alias tmake='tmux new-session -s main -n mail \; split-window -p 40 \; new-window \; send-keys -t "main:1.0" "mutt" Enter \; send-keys -t "main:1.1" "mutt -F ~/mon.mutt" Enter \; select-window -t "mail"\; select-pane -t 0'
