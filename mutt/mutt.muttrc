@@ -181,7 +181,8 @@ folder-hook . "set index_format=\"[%Z] %D %50.50f #%M %s\""
 folder-hook Sent "set index_format=\"[%Z] %D %50.50r #%M %s\""
 
 # search Sent for "to" instead of "from"
-folder-hook Sent 'set simple_search="~t %s | ~s %s"'
+folder-hook . 'set simple_search="~f %s | ~c %s | ~s %s"'
+folder-hook Sent 'set simple_search="~t %s | ~c %s | ~s %s"'
 
 # sort it
 set sort_aux = "reverse-last-date-received"
