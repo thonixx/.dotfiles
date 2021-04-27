@@ -10,6 +10,8 @@
 	mb = !git prod && git merge --noff --no-commit
 	cd = checkout
 	cp = cherry-pick
+	cpc = cherry-pick --continue
+	cpa = cherry-pick --abort
 [color]
 	ui = auto
 [commit]
