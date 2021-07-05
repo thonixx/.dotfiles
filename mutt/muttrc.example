@@ -11,9 +11,9 @@ send-hook . set crypt_autosign = "yes"
 send-hook . set signature=~/.dotfiles/mutt/mutt.example.signature
 
 # some other recipient/sender
-send-hook "(~t @example.org|~c @example.org|~c somesender@example.org)" my_hdr from: "<somesender@example.org>"
-send-hook "(~t @example.org|~c @example.org|~c somesender@example.org)" unset crypt_autosign
-send-hook "(~t @example.org|~c @example.org|~c somesender@example.org)" unset signature
+send-hook "~t @example.org" my_hdr from: "<somesender@example.org>"
+send-hook "~t @example.org" unset crypt_autosign
+send-hook "~t @example.org" unset signature
 
 # END SEND-HOOKS
 
@@ -36,6 +36,7 @@ set postponed="imaps://mail.example.org:993/Drafts"
 # configure how messages look like
 set realname = ""
 set from="example@example.org"
+alternates ^[^@]+@(example.com|example.tld)$ ^othersinglesender@example.somethingelse$
 set edit_headers="yes"
 
 # gpg
