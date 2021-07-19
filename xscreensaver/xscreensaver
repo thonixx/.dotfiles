@@ -1,4 +1,5 @@
 # XScreenSaver Preferences File
+# https://www.jwz.org/xscreensaver/
 
 timeout:	0:07:00
 cycle:		0:05:00
@@ -9,7 +10,7 @@ visualID:	default
 installColormap:    True
 verbose:	False
 timestamp:	True
-splash:		True
+splash:		False
 splashDuration:	0:00:03
 demoCommand:	xscreensaver-demo
 prefsCommand:	xscreensaver-demo -prefs
@@ -42,7 +43,7 @@ textProgram:	fortune
 textURL:	http://feeds.feedburner.com/ubuntu-news
 
 programs:								      \
-  GL: 		   "ATV4-1080" 	atv4-1080				    \n\
+- GL: 		   "ATV4-1080" 	atv4-1080				    \n\
 				maze -root				    \n\
 - GL: 				superquadrics -root			    \n\
 -				attraction -root			    \n\
@@ -69,7 +70,7 @@ programs:								      \
 -				fadeplot -root				    \n\
 -				galaxy -root				    \n\
 -				goop -root				    \n\
-				grav -root				    \n\
+-				grav -root				    \n\
 -				ifs -root				    \n\
 -				unicode -root				    \n\
 - GL: 				jigsaw -root				    \n\
@@ -81,7 +82,7 @@ programs:								      \
 -				mountain -root				    \n\
 -				munch -root				    \n\
 -				penrose -root				    \n\
-  GL: 				pipes -root				    \n\
+- GL: 				pipes -root				    \n\
 -				rd-bomb -root				    \n\
 - GL: 				rubik -root				    \n\
 -				sierpinski -root			    \n\
@@ -97,16 +98,17 @@ programs:								      \
 - GL: 				atlantis -root				    \n\
 				bsod -root				    \n\
 - GL: 				bubble3d -root				    \n\
-  GL: 				cage -root				    \n\
+- GL: 				cage -root				    \n\
 -				crystal -root				    \n\
 -				cynosure -root				    \n\
 -				discrete -root				    \n\
 -				distort -root				    \n\
 -				epicycle -root				    \n\
-				flow -root				    \n\
+-				flow -root				    \n\
 - GL: 				glplanet -root				    \n\
 -				interference -root			    \n\
-				kumppa -root				    \n\
+				kumppa -root -delay 28030 -speed 0.0319	      \
+				  -fps					    \n\
 - GL: 				lament -root				    \n\
 -				moire2 -root				    \n\
 - any: 				sonar -root				    \n\
@@ -119,7 +121,7 @@ programs:								      \
 -				compass -root				    \n\
 -				deluxe -root				    \n\
 -				demon -root				    \n\
-  GL: 				extrusion -root				    \n\
+- GL: 				extrusion -root				    \n\
 -				loop -root				    \n\
 -				penetrate -root				    \n\
 -				petri -root				    \n\
@@ -192,7 +194,8 @@ programs:								      \
 - GL: 				glknots -root				    \n\
   GL: 				glmatrix -root				    \n\
 - GL: 				glslideshow -root			    \n\
-  GL: 				hypertorus -root			    \n\
+  GL: 				hypertorus -root -delay 31000 -fps	      \
+				  -orthographic-3d -speed-wx 1.2727	    \n\
 - GL: 				jigglypuff -root			    \n\
 -				metaballs -root				    \n\
 - GL: 				mirrorblob -root			    \n\
@@ -205,9 +208,9 @@ programs:								      \
 -				abstractile -root			    \n\
 -				anemotaxis -root			    \n\
 - GL: 				antinspect -root			    \n\
-				fireworkx -root				    \n\
+-				fireworkx -root				    \n\
 -				fuzzyflakes -root			    \n\
-				interaggregate -root			    \n\
+-				interaggregate -root			    \n\
 -				intermomentary -root			    \n\
 -				memscroller -root			    \n\
 - GL: 				noof -root				    \n\
@@ -215,20 +218,20 @@ programs:								      \
 - GL: 				pinion -root				    \n\
 - GL: 				polyhedra -root				    \n\
 - GL: 				providence -root			    \n\
-				substrate -root -growth-delay 0		      \
+-				substrate -root -growth-delay 0		      \
 				  -max-cycles 7053 -sand-grains 69	      \
 				  -initial-cracks 6 -seamless -fps	    \n\
 -				wormhole -root				    \n\
 - GL: 				antmaze -root				    \n\
 - GL: 				boing -root				    \n\
-				boxfit -root -delay 12121		    \n\
+-				boxfit -root -delay 12121		    \n\
 - GL: 				carousel -root				    \n\
 -				celtic -root				    \n\
   GL: 				crackberg -root				    \n\
 - GL: 				cube21 -root				    \n\
-				fiberlamp -root				    \n\
+-				fiberlamp -root				    \n\
 - GL: 				fliptext -root				    \n\
-  GL: 				glhanoi -root				    \n\
+- GL: 				glhanoi -root				    \n\
 - GL: 				tangram -root				    \n\
 - GL: 				timetunnel -root			    \n\
 - GL: 				glschool -root				    \n\
@@ -237,12 +240,12 @@ programs:								      \
 - GL: 				cubicgrid -root				    \n\
 -				cwaves -root				    \n\
 - GL: 				gears -root				    \n\
-  GL: 				glcells -root				    \n\
+- GL: 				glcells -root				    \n\
 - GL: 				lockward -root				    \n\
 				m6502 -root				    \n\
 - GL: 				moebiusgears -root			    \n\
 - GL: 				voronoi -root				    \n\
-  GL: 				hypnowheel -root			    \n\
+- GL: 				hypnowheel -root			    \n\
 - GL: 				klein -root				    \n\
 -				lcdscrub -root				    \n\
 - GL: 				photopile -root				    \n\
@@ -264,7 +267,7 @@ programs:								      \
 - GL: 				projectiveplane -root			    \n\
 - GL: 				romanboy -root				    \n\
 -				tessellimage -root			    \n\
-  GL: 				winduprobot -root			    \n\
+- GL: 				winduprobot -root			    \n\
 - GL: 				splitflap -root				    \n\
 - GL: 				cubestack -root				    \n\
 - GL: 				cubetwist -root				    \n\
@@ -276,6 +279,16 @@ programs:								      \
 - GL: 				raverhoop -root				    \n\
 - GL: 				splodesic -root				    \n\
 - GL: 				unicrud -root				    \n\
+- GL: 				esper -root				    \n\
+- GL: 				vigilance -root				    \n\
+- GL: 				crumbler -root				    \n\
+				filmleader -root			    \n\
+-				glitchpeg -root				    \n\
+- GL: 				handsy -root				    \n\
+  GL: 				maze3d -root				    \n\
+- GL: 				peepers -root				    \n\
+- GL: 				razzledazzle -root			    \n\
+-				vfeedback -root				    \n\
 
 
 pointerPollTime:    0:00:05
