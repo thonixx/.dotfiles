@@ -95,7 +95,7 @@ putconfig gpg/gpg-agent.conf "${home}/.gnupg/gpg-agent.conf"
 
 # create gpg.conf
 echo
-gpg -k | less -S
+gpg -K | less -S
 echo
 read -p 'Provide GPG key id (0x...) for GPG config: ' gpg
 echo "hidden-encrypt-to $gpg" > $HOME/.gnupg/gpg.conf
