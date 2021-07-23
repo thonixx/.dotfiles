@@ -8,9 +8,9 @@ blue_stat="$(hcitool dev | grep -vc Devices)"
 test "$blue_stat" -gt 0 \
     && {
         colour="#[fg=brightwhite]#[bg=#0181F9]"
-        blue="Bluetooth"
+        blue=" Bluetooth "
 
         # print it centered and nicely
-        printf "$colour%5s%-6s#[default]\n" "$(echo "$blue" | cut -c 1-$((${#blue}/2)))" "$(echo "$blue" | cut -c $((${#blue}/2+1))-${#blue})"
+        printf "$colour%5s%-5s#[default]\n" "$(echo "$blue" | cut -c 1-$((${#blue}/2)))" "$(echo "$blue" | cut -c $((${#blue}/2+1))-${#blue})"
     } \
     || echo ''
