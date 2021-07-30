@@ -39,7 +39,7 @@ set clipboard+=unnamed
 " to xclip
 map <F7> :w !xclip<CR><CR>
 " from xclip
-map <F8> :r!xclip -o<CR>
+map <F8> :r !xclip -o<CR>
 
 " paste mode with key combo
 set pastetoggle=<f4>
@@ -217,8 +217,8 @@ imap <Esc><Esc> <Esc>:w<CR>a
 " save and exit with Ctrl-X Ctrl-X
 imap <c-x><c-x> <Esc>:wq<CR>
 
-" delete current line with C-k
-inoremap <C-k> <Esc>dd0i
+" delete current line with C-k from current position on
+inoremap <C-k> <Esc>ld$a
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" commands
