@@ -124,7 +124,7 @@ alias calc='galculator'
 alias low='echo 1800 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias middle='echo 3500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias bright='echo 7500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
-alias hardhof="curl -s 'https://restaurant-hardhof.ch/print/index.php?page=3&id=219' | sed -rn '/MENU/,/ZUM MEN(Ü|&Uuml;)/p' | sed -re 's/(<[^>]+>)|(&nbsp;)//g' -e 's/&[aA]uml;/ä/g' -e 's/&[oO]uml;/ö/g' -e 's/&[uU]uml;/ü/g' -e 's/&frac12;/½/g' -e 's/&ecirc;/ê/g' -e 's/&eacute;/é/g' -e 's/&bdquo;/„/g' -e 's/&ldquo;/“/g'"
+alias hardhof="curl -s 'https://restaurant-hardhof.ch/print/index.php?page=3&id=225' | sed -rn '/MENU/,/ZUM MEN(Ü|&Uuml;)/p' | sed -re 's/(<[^>]+>)|(&nbsp;)//g' -e 's/&[aA]uml;/ä/g' -e 's/&[oO]uml;/ö/g' -e 's/&[uU]uml;/ü/g' -e 's/&frac12;/½/g' -e 's/&ecirc;/ê/g' -e 's/&eacute;/é/g' -e 's/&bdquo;/„/g' -e 's/&ldquo;/“/g'"
 alias cgrep='sudo grep -r /etc/cron* /var/spool/cron* -e'
 alias vlist='sudo virsh list --all'
 alias x='xdg-open'
