@@ -308,10 +308,9 @@ then
 fi
 
 # add ssh keys to ssh-agent if running
-if [ "$PGREP_SSH_AGENT" ] && [ "$(timeout 2 ssh-add -l | grep -vc "The agent has no identities.")" -lt "$(ls -l ~/.ssh/{*.key,id_*} 2>/dev/null | grep -vc '.pub$')" ]
+if [ "$PGREP_SSH_AGENT" ] && [ "$(comm -13 <(ssh-add -l | grep -v 'The agent has no identities.' | awk '{print $3}' | grep '^/' | sort) <(readlink -f ~/.ssh/{*.key,id_*} | grep -v '.pub$' | sort) | wc -l)" -gt 0 ]
 then
-    ssh-add -t 7200 ~/.ssh/*.key 2> /dev/null
-    ssh-add -t 7200 ~/.ssh/id_* 2> /dev/null
+    ssh-add -t 7200 ~/.ssh/{*.key,id_*} 2> /dev/null
 fi
 
 # list tmux sessions if tmux running
