@@ -83,16 +83,8 @@ HISTFILE=~/.zsh_history
 autoload -Uz compinit
 compinit
 
-# store uname value
-uname="$(uname -s)"
-
-# mac special
-if [[ "${uname}" == "Darwin" ]]
-then
-    eval "$(cat ~/.dotfiles/zsh/zshrc.dircolors)"
-else
-    eval "$(dircolors -b)"
-fi
+# dircolors
+source ~/.dotfiles/zsh/zshrc.dircolors
 
 # completion settings
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -215,10 +207,6 @@ setopt PUSHD_IGNORE_DUPS
 
 # source aliases
 source ~/.dotfiles/zsh/zshrc.alias
-if [[ "${uname}" == "Darwin" ]]
-then
-    source ~/.dotfiles/zsh/zshrc.mac.alias
-fi
 
 # include keybindings from file
 source ~/.dotfiles/zsh/zshrc.bindkey
@@ -243,7 +231,6 @@ export EDITOR="vim"
 export GIT_EDITOR="vim +startinsert"
 export PAGER="less"
 export PATH="$HOME/local/bin:$HOME/local/bin2:$HOME/.dotfiles/bin:$PATH"
-test "${uname}" = "Darwin" && export PATH="/usr/local/opt/gpg-agent/bin:$PATH"
 export GPG_TTY=$(tty)
 
 export PATH="$HOME/.perl5/bin${PATH:+:${PATH}}"
