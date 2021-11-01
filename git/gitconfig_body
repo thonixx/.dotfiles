@@ -1,46 +1,59 @@
 [push]
-	default = upstream
+    default = upstream
+
 [alias]
-	prod = checkout production
-	go = !git pull --progress -v --rebase=false && git commit -v && git push;
-	drb = push -u origin
-	dlb = branch -d
-	clb = checkout -b
-	crb = push -u origin
-	mb = !git prod && git merge --noff --no-commit
-	cd = checkout
-	cp = cherry-pick
-	cpc = cherry-pick --continue
-	cpa = cherry-pick --abort
+    prod = checkout production
+    go = !git pull --progress -v --rebase=false && git commit -v && git push;
+    drb = push -u origin
+    dlb = branch -d
+    clb = checkout -b
+    crb = push -u origin
+    mb = !git prod && git merge --noff --no-commit
+    cd = checkout
+    cp = cherry-pick
+    cpc = cherry-pick --continue
+    cpa = cherry-pick --abort
+    please = push --force-with-lease
+
 [color]
-	ui = auto
+    ui = auto
+
 [commit]
-	verbose = 1
+    verbose = 1
+
 [merge]
-	stat = true
-	tool = diffconflicts
+    stat = true
+    tool = diffconflicts
+
 [rerere]
-	enabled = true
+    enabled = true
+
 [mergetool "diffconflicts"]
-	cmd = ~/.dotfiles/bin/diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
-	trustExitCode = true
+    cmd = ~/.dotfiles/bin/diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+    trustExitCode = true
+
 [mergetool]
-	keepBackup = false
+    keepBackup = false
+
 [core]
-	pager = diff-so-fancy.pl | less --tabs=4 -RFX
+    pager = diff-so-fancy.pl | less --tabs=4 -RFX
+
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
 [color "diff"]
-	meta = 11
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
+    meta = 11
+    frag = magenta bold
+    commit = yellow bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+
 [diff-so-fancy]
-	stripLeadingSymbols = false
+    stripLeadingSymbols = false
+
 [interactive]
-	diffFilter = ~/.dotfiles/bin/diff-highlight --color-words
+    diffFilter = ~/.dotfiles/bin/diff-highlight --color-words
