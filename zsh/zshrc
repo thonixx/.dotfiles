@@ -134,6 +134,7 @@ autoload -U dictcc
 autoload -U reverse
 autoload -U csrcheck
 autoload -U crtcheck
+autoload -U vpn
 
 # turn on interactive comments
 setopt interactivecomments

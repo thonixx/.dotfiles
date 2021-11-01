@@ -1,0 +1,139 @@
+function vpn(){
+    # where the fortivpn settings are stored
+    # linux
+    dotforti='/root/.fortivpn'
+    # macos
+    uname | grep -q Darwin && dotforti='/var/root/.fortivpn'
+
+    test -e "$(which openfortivpn)" || { echo 'There is no openfortivpn installed. Exiting.'; return 1; }
+
+    local function check_dns(){
+        # check if there are any entries
+        grep -q '^nameserver' /etc/resolv.conf || return 1
+
+        # attempts
+        retries=$1
+
+        # check dns
+        i=0
+
+        # loop through retries
+        while test $i -lt $retries
+        do
+            # check and timeout after 2s max
+            timeout 2 host -t A -R2 -W1 www.example.org > /dev/null && return 0
+
+            # count up
+            let i+=1
+        done
+
+        # if we reach this we were not succesful
+        return 1
+    }
+
+    local function vpn_connect(){
+        # check DNS
+        echo 'Checking DNS...'
+        check_dns 5 || { echo 'Could not resolve test host, DNS failure?'; return 1; }
+
+        # cd to /tmp
+        cd /tmp
+        sudo -b nohup /usr/bin/openfortivpn -c ${dotforti} 2> /dev/null
+
+        # wait for a working connection
+        echo 'Connecting...'
+
+        # counter so we won't wait for an infinite time
+        local i=0;
+        # loop
+        while true
+        do
+            # wait
+            sleep 0.5
+
+            # connection try
+            ifconfig ppp0 2> /dev/null  \
+                | grep -Eo 'inet [^ ]*' \
+                | awk '{print $NF}' \
+                | xargs -n1 ping -c1 -W1 2> /dev/null > /dev/null && break || continue
+
+            test ${i} -ge 30 && { echo 'Still not working, try again.'; return 1; }
+
+            let i+=1
+        done
+
+        cd - > /dev/null
+    }
+
+    local function vpn_check(){
+        pgrep -a openfortivpn 2> /dev/null > /dev/null
+    }
+
+    local function vpn_kill(){
+        sudo pkill -f openfortivpn
+    }
+
+    # command mode
+    case ${1} in
+        'up' )
+            vpn_check \
+                && {
+                    vpn_kill > /dev/null && vpn_connect > /dev/null
+                } \
+                || {
+                    vpn_connect > /dev/null
+                }
+            return $?
+            ;;
+        'down' )
+            vpn_kill
+            return $?
+            ;;
+        *)
+            true
+            ;;
+    esac
+
+    # check if already running
+    vpn_check \
+        && {
+            echo 'Forti VPN seems to be running. Re-connect (Y/n) or kill/disconnect (k)?'
+
+            # ask user
+            read -s -k1 choice
+
+            # decide what to do
+            case ${choice} in
+                n)
+                    return 0
+                    ;;
+                k)
+                    vpn_kill
+                    vpn_check || echo 'Could not kill VPN. Process still here?!'
+                    return 1
+                    ;;
+                y|Y|*)
+                    echo 'Re-connecting now...'
+                    vpn_kill
+                    vpn_connect || return 1
+                    ;;
+            esac
+        } \
+        || {
+            # actually connect it
+            echo 'Starting Forti VPN...'
+            vpn_connect
+        }
+
+    vpn_check \
+        && {
+            echo 'Forti VPN started successfully.'
+            return 0
+        } \
+        || {
+            echo 'Forti VPN not running.'
+            return 1
+        }
+}
+
+# vim: ft=zsh
