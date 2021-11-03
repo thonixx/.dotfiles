@@ -2,17 +2,18 @@
     default = upstream
 
 [alias]
-    prod = checkout production
     go = !git pull --progress -v --rebase=false && git commit -v && git push;
     drb = push -u origin
     dlb = branch -d
     clb = checkout -b
     crb = push -u origin
-    mb = !git prod && git merge --noff --no-commit
     cd = checkout
     cp = cherry-pick
     cpc = cherry-pick --continue
     cpa = cherry-pick --abort
+    rbi = rebase --interactive
+    rbc = rebase --continue
+    rba = rebase --abort
     please = push --force-with-lease
 
 [color]
