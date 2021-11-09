@@ -239,6 +239,9 @@ export PERL5LIB="PERL5LIB=~/local/bin/server-scripts/lib:$HOME/.perl5/lib/perl5$
 export PERL_LOCAL_LIB_ROOT="$HOME/.perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
 export PERL_MB_OPT="--install_base \"$HOME/.perl5\""
 export PERL_MM_OPT="INSTALL_BASE=$HOME/.perl5"
+export ARTIFACTORY_USER="nils.tanner@dswiss.com"
+export ARTIFACTORY_API_KEY="AKCp8k8Pty631Ln8HPGDsL2Qdgcbf2ganciXTsh8A5XnD9UfeBK4VMZNX6639iTe2nx9TyQeS"
+export BACKUP_FS_UUID="c9f4b92e-c7a3-48ed-80e8-2f2d46239804"
 
 # source local config (testing or so)
 if [ -f ~/.dotfiles/zsh/zshrc.local ]
@@ -298,11 +301,6 @@ then
     . $AGENT_ENV_FILE 2> /dev/null
 fi
 
-# add ssh keys to ssh-agent if running
-if [ "$PGREP_SSH_AGENT" ] && [ "$(comm -13 <(ssh-add -l | grep -v 'The agent has no identities.' | awk '{print $3}' | grep '^/' | sort) <(readlink -f ~/.ssh/{*.key,id_*} | grep -v '.pub$' | sort) | wc -l)" -gt 0 ]
-then
-    ssh-add -t 7200 ~/.ssh/{*.key,id_*} 2> /dev/null
-fi
 
 # list tmux sessions if tmux running
 if pgrep -u $USER tmux 2> /dev/null > /dev/null
@@ -429,3 +427,7 @@ if [ -f ~/.dotfiles/zsh/zshrc.local.after ]
 then
     source ~/.dotfiles/zsh/zshrc.local.after
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
