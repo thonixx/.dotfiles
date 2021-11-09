@@ -1,11 +1,17 @@
 #!/bin/bash
 # display backintime backup status
 
+# check if backup fs uuid is set
+if [ "x${BACKUP_FS_UUID}" == 'x' ]
+then
+    exit 0
+fi
+
 # no matter which locale, display it with C
 export LC_ALL=C
 
 # get status of mounted backup disk
-grep -q c8f12cbb-f6d5-4551-baa4-b9f3ec72ddf6 /proc/mounts \
+grep -q "${BACKUP_FS_UUID}" /proc/mounts \
     && {
     # get status of running backup
     ps faux | grep -q "[r]sync.*backintime" \
