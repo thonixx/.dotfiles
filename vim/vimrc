@@ -103,12 +103,6 @@ set foldlevel=1
 " set format options
 set fo=ctqnM1
 
-" non-printable chars ..
-set list
-
-" .. and their appearance
-set listchars=nbsp:␣,eol:¶,tab:>-,extends:»,precedes:«,trail:•
-
 " set line numbering
 set number
 
