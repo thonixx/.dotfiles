@@ -68,8 +68,10 @@ function putconfig(){
     test -e "${source}" && ln -s "${source}" "${target}" && echo "${config}: linked"
 }
 
-# irssi
-putconfig irssi "${home}/.irssi"
+# irssi if installed
+dpkg -l irssi 2> /dev/null | grep -qE '^ii' && {
+    putconfig irssi "${home}/.irssi"
+}
 
 # tmux
 putconfig tmux/tmux.conf "${home}/.tmux.conf"
@@ -88,7 +90,9 @@ putconfig ssh/ssh_default_config "${home}/.ssh/config"
 putconfig ssh.local "${home}/.ssh/ssh.local"
 
 # link zathura config
-putconfig zathura "${home}/.config/zathura"
+dpkg -l zathura 2> /dev/null | grep -qE '^ii' && {
+    putconfig zathura "${home}/.config/zathura"
+}
 
 # link gpg-agent config
 putconfig gpg/gpg-agent.conf "${home}/.gnupg/gpg-agent.conf"
@@ -100,13 +104,17 @@ echo
 read -p 'Provide your main GPG key id for gpg conf for hidden-ecrypt-to (format 0x...) for GPG config: ' gpg
 echo "hidden-encrypt-to $gpg" > $HOME/.gnupg/gpg.conf
 
-# link redshift config
-putconfig redshift "${home}/.config/redshift"
+# link redshift config if installed
+dpkg -l redshift 2> /dev/null | grep -qE '^ii' && {
+    putconfig redshift "${home}/.config/redshift"
+}
 
-# link xscreensaver config
-putconfig xscreensaver/xscreensaver "${home}/.xscreensaver"
-putconfig xscreensaver/xsessionrc "${home}/.xsessionrc"
-putconfig xscreensaver/Xresources "${home}/.Xresources"
+# link xscreensaver config if installed
+dpkg -l xscreensaver 2> /dev/null | grep -qE '^ii' && {
+    putconfig xscreensaver/xscreensaver "${home}/.xscreensaver"
+    putconfig xscreensaver/xsessionrc "${home}/.xsessionrc"
+    putconfig xscreensaver/Xresources "${home}/.Xresources"
+}
 
 ################################################################################
 ##### POST INSTALL STUFF
