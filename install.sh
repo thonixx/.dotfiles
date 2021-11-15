@@ -193,16 +193,9 @@ then
     echo 'removed push default setting due to low version'
 fi
 
-################################################################################
-##### DO MAC SPECIFIC THINGS
-
-# now some configs only for mac
-if [[ "$(uname -s)" = 'Darwin' ]]
-then
-    # disable mouse scrolling inertia, this sucks, i want only one speed
-    defaults write .GlobalPreferences com.apple.scrollwheel.scaling -1
-    defaults write .GlobalPreferences com.apple.mouse.scaling -1
-fi
+# notify about packages to be installed
+echo "For syntax highlighting, don't forget to install:"
+echo 'yamllint puppet-lint jsonlint'
 echo
 
 # hint about cronjob
