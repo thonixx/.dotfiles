@@ -245,6 +245,13 @@ if [ -f ~/.dotfiles/zsh/zshrc.local ]
 then
     source ~/.dotfiles/zsh/zshrc.local
 fi
+
+# source local config (testing or so)
+if [ -f ~/.dotfiles/zsh/zshrc.local2 ]
+then
+    source ~/.dotfiles/zsh/zshrc.local2
+fi
+
 # source autojump if installed
 if [ -f /usr/share/autojump/autojump.sh ]
 then
@@ -279,29 +286,33 @@ then
     export USER="$(whoami)"
 fi
 
-# define env file for ssh-agent informations
-AGENT_ENV_FILE="/tmp/agent.$USER.env"
-PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$)"
-
-# start ssh-agent if none is started
-if [ -z "$PGREP_SSH_AGENT" ]
+# skip if GPG agent is in use
+if [[ "$SSH_AGENT_USE_GPG" != 'true' ]]
 then
-    # remove agent file
-    rm -f $AGENT_ENV_FILE
-    # write agent info to file
-    eval $(ssh-agent | tee $AGENT_ENV_FILE)
-    # regrep for ssh-agent process since it is running now
+    # define env file for ssh-agent informations
+    AGENT_ENV_FILE="/tmp/agent.$USER.env"
     PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$)"
-elif [ "$PGREP_SSH_AGENT" ] && [ -f "$AGENT_ENV_FILE" ]
-then
-    # source existing agent
-    . $AGENT_ENV_FILE 2> /dev/null
-fi
 
-# add ssh keys to ssh-agent if running
-if [ "$PGREP_SSH_AGENT" ] && [ "$(comm -13 <(ssh-add -l | grep -v 'The agent has no identities.' | awk '{print $3}' | grep '^/' | sort) <(readlink -f ~/.ssh/{*.key,id_*} | grep -v '.pub$' | sort) | wc -l)" -gt 0 ]
-then
-    ssh-add -t 7200 ~/.ssh/{*.key,id_*} 2> /dev/null
+    # start ssh-agent if none is started
+    if [ -z "$PGREP_SSH_AGENT" ]
+    then
+        # remove agent file
+        rm -f $AGENT_ENV_FILE
+        # write agent info to file
+        eval $(ssh-agent | tee $AGENT_ENV_FILE)
+        # regrep for ssh-agent process since it is running now
+        PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$)"
+    elif [ "$PGREP_SSH_AGENT" ] && [ -f "$AGENT_ENV_FILE" ]
+    then
+        # source existing agent
+        . $AGENT_ENV_FILE 2> /dev/null
+    fi
+
+    # add ssh keys to ssh-agent if running
+    if [ "$PGREP_SSH_AGENT" ] && [ "$(comm -13 <(ssh-add -l | grep -v 'The agent has no identities.' | awk '{print $3}' | grep '^/' | sort) <(readlink -f ~/.ssh/{*.key,id_*} | grep -v '.pub$' | sort) | wc -l)" -gt 0 ]
+    then
+        ssh-add -t 7200 ~/.ssh/{*.key,id_*} 2> /dev/null
+    fi
 fi
 
 # list tmux sessions if tmux running
