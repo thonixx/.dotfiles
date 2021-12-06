@@ -289,6 +289,7 @@ fi
 # skip if GPG agent is in use
 if [[ "${SSH_AGENT_USE_GPG}" != 'true' ]]
 then
+
     # define env file for ssh-agent informations
     AGENT_ENV_FILE="/tmp/agent.${USER}.env"
     PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$)"
@@ -310,11 +311,36 @@ then
         source ${AGENT_ENV_FILE} 2> /dev/null
     fi
 
-    # add ssh keys to ssh-agent if running
-    if [ "$PGREP_SSH_AGENT" ] && [ "$(comm -13 <(ssh-add -l | grep -v 'The agent has no identities.' | awk '{print $3}' | grep '^/' | sort) <(readlink -f ~/.ssh/{*.key,id_*} | grep -v '.pub$' | sort) | wc -l)" -gt 0 ]
+    # ssh key handling for ssh agent
+
+    # available keys
+    keys_avail="$(readlink -f ~/.ssh/{*.key,id_*} | grep -v '.pub$' | sort -u)"
+    keys_avail_verbose="$(echo "${keys_avail}" | while read key_file; do echo "$(ssh-keygen -lf "${key_file}") ${key_file}"; done)"
+    keys_avail_fprint="$(echo "${keys_avail_verbose}" | awk '{print $2}')"
+
+    # keys in agent
+    keys_agent="$(ssh-add -l)"
+    keys_agent_fprint="$(echo "${keys_agent}" | awk '{print $2}')"
+
+    # missing keys in agent
+    keys_missing_fprint="$(comm -13 <(echo "${keys_agent_fprint}" | sort -u) <(echo "${keys_avail_fprint}" | sort -u))"
+
+    # add missing keys
+    if [ "${PGREP_SSH_AGENT}" ] && [ "${#keys_missing_fprint}" -gt 0 ]
     then
-        ssh-add -t 7200 ~/.ssh/{*.key,id_*} 2> /dev/null
+        # loop through missing keys based on fingerprint
+        while read fprint
+        do
+            # get filename of missing key
+            key_file="$(grep -m1 "${fprint}" <<< ${keys_avail_verbose} | awk '{print $NF}')"
+
+            # add missing key
+            echo "SSH Agent: Adding missing key '${key_file}'"
+            ssh-add -t 7200 "${key_file}" < /dev/tty
+        done \
+            <<< ${keys_missing_fprint}
     fi
+
 fi
 
 # list tmux sessions if tmux running
