@@ -202,6 +202,9 @@ map <C-p> <Esc>b<C-v>e"_dP<Esc>
 " be consistent with variable stuff in shell
 map $$ <Esc>ea}<Esc>bha{<Esc>
 
+" in a mail, delete everything following until signature
+map ds ^v/-- <Enter>kd:noh<Enter>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" keymapping in insert mode only
 
