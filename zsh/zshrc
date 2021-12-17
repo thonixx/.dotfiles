@@ -135,6 +135,7 @@ autoload -U reverse
 autoload -U csrcheck
 autoload -U crtcheck
 autoload -U vpn
+autoload -U rename-files
 
 # turn on interactive comments
 setopt interactivecomments

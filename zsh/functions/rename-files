@@ -1,0 +1,43 @@
+#!/bin/zsh
+
+function rename-files () {
+
+set -e
+
+location="~/git/SS-git/DEV/web"
+oldfilename="${1}"
+newfilename="${2}"
+
+files="$(eval ls -1 "./**/${oldfilename}(.)")"
+echo "Old files:"
+echo
+
+tput setaf 1; echo "$files" | sed 's/^.*projects\///g'
+
+tput sgr0; echo
+
+echo "Will be renamed to:"
+
+echo
+
+old_pattern="$(echo "${oldfilename}" | sed 's/*/.*/g')"
+tput setaf 2; while read file; do rename -d -n "s#${old_pattern}#${newfilename}#g" "${file}"; done <<< ${files} | sed 's/^.* //g' | sed 's/^.*projects\///g' | sed 's/)//g'
+tput sgr0; echo
+
+echo "Do you want to continue? (Y/n)"
+read sure
+
+if [ "${sure}" = "y" ] || [ -z  "${sure}"  ] ; then;
+
+    old_pattern="$(echo "${oldfilename}" | sed 's/*/.*/g')"
+    while read file; do rename -d "s#${old_pattern}#${newfilename}#g" "${file}"; done <<< ${files}
+
+    echo "New files:"
+    tput setaf 2; eval ls -1 "./**/${newfilename}(.)" | sed 's/^.*projects\///g'
+
+    tput sgr0; echo
+fi
+
+}
+
+# vim: ft=zsh
