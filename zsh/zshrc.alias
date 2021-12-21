@@ -87,7 +87,7 @@ alias toptables='mysql -e "SELECT CONCAT(table_schema, '"'"'.'"'"', table_name),
 FROM   information_schema.TABLES
 ORDER  BY data_length + index_length DESC
 LIMIT  10;"'
-alias inst='dpkg -l | grep "ii" | grep --color=auto -i'
+alias inst='dpkg -l | grep "[hi]i" | grep --color=auto -i'
 alias lll='for i in *; do echo "`ls -1aRi  $i | awk "/^[0-9]+ / { print $1 }" | sort -u | wc -l` $i" ; done | sort -n'
 alias sysl='tail -f -n 1000 /var/log/syslog'
 alias pubkey='cat ~/.ssh/id_rsa.pub'
@@ -124,13 +124,26 @@ alias calc='galculator'
 alias low='echo 1800 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias middle='echo 3500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
 alias bright='echo 7500 | sudo tee /sys/class/backlight/intel_backlight/brightness'
-alias hardhof="curl -s 'https://restaurant-hardhof.ch/print/index.php?page=3&id=219' | sed -rn '/MENU/,/ZUM MEN(Ü|&Uuml;)/p' | sed -re 's/(<[^>]+>)|(&nbsp;)//g' -e 's/&[aA]uml;/ä/g' -e 's/&[oO]uml;/ö/g' -e 's/&[uU]uml;/ü/g' -e 's/&frac12;/½/g' -e 's/&ecirc;/ê/g' -e 's/&eacute;/é/g' -e 's/&bdquo;/„/g' -e 's/&ldquo;/“/g'"
+alias hardhof="curl -s 'https://restaurant-hardhof.ch/print/index.php?page=3&id=225' | sed -rn '/MENU/,/ZUM MEN(Ü|&Uuml;)/p' | sed -re 's/(<[^>]+>)|(&nbsp;)//g' -e 's/&[aA]uml;/ä/g' -e 's/&[oO]uml;/ö/g' -e 's/&[uU]uml;/ü/g' -e 's/&frac12;/½/g' -e 's/&ecirc;/ê/g' -e 's/&eacute;/é/g' -e 's/&bdquo;/„/g' -e 's/&ldquo;/“/g'"
 alias cgrep='sudo grep -r /etc/cron* /var/spool/cron* -e'
 alias vlist='sudo virsh list --all'
 alias x='xdg-open'
 alias standby='export DISPLAY=:0 && xscreensaver-command -l; sleep 3 && echo deep | sudo tee /sys/power/mem_sleep && echo mem | sudo tee /sys/power/state'
+alias findx="ps -u $(id -u) -o pid= \
+    | xargs -I PID -r cat /proc/PID/environ 2> /dev/null \
+    | tr '\0' '\n' \
+    | grep '^DISPLAY=:' \
+    | sort -u"
+alias urlencode='python -c "import urllib;print urllib.quote(raw_input())" <<< '
 
 # global aliases
 alias -g G='| grep'
 alias -g L='| less'
 alias -g SS='| sort | uniq -c | sort -h'
+alias -g SUCS='| sort | uniq -c | sort -h'
+alias -g WL='| wc -l'
+alias -g X='| xclip'
+alias -g NL='> /dev/null'
+alias -g U='| sort -u'
+alias -g TS='| tmux-xpanes ssh'
+alias -g PROXY='-- -- --proxy-config remote.proxy.conf.js --disable-host-check'

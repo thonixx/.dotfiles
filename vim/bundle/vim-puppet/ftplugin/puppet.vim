@@ -1,22 +1,30 @@
-setl ts=2
-setl sts=2
-setl sw=2
-setl et
-setl keywordprg=puppet\ describe\ --providers
-setl iskeyword=-,:,@,48-57,_,192-255
-setl commentstring=#%s
-setl foldmethod=syntax
-nmap <Leader>l :!PPVER=$(puppet --version); if [[ $PPVER > 2.7.0 ]]; then puppet parser validate % ;else puppet --parseonly %;fi; [[ $? = 0 ]] && puppet-lint %<CR>
+" Vim filetype plugin
+" Language:             Puppet
+" Maintainer:           Tim Sharpe <tim@sharpe.id.au>
+" URL:                  https://github.com/rodjek/vim-puppet
+" Last Change:          2019-08-31
 
-" Have detection for tagbar
-let g:tagbar_type_puppet = {
-      \ 'ctagstype' : 'puppet',
-      \ 'kinds'     : [
-        \ 'c:class',
-        \ 's:site',
-        \ 'n:node',
-        \ 'd:define'
-      \ ],
-      \ 'sort'    : 1
-\ }
+if (exists('b:did_ftplugin'))
+  finish
+endif
+let b:did_ftplugin = 1
 
+setlocal tabstop=2
+setlocal softtabstop=2
+setlocal shiftwidth=2
+setlocal expandtab
+setlocal keywordprg=puppet\ describe\ --providers
+setlocal comments=sr:/*,mb:*,ex:*/,b:#
+setlocal commentstring=#\ %s
+" adding : to iskeyword is tempting in order to make word movements skip over a
+" full resource name, however since : is used in many non-keyword contexts it
+" is a bad idea to add it to the option.
+
+setlocal formatoptions-=t formatoptions+=croql
+setlocal formatexpr=puppet#format#Format()
+
+let b:undo_ftplugin = '
+    \ setlocal tabstop< tabstop< softtabstop< shiftwidth< expandtab<
+    \| setlocal keywordprg< iskeyword< comments< commentstring<
+    \| setlocal formatoptions< formatexpr<
+    \'
