@@ -203,7 +203,7 @@ map <C-p> <Esc>b<C-v>e"_dP<Esc>
 map $$ <Esc>ea}<Esc>bha{<Esc>
 
 " in a mail, delete everything following until signature
-map ds ^v/-- <Enter>kd:noh<Enter>
+map ds ^v/^-- <Enter>kd:noh<Enter>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" keymapping in insert mode only
