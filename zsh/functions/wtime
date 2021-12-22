@@ -112,7 +112,7 @@ function wtime () {
 
     # start timer
     local function timer_start() {
-        start_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -X POST -H "Content-Type: application/json; charset=utf-8" -d '{"task_id": 1}' 'https://pixelwolf.hakuna.ch/api/v1/timer' \
+        start_status="$(curl -s --connect-timeout 5 -H X-Auth-Token:$HAKUNA_TOKEN -H "Content-Type: application/json" -d '{"task_id": 1}' 'https://pixelwolf.hakuna.ch/api/v1/timer' \
             | eval $TR \
             | grep start_time \
             | cut -d: -f 2-)"
