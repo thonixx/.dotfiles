@@ -309,6 +309,18 @@ then
     then
         # source existing agent
         source ${AGENT_ENV_FILE} 2> /dev/null
+    elif [ "${PGREP_SSH_AGENT}" ]
+    then
+        # reuse existing agent
+
+        # remove agent file
+        rm -f ${AGENT_ENV_FILE}
+
+        # write agent info to file
+        eval $(ssh-agent | tee ${AGENT_ENV_FILE})
+    else
+        # failsafe
+        echo 'Something wrong with ssh agent detection, continuing..'
     fi
 
     # ssh key handling for ssh agent
