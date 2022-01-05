@@ -163,10 +163,6 @@ macro index \es "<save-message>+Sent<enter>" "move to Sent"
 macro index \ca "<change-folder>+Archives.`date +%Y`<enter>" "switch to Archive"
 macro index \ea "<save-message>+Archives.`date +%Y`<enter>" "move to Archive"
 
-# switch/move to Done
-macro index \cd "<change-folder>+Done<enter>" "switch to Done"
-macro index \ed "<save-message>+Done<enter>" "move to Done"
-
 # switch to Trash
 macro index \ct "<change-folder>+Trash<enter>" "switch to Trash"
 

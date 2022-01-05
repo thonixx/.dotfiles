@@ -4,22 +4,22 @@ export LC_CTYPE="$(locale -a 2>/dev/null | grep -i de_ch | grep -i utf || echo "
 export LANG="C"
 
 # set the right term
-if [ "$TERM" = "xterm" ] ; then
-    if [ -z "$COLORTERM" ] ; then
-        if [ -z "$XTERM_VERSION" ] ; then
+if [ "${TERM}" = "xterm" ] ; then
+    if [ -z "${COLORTERM}" ] ; then
+        if [ -z "${XTERM_VERSION}" ] ; then
             echo "Warning: Terminal wrongly calling itself 'xterm'."
         else
-            case "$XTERM_VERSION" in
+            case "${XTERM_VERSION}" in
             "XTerm(256)") TERM="xterm-256color" ;;
             "XTerm(88)") TERM="xterm-88color" ;;
             "XTerm") ;;
             *)
-                echo "Warning: Unrecognized XTERM_VERSION: $XTERM_VERSION"
+                echo "Warning: Unrecognized XTERM_VERSION: ${XTERM_VERSION}"
                 ;;
             esac
         fi
     else
-        case "$COLORTERM" in
+        case "${COLORTERM}" in
             gnome-terminal|roxterm|mate-terminal|truecolor)
                 # Those crafty Gnome folks require you to check COLORTERM,
                 # but don't allow you to just *favor* the setting over TERM.
@@ -28,41 +28,41 @@ if [ "$TERM" = "xterm" ] ; then
                 TERM="gnome-256color"
                 ;;
             *)
-                echo "Warning: Unrecognized COLORTERM: $COLORTERM"
+                echo "Warning: Unrecognized COLORTERM: ${COLORTERM}"
                 ;;
         esac
     fi
 fi
 SCREEN_COLORS="`tput colors`"
-if [ -z "$SCREEN_COLORS" ] ; then
-    case "$TERM" in
+if [ -z "${SCREEN_COLORS}" ] ; then
+    case "${TERM}" in
         screen-*color-bce)
-            echo "Unknown terminal $TERM. Falling back to 'screen-bce'."
+            echo "Unknown terminal ${TERM}. Falling back to 'screen-bce'."
             export TERM=screen-bce
             ;;
         *-88color)
-            echo "Unknown terminal $TERM. Falling back to 'xterm-88color'."
+            echo "Unknown terminal ${TERM}. Falling back to 'xterm-88color'."
             export TERM=xterm-88color
             ;;
         *-256color)
-            echo "Unknown terminal $TERM. Falling back to 'xterm-256color'."
+            echo "Unknown terminal ${TERM}. Falling back to 'xterm-256color'."
             export TERM=xterm-256color
             ;;
     esac
     SCREEN_COLORS=`tput colors`
 fi
-if [ -z "$SCREEN_COLORS" ] ; then
-    case "$TERM" in
+if [ -z "${SCREEN_COLORS}" ] ; then
+    case "${TERM}" in
         gnome*|xterm*|konsole*|aterm|[Ee]term)
-            echo "Unknown terminal $TERM. Falling back to 'xterm'."
+            echo "Unknown terminal ${TERM}. Falling back to 'xterm'."
             export TERM=xterm
             ;;
         rxvt*)
-            echo "Unknown terminal $TERM. Falling back to 'rxvt'."
+            echo "Unknown terminal ${TERM}. Falling back to 'rxvt'."
             export TERM=rxvt
             ;;
         screen*)
-            echo "Unknown terminal $TERM. Falling back to 'screen'."
+            echo "Unknown terminal ${TERM}. Falling back to 'screen'."
             export TERM=screen
             ;;
     esac
@@ -108,7 +108,7 @@ zstyle ':completion:*' use-ip true
 compdef '_pass_complete_entries' pw
 
 # load more functions
-fpath=($fpath ~/.dotfiles/zsh/functions)
+fpath=(${fpath} ~/.dotfiles/zsh/functions)
 
 # run-help functions
 autoload -U run-help-git
@@ -216,7 +216,7 @@ source ~/.dotfiles/zsh/zshrc.bindkey
 # make automatic / with 2 dots (.)
 # useful if: ...... ==> ../../../
 rationalise-dot() {
-    if [[ $LBUFFER = *.. ]]; then
+    if [[ ${LBUFFER} = *.. ]]; then
         LBUFFER+=/..
     else
         LBUFFER+=.
@@ -232,20 +232,27 @@ export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswi
 export EDITOR="vim"
 export GIT_EDITOR="vim +startinsert"
 export PAGER="less"
-export PATH="$HOME/local/bin:$HOME/local/bin2:$HOME/.dotfiles/bin:$PATH"
+export PATH="${HOME}/local/bin:${HOME}/local/bin2:${HOME}/.dotfiles/bin:${PATH}"
 export GPG_TTY=$(tty)
 
-export PATH="$HOME/.perl5/bin${PATH:+:${PATH}}"
-export PERL5LIB="PERL5LIB=~/local/bin/server-scripts/lib:$HOME/.perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
-export PERL_LOCAL_LIB_ROOT="$HOME/.perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
-export PERL_MB_OPT="--install_base \"$HOME/.perl5\""
-export PERL_MM_OPT="INSTALL_BASE=$HOME/.perl5"
+export PATH="${HOME}/.perl5/bin${PATH:+:${PATH}}"
+export PERL5LIB="PERL5LIB=~/local/bin/server-scripts/lib:${HOME}/.perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
+export PERL_LOCAL_LIB_ROOT="${HOME}/.perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
+export PERL_MB_OPT="--install_base \"${HOME}/.perl5\""
+export PERL_MM_OPT="INSTALL_BASE=${HOME}/.perl5"
 
 # source local config (testing or so)
 if [ -f ~/.dotfiles/zsh/zshrc.local ]
 then
     source ~/.dotfiles/zsh/zshrc.local
 fi
+
+# source local config (testing or so)
+if [ -f ~/.dotfiles/zsh/zshrc.local2 ]
+then
+    source ~/.dotfiles/zsh/zshrc.local2
+fi
+
 # source autojump if installed
 if [ -f /usr/share/autojump/autojump.sh ]
 then
@@ -269,42 +276,91 @@ colors
 # if command not found
 if [[ -x /usr/lib/command-not-found ]] ; then
     function command_not_found_handler() {
-        /usr/lib/command-not-found --no-failure-msg -- $1
+        /usr/lib/command-not-found --no-failure-msg -- ${1}
     }
 fi
 
 # set $USER if not exists
-if [ -z "$USER" ]
+if [ -z "${USER}" ]
 then
     USER="$(whoami)"
     export USER="$(whoami)"
 fi
 
-# define env file for ssh-agent informations
-AGENT_ENV_FILE="/tmp/agent.$USER.env"
-PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$)"
+# skip if GPG agent is in use
+if [[ "${SSH_AGENT_USE_GPG}" != 'true' ]]
+then
 
-# start ssh-agent if none is started
-if [ -z "$PGREP_SSH_AGENT" ]
-then
-    # remove agent file
-    rm -f $AGENT_ENV_FILE
-    # write agent info to file
-    eval $(ssh-agent | tee $AGENT_ENV_FILE)
-    # regrep for ssh-agent process since it is running now
+    # define env file for ssh-agent informations
+    AGENT_ENV_FILE="/tmp/agent.${USER}.env"
     PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$)"
-elif [ "$PGREP_SSH_AGENT" ] && [ -f "$AGENT_ENV_FILE" ]
-then
-    # source existing agent
-    . $AGENT_ENV_FILE 2> /dev/null
+
+    # start ssh-agent if none is started
+    if [ -z "${PGREP_SSH_AGENT}" ]
+    then
+        # remove agent file
+        rm -f ${AGENT_ENV_FILE}
+
+        # write agent info to file
+        eval $(ssh-agent | tee ${AGENT_ENV_FILE})
+
+        # regrep for ssh-agent process since it is running now
+        PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$)"
+    elif [ "${PGREP_SSH_AGENT}" ] && [ -f "${AGENT_ENV_FILE}" ]
+    then
+        # source existing agent
+        source ${AGENT_ENV_FILE} 2> /dev/null
+    elif [ "${PGREP_SSH_AGENT}" ]
+    then
+        # reuse existing agent
+
+        # remove agent file
+        rm -f ${AGENT_ENV_FILE}
+
+        # write agent info to file
+        eval $(ssh-agent | tee ${AGENT_ENV_FILE})
+    else
+        # failsafe
+        echo 'Something wrong with ssh agent detection, continuing..'
+    fi
+
+    # ssh key handling for ssh agent
+
+    # available keys
+    keys_avail="$(readlink -f ~/.ssh/{*.key,id_*} | grep -v '.pub$' | sort -u)"
+    keys_avail_verbose="$(echo "${keys_avail}" | while read key_file; do echo "$(ssh-keygen -lf "${key_file}") ${key_file}"; done)"
+    keys_avail_fprint="$(echo "${keys_avail_verbose}" | awk '{print $2}')"
+
+    # keys in agent
+    keys_agent="$(ssh-add -l)"
+    keys_agent_fprint="$(echo "${keys_agent}" | awk '{print $2}')"
+
+    # missing keys in agent
+    keys_missing_fprint="$(comm -13 <(echo "${keys_agent_fprint}" | sort -u) <(echo "${keys_avail_fprint}" | sort -u))"
+
+    # add missing keys
+    if [ "${PGREP_SSH_AGENT}" ] && [ "${#keys_missing_fprint}" -gt 0 ]
+    then
+        # loop through missing keys based on fingerprint
+        while read fprint
+        do
+            # get filename of missing key
+            key_file="$(grep -m1 "${fprint}" <<< ${keys_avail_verbose} | awk '{print $NF}')"
+
+            # add missing key
+            echo "SSH Agent: Adding missing key '${key_file}'"
+            ssh-add -t 7200 "${key_file}" < /dev/tty 2> /dev/null
+        done \
+            <<< ${keys_missing_fprint}
+    fi
+
 fi
 
-
 # list tmux sessions if tmux running
-if pgrep -u $USER tmux 2> /dev/null > /dev/null
+if pgrep -u ${USER} tmux 2> /dev/null > /dev/null
 then
     # reinitialize envs for tmux server
-    tmux setenv SSH_AUTH_SOCK $SSH_AUTH_SOCK; tmux setenv SSH_AGENT_PID $SSH_AGENT_PID;
+    tmux setenv SSH_AUTH_SOCK ${SSH_AUTH_SOCK}; tmux setenv SSH_AGENT_PID ${SSH_AGENT_PID};
     # list tmux sessions
     echo ""
     echo "Running tmux sessions:"
@@ -329,14 +385,14 @@ function precmd() {
     RPROMPT='[%*]'
 
     # TMUX <3 stuff
-    test ! -z "$TMUX" && local parsetmux="$(tmux display-message -p 'session: #S, pane: #P' 2> /dev/null)"
+    test ! -z "${TMUX}" && local parsetmux="$(tmux display-message -p 'session: #S, pane: #P' 2> /dev/null)"
 
     # display tmux stuff
-    if [ "$parsetmux" ]
+    if [ "${parsetmux}" ]
     then
         local c1="$(tput setaf 172)"
         local c2="$(tput setaf 227)"
-        local tmuxline=" ${c1}tmux-(${c2}#$(echo "$parsetmux" | tr "," "\n" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "$parsetmux" | tr "," "\n" | grep session | awk '{print $2}')${c1})%{$reset_color%}"
+        local tmuxline=" ${c1}tmux-(${c2}#$(echo "${parsetmux}" | tr "," "\n" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "${parsetmux}" | tr "," "\n" | grep session | awk '{print $2}')${c1})%{${reset_color}%}"
     else
         local tmuxline=""
     fi
@@ -345,10 +401,10 @@ function precmd() {
     local git_branch="$(git branch 2> /dev/null || echo NO)"
 
     # display git stuff at the right side if anything detected
-    if [ "$git_branch" != "NO" ]
+    if [ "${git_branch}" != "NO" ]
     then
-        local parse_git_branch="$(echo "$git_branch" | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g')"
-        local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  $parse_git_branch%{$reset_color%}"
+        local parse_git_branch="$(echo "${git_branch}" | grep --color=auto "*" | sed -e 's/* \(.*\)/\1/g')"
+        local git=" %{$fg[green]%}git %{$fg[cyan]%}⎇  ${parse_git_branch}%{${reset_color}%}"
 
         # get git status
         local gitstatus="$(git status --porcelain 2> /dev/null)"
@@ -356,34 +412,34 @@ function precmd() {
         # colorize gitline
         local gitline="${git}"
         # calculate files modified
-        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}M" | wc -l | tr -d " ")"
-        [[ "$count" -gt 0 ]] && gitline="${gitline} %{$fg[red]%}× ${count}"
+        local count="$(echo "${gitstatus}" 2> /dev/null | egrep "^\s{0,}M" | wc -l | tr -d " ")"
+        [[ "${count}" -gt 0 ]] && gitline="${gitline} %{$fg[red]%}× ${count}"
         # calculate files newly added
-        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}A" | wc -l | tr -d " ")"
-        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[green]%}+ ${count}"
+        local count="$(echo "${gitstatus}" 2> /dev/null | egrep "^\s{0,}A" | wc -l | tr -d " ")"
+        [[ "${count}" -gt 0 ]] && gitline="${gitline} %{$fg[green]%}+ ${count}"
         # calculate files renamed
-        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}R" | wc -l | tr -d " ")"
-        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[yellow]%}~ ${count}"
+        local count="$(echo "${gitstatus}" 2> /dev/null | egrep "^\s{0,}R" | wc -l | tr -d " ")"
+        [[ "${count}" -gt 0 ]] && gitline="${gitline} %{$fg[yellow]%}~ ${count}"
         # calculate files deleted
-        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}D" | wc -l | tr -d " ")"
-        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[cyan]%}- ${count}"
+        local count="$(echo "${gitstatus}" 2> /dev/null | egrep "^\s{0,}D" | wc -l | tr -d " ")"
+        [[ "${count}" -gt 0 ]] && gitline="${gitline} %{$fg[cyan]%}- ${count}"
         # calculate files untracked
-        local count="$(echo "$gitstatus" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l | tr -d " ")"
-        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[white]%}⁙ ${count}"
+        local count="$(echo "${gitstatus}" 2> /dev/null | egrep "^\s{0,}\?\?" | wc -l | tr -d " ")"
+        [[ "${count}" -gt 0 ]] && gitline="${gitline} %{$fg[white]%}⁙ ${count}"
 
         # calculate stash list
         local count="$(git stash list | wc -l)"
-        [[ "$count" -gt 0 ]] && gitline="$gitline %{$fg[magenta]%}⁂  ${count}${reset_color}"
+        [[ "${count}" -gt 0 ]] && gitline="${gitline} %{$fg[magenta]%}⁂  ${count}${reset_color}"
 
         # some symbols/characters for git line:  # ⁇ ⁂ ● ⚛ ⁙ ᛭ ⚫ ⚪ ✓ ×    ¤
         # reset colors
-        local gitline="${gitline}%{$reset_color%}"
+        local gitline="${gitline}%{${reset_color}%}"
     else
         local gitline=""
     fi
 
     # needed for exit status smiley/char
-    local exit="%(?..%{ $fg[red]%}☹  %?%{$reset_color%})"
+    local exit="%(?..%{ $fg[red]%}☹  %?%{${reset_color}%})"
 
     # parse pwd structure and build something nice out of it
     local dire="${(%):-%~}"
@@ -392,7 +448,7 @@ function precmd() {
     local root=""
     if [ "$(whoami)" == "root" ]
     then
-        local root=" %{$fg[white]%}%{$bg[red]%}root%{$reset_color%}"
+        local root=" %{$fg[white]%}%{$bg[red]%}root%{${reset_color}%}"
     fi
 
     # decide which prompt
@@ -407,11 +463,11 @@ function precmd() {
     local firstline="${firstline}${exit}${tmuxline}%{$fg[white]%}${gitline}${svn}${root}"
 
     # define 2nd line globally for all hosts
-    local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{$reset_color%}"
+    local secondline="%{$fg[yellow]%}${dire} %{$fg[white]%}%% %{${reset_color}%}"
 
     # finish the prompt
-    PS1="$firstline
-$secondline"
+    PS1="${firstline}
+${secondline}"
 
 }
 
