@@ -349,7 +349,7 @@ then
 
             # add missing key
             echo "SSH Agent: Adding missing key '${key_file}'"
-            ssh-add -t 7200 "${key_file}" < /dev/tty 2> /dev/null
+            ssh-add -t 14400 "${key_file}" < /dev/tty 2> /dev/null
         done \
             <<< ${keys_missing_fprint}
     fi
