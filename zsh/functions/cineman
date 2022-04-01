@@ -5,7 +5,7 @@ function cineman () {
     uname | grep -q Darwin && DATE=gdate || DATE=date
 
     # how far in the future should we be looking for?
-    days=21
+    days=28
 
     # ask user for his movie wish if no arg given
     test "${#@}" -eq 0 && read '?Search movie: ' search || search="$@"
