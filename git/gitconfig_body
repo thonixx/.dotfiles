@@ -11,6 +11,7 @@
     cp = cherry-pick
     cpc = cherry-pick --continue
     cpa = cherry-pick --abort
+    rb = rebase
     rbi = rebase --interactive
     rbc = rebase --continue
     rba = rebase --abort
