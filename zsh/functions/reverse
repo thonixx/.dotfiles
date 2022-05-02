@@ -1,73 +1,74 @@
 # do a reverse lookup
 function reverse () {
     # put request in variable
-    request="$1"
+    input="$1"
 
-    # check for request
-    if [ -z "$request" ]
+    # check for input
+    if [ -z "${input}" ]
     then
         echo "Please provide an IP or host name.".
-        return
+        return 2
     fi
 
-    # check for "dig" installed
+    # is dig installed?
     if [ -z "$(which dig)" ]
     then
-        echo "Please install dig, we need it:"
+        echo "Please install dig:"
         echo "sudo apt-get install dig (for Ubuntu/Debian)"
-        return
+        return 2
     fi
 
     # decide if its an ip or name
-    if [ "$(echo $request | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
+    if [ "$(echo ${input} | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
     then
         # would be an IP
 
-        # for later check of any reverse
+        # later used to check if there was any reverse entry
         check="false"
 
         # save/set IFS
-        oldifs=$IFS
+        oldifs=${IFS}
         IFS=$'\n'
 
         # loop through ptr records
-        for r in $(dig +tcp +short -x $request 2> /dev/null)
+        for r in $(dig +tcp +short -x ${input} 2> /dev/null)
         do
             # print ip address
-            echo -n "$request"
+            echo -n "${input}"
 
             # print PTR
-            echo " > $r"
+            echo " > ${r}"
 
             # set check to true due to at least one PTR
             check="true"
         done
 
         # set the old IFS
-        export IFS=$oldifs
+        export IFS=${oldifs}
 
         # check if any ptr was found
-        if [ $check == "false" ]
+        if [ ${check} == "false" ]
         then
-            echo -ne "No reverse entry for $request.\n"
+            echo -ne "No reverse entry for ${input}.\n"
+            return 1
         fi
     else
         # would be a hostname
 
         # check if any output there
-        if [ -z "$(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
+        if [ -z "$(dig a +search +short +tcp ${input} 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')" ]
         then
-            echo "No A records found for $request."
-            return
+            echo "No A records found for ${input}."
+            return 1
         else
             # continue with a record(s)
 
             # save/set IFS
-            oldifs=$IFS
+            oldifs=${IFS}
             IFS=$'\n'
 
             # loop through A records
-            for i in $(dig a +search +short +tcp $request 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')
+            for i in $(dig a +search +short +tcp ${input} 2> /dev/null | egrep -o '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')
             do
                 # for later check of any reverse
                 check="false"
@@ -76,25 +77,29 @@ function reverse () {
                 for r in $(dig +tcp +short -x $i 2> /dev/null)
                 do
                     # print request and ip
-                    echo -n "$request > $i"
+                    echo -n "${input} > $i"
 
                     # print PTR
-                    echo " > $r"
+                    echo " > ${r}"
 
                     # set check to true due to at least one PTR
                     check="true"
                 done
 
                 # check if any ptr was found
-                if [ $check == "false" ]
+                if [ ${check} == "false" ]
                 then
-                    echo -ne "$request > $i > No reverse entry.\n"
+                    echo -ne "${input} > $i > No reverse entry.\n"
+                    ret=1
                 fi
 
             done
 
             # set the old IFS
-            export IFS=$oldifs
+            export IFS=${oldifs}
+
+            # return status
+            return ${ret:-0}
         fi
     fi
 }

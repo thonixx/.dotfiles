@@ -2,18 +2,33 @@
     default = upstream
 
 [alias]
+
+    # pull/commit/push
     go = !git pull --progress -v --rebase=false && git commit -v && git push;
+
+    # branch handling
+    cd = checkout
     drb = push -u origin
     dlb = branch -d
     clb = checkout -b
     crb = push -u origin
-    cd = checkout
+
+    # cherry pick
     cp = cherry-pick
     cpc = cherry-pick --continue
     cpa = cherry-pick --abort
+
+    # rebase
+    rb = rebase
     rbi = rebase --interactive
     rbc = rebase --continue
     rba = rebase --abort
+
+    # commit
+    cf = commit --fixup
+    ce = commit --allow-empty
+
+    # push
     please = push --force-with-lease
 
 [color]
