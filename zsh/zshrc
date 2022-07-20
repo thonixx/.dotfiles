@@ -177,8 +177,8 @@ unsetopt autocd
 # seriously why does this shit even exist
 unsetopt beep
 
-# DON'T YOU YELL AT ME WHEN YOU CAN'T FIND A MATCH
-# THAT'S YOUR PROBLEM, _NOT_ MINE
+# don't complain about no matches found
+# just pass the argument to the command/alias/function/whatever
 unsetopt nomatch
 
 # when i put a process in the background,
