@@ -8,6 +8,8 @@ source ~/.dotfiles/mutt/mutt.muttrc
 # general
 send-hook . my_hdr from: "usualmail@example.org"
 send-hook . set crypt_autosign = "yes"
+send-hook . set crypt_opportunistic_encrypt = "yes"
+send-hook . set crypt_replysign = "yes"
 send-hook . set signature=~/.dotfiles/mutt/mutt.example.signature
 
 # some other recipient/sender
