@@ -103,6 +103,9 @@ set pgp_long_ids = "yes"
 # reply signed
 set crypt_replysign = "yes"
 
+# do not s/mime
+set crypt_autosmime = "no"
+
 # don't show unusable
 set pgp_show_unusable = "no"
 
