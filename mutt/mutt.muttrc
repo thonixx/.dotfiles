@@ -117,7 +117,7 @@ set pgp_autosign = "yes"
 set pgp_timeout = "1800"
 
 # pgp self encrypt (default but still better to mention it explicitely)
-pgp_self_encrypt = "yes"
+set pgp_self_encrypt = "yes"
 
 # for copy paste to every account
 # set pgp_sign_as = "0x*****"
