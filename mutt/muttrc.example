@@ -43,6 +43,7 @@ set edit_headers="yes"
 
 # gpg
 set pgp_sign_as=0x00000000
+set pgp_default_key=0x00000000
 
 # signature
 set signature=~/.dotfiles/mutt/mutt.example.signature

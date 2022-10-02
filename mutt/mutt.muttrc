@@ -116,8 +116,12 @@ set pgp_use_gpg_agent = "yes"
 set pgp_autosign = "yes"
 set pgp_timeout = "1800"
 
+# pgp self encrypt (default but still better to mention it explicitely)
+pgp_self_encrypt = "yes"
+
 # for copy paste to every account
 # set pgp_sign_as = "0x*****"
+# set pgp_default_key = "0x*****"
 
 set dsn_notify = "failure,delay"
 set dsn_return = "hdrs"
