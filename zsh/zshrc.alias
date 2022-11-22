@@ -66,6 +66,7 @@ alias tulpensvc='tulpen | grep -ve rpcbind -e ntpd -e sshd -e nrpe -e monit | se
 alias keydebug='xev | sed -n "s/^.*state \([0-9].*\), keycode *\([0-9]\+\) *\(.*\), .*$/keycode \2 = \3, state = \1/p"'
 alias cgrep='sudo grep -r /etc/cron* /var/spool/cron* -e'
 alias sgrep='cat /var/log/syslog | grep'
+alias szgrep='(cat /var/log/syslog /var/log/syslog.1; zcat /var/log/syslog*gz) | grep'
 alias sigrep='cat /var/log/syslog | grep -i'
 alias zshreload='. ~/.zshrc'
 alias greprn='grep -rn'
