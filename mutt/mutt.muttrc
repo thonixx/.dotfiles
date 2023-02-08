@@ -126,6 +126,9 @@ set pgp_self_encrypt = "yes"
 set dsn_notify = "failure,delay"
 set dsn_return = "hdrs"
 
+# show message id
+unignore Message-Id
+
 ################################################################################
 # SIDEBAR SETTINGS______________________________________________________________
 
