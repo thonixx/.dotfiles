@@ -1,7 +1,7 @@
 "============================================================================
-"File:        ansible_lint.vim
+"File:        sorbet.vim
 "Description: Syntax checking plugin for syntastic
-"Maintainer:  Erik Zaadi <erik.zaadi at gmail dot com>
+"Maintainer:  Tom Morton <tomm@riseup.net>
 "License:     This program is free software. It comes without any warranty,
 "             to the extent permitted by applicable law. You can redistribute
 "             it and/or modify it under the terms of the Do What The Fuck You
@@ -10,46 +10,37 @@
 "
 "============================================================================
 
-if exists('g:loaded_syntastic_ansible_ansible_lint_checker')
+if exists('g:loaded_syntastic_ruby_sorbet_checker')
     finish
 endif
-let g:loaded_syntastic_ansible_ansible_lint_checker = 1
+let g:loaded_syntastic_ruby_sorbet_checker = 1
 
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! SyntaxCheckers_ansible_ansible_lint_IsAvailable() dict
+function! SyntaxCheckers_ruby_sorbet_IsAvailable() dict
     if !executable(self.getExec())
         return 0
     endif
-    return syntastic#util#versionIsAtLeast(self.getVersion(), [2, 0, 4])
+    return syntastic#util#versionIsAtLeast(self.getVersion(), [0, 1, 0])
 endfunction
 
-function! SyntaxCheckers_ansible_ansible_lint_GetLocList() dict
-    let makeprg = self.makeprgBuild({ 'args_after': '-p' })
+function! SyntaxCheckers_ruby_sorbet_GetLocList() dict
+    let makeprg = self.makeprgBuild({ 'args_before': 'tc' })
 
-    let errorformat =
-        \ '%f:%l: [E%n] %m,' .
-        \ '%f:%l: [EANSIBLE%n] %m,' .
-        \ '%f:%l: [ANSIBLE%n] %m,' .
-        \ '%f:%l:%c %m,' .
-        \ '%f:%l: %m'
-
-    let env = syntastic#util#isRunningWindows() ? {} : { 'TERM': 'dumb' }
+    let errorformat = '%f:%l: %m'
 
     return SyntasticMake({
         \ 'makeprg': makeprg,
         \ 'errorformat': errorformat,
-        \ 'env': env,
-        \ 'defaults': {'type': 'E'},
-        \ 'subtype': 'Style',
-        \ 'returns': [0, 2] })
+        \ 'type': 'E',
+        \ 'subtype': 'Style' })
 endfunction
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
-    \ 'filetype': 'ansible',
-    \ 'name': 'ansible_lint',
-    \ 'exec': 'ansible-lint'})
+    \ 'filetype': 'ruby',
+    \ 'name': 'sorbet',
+    \ 'exec': 'srb' })
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
