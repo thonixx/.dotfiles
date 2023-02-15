@@ -7,7 +7,10 @@ Before:
   Save g:ale_set_loclist
   Save g:ale_set_quickfix
   Save g:ale_set_signs
+  Save g:ale_exclude_highlights
+  Save b:ale_exclude_highlights
 
+  runtime autoload/ale/virtualtext.vim
   runtime autoload/ale/highlight.vim
 
   let g:ale_run_synchronously = 1
@@ -20,6 +23,8 @@ Before:
   let g:ale_set_quickfix = 0
   let g:ale_set_loclist = 0
   let g:ale_echo_cursor = 0
+  let g:ale_exclude_highlights = []
+  let b:ale_exclude_highlights = []
 
   function! GenerateResults(buffer, output)
     return [
@@ -94,6 +99,10 @@ Before:
     endif
   endfunction
 
+  function! GetLinkedGroup(grp) abort
+    return synIDattr(synIDtrans(hlID(a:grp)), 'name')
+  endfunction
+
   call ale#linter#Define('testft', {
   \ 'name': 'x',
   \ 'executable': has('win32') ? 'cmd': 'echo',
@@ -115,6 +124,9 @@ After:
   call ale#linter#Reset()
   call clearmatches()
   call ale#sign#Clear()
+  if has('textprop') && has('popupwin')
+    call prop_type_delete('ale')
+  endif
   highlight clear SomeOtherGroup
 
   runtime autoload/ale/highlight.vim
@@ -124,6 +136,15 @@ Given testft(A Javscript file with warnings/errors):
   bar
   baz wat
   line four
+
+" Autoloading virtualtext.vim first should still properly initialize hl-groups
+Execute(Loading virtualtext first does not break highlight groups):
+  AssertEqual
+  \ "SpellBad",
+  \ GetLinkedGroup("ALEError")
+  AssertEqual
+  \ "SpellCap",
+  \ GetLinkedGroup("ALEWarning")
 
 Execute(Highlights should be set when a linter runs):
   ALELint
@@ -240,7 +261,7 @@ Execute(Only ALE highlights should be restored when buffers are restored):
     \ sort(GetMatchesWithoutIDs(), {m1, m2 -> m1.group < m2.group ? -1 : 1})
   endif
 
-Execute(Higlight end columns should set an appropriate size):
+Execute(Highlight end columns should set an appropriate size):
   call ale#highlight#SetHighlights(bufnr('%'), [
   \ {'bufnr': bufnr('%'), 'type': 'E', 'lnum': 3, 'col': 2, 'end_col': 5},
   \ {'bufnr': bufnr('%'), 'type': 'W', 'lnum': 4, 'col': 1, 'end_col': 5},
@@ -253,7 +274,7 @@ Execute(Higlight end columns should set an appropriate size):
   \ ],
   \ GetMatchesWithoutIDs()
 
-Execute(Higlight end columns should set an appropriate size):
+Execute(Highlight end columns should set an appropriate size):
   call ale#highlight#SetHighlights(bufnr('%'), [
   \ {'bufnr': bufnr('%') - 1, 'type': 'E', 'lnum': 1, 'col': 1},
   \ {'bufnr': bufnr('%'), 'type': 'E', 'lnum': 1, 'col': 1},
@@ -363,6 +384,23 @@ Execute(Highlights should always be cleared when the buffer highlight list is em
     \ GetMatchesWithoutIDs()
   endif
 
+Execute(Highlights should be hidden when excluded):
+  let b:ale_exclude_highlights = ['ig.*ore', 'nope']
+
+  call ale#highlight#SetHighlights(bufnr('%'), [
+  \ {'bufnr': bufnr('%'), 'type': 'E', 'lnum': 1, 'col': 1, 'text': 'hello'},
+  \ {'bufnr': bufnr('%'), 'type': 'E', 'lnum': 2, 'col': 1, 'text': 'ignore'},
+  \ {'bufnr': bufnr('%'), 'type': 'E', 'lnum': 3, 'col': 1, 'text': 'nope'},
+  \ {'bufnr': bufnr('%'), 'type': 'E', 'lnum': 4, 'col': 1, 'text': 'world'},
+  \])
+
+  AssertEqual
+  \ [
+  \   {'group': 'ALEError', 'priority': 10, 'pos1': [1, 1, 1]},
+  \   {'group': 'ALEError', 'priority': 10, 'pos1': [4, 1, 1]},
+  \ ],
+  \ GetMatchesWithoutIDs()
+
 Execute(Highlights should be cleared when ALE is disabled):
   let g:ale_enabled = 1
   call ale#highlight#SetHighlights(bufnr(''), [
@@ -386,7 +424,7 @@ Execute(Highlights should be cleared when ALE is disabled):
 
 Execute(Line highlights should be set when signs are disabled):
   " This will mess with your settings, but it needs to be tested.
-  " We need to match highlights case-insenstive when removing them.
+  " We need to match highlights case-insensitively when removing them.
   hi link aleerrorline spellbad
 
   let g:ale_set_signs = 0
