@@ -226,6 +226,9 @@ inoremap <C-k> <Esc>ld$a
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""" commands
 
+" configure puppet linter
+let g:ale_puppet_puppetlint_options = "--no-80chars-check --no-140chars-check --no-puppet_url_without_modules-check --no-documentation-check --no-autoloader_layout-check"
+
 "Pathogen stuff
 call pathogen#infect()
 filetype off
