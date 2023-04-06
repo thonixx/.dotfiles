@@ -36,7 +36,7 @@ function vpn(){
         echo 'Checking DNS...'
         check_dns 5 || { echo 'Could not resolve test host, DNS failure?'; return 1; }
 
-        sudo -b nohup /usr/bin/openfortivpn -c ${dotforti} 2> /dev/null
+        sudo -b nohup /usr/bin/openfortivpn -c ${dotforti} > /dev/null 2> /dev/null
 
         # wait for a working connection
         echo 'Connecting...'
