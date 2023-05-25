@@ -292,7 +292,7 @@ then
 
     # define env file for ssh-agent informations
     AGENT_ENV_FILE="/tmp/agent.${USER}.env"
-    PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$ | awk '{print $1}')"
+    PGREP_SSH_AGENT="$(ps -eo pid,args,state | grep [s]sh-agent | grep -v Z$ | awk '{print $1}')"
 
     # start ssh-agent if none is started
     if [ -z "${PGREP_SSH_AGENT}" ]
@@ -304,7 +304,7 @@ then
         eval $(ssh-agent | tee ${AGENT_ENV_FILE})
 
         # regrep for ssh-agent process since it is running now
-        PGREP_SSH_AGENT="$(ps -eo pid,cmd,state | grep [s]sh-agent | grep -v Z$)"
+        PGREP_SSH_AGENT="$(ps -eo pid,args,state | grep [s]sh-agent | grep -v Z$)"
     elif [ "${PGREP_SSH_AGENT}" ] && [ $(grep -sq "SSH_AGENT_PID=${PGREP_SSH_AGENT}" ${AGENT_ENV_FILE} && echo 'ok' || echo 'mismatch') == 'ok' ]
     then
         # source existing agent
@@ -326,7 +326,7 @@ then
     # ssh key handling for ssh agent
 
     # available keys
-    keys_avail="$(find ~/.ssh -name "*.key" -o -name "id_*" | xargs -I {} --no-run-if-empty readlink -f {} | grep -v '.pub$' | sort -u)"
+    keys_avail="$(find ~/.ssh -name "*.key" -o -name "id_*" | xargs -I {} readlink -f {} | grep -v '.pub$' | sort -u)"
     if [[ "x${keys_avail}" != 'x' ]]
     then
         keys_avail_verbose="$(echo "${keys_avail}" | while read key_file; do echo "$(ssh-keygen -lf "${key_file}") ${key_file}"; done)"
