@@ -453,12 +453,19 @@ function precmd() {
         local root=" %{$fg[white]%}%{$bg[red]%}root%{${reset_color}%}"
     fi
 
+    # make it possible to define other user and host colour defaults for a certain machine
+    # using a .local file
+    if [ -f ~/.dotfiles/zsh/zshrc.prompt.local ]
+    then
+        source ~/.dotfiles/zsh/zshrc.prompt.local
+    fi
+
     # decide which prompt
     case "$(hostname -s)" in
         'woulfpad' )
             local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
         * )
-            local firstline="%{$fg[blue]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
+            local firstline="%{$fg[${colour_user-blue}]%}%n%{$fg[white]%}@%{$fg[${colour_hostname-red}]%}%M%{$fg[white]%}:%y" ;;
     esac
 
     # append git/svn/other things
