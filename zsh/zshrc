@@ -394,7 +394,7 @@ function precmd() {
     then
         local c1="$(tput setaf 172)"
         local c2="$(tput setaf 227)"
-        local tmuxline=" ${c1}tmux-(${c2}#$(echo "${parsetmux}" | tr "," "\n" | grep pane | awk '{print $2}')${c1}@${c2}$(echo "${parsetmux}" | tr "," "\n" | grep session | awk '{print $2}')${c1})%{${reset_color}%}"
+        local tmuxline=" ${c1}tmux-(${c2}#$(echo "${parsetmux}" | tr "," "\n" | grep '^ pane:' | awk '{print $2}')${c1}@${c2}$(echo "${parsetmux}" | tr "," "\n" | grep '^session:' | awk '{print $2}')${c1})%{${reset_color}%}"
     else
         local tmuxline=""
     fi
