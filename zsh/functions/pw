@@ -40,11 +40,18 @@ function pw () {
     # show pass info
     DISPLAY= pass show "${pw}" | tail -n +2
 
-    # copy password
-    (pass -c "${pw}" > /dev/null) &!
+    # copy or display a password
+    if [[ -z "$DISPLAY" ]]
+    then
+        # no display, therefore showing everything
+        pass show "${pw}"
+    else
+        # there is a display, then use pass -c
+        (pass -c "${pw}" > /dev/null) &!
+    fi
 
     # notify user
-    notify-send "Copied password of '${pw}' to clipboard!"
+    which notify-send > /dev/null 2> /dev/null && notify-send "Copied password of '${pw}' to clipboard!"
 
     # notify about restoring clipboard
     (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
