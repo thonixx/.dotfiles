@@ -44,17 +44,20 @@ function pw () {
     if [[ -z "$DISPLAY" ]]
     then
         # no display, therefore showing everything
-        pass show "${pw}"
+        pass show "${pw}" | head -n1
     else
         # there is a display, then use pass -c
         (pass -c "${pw}" > /dev/null) &!
     fi
 
-    # notify user
-    which notify-send > /dev/null 2> /dev/null && notify-send "Copied password of '${pw}' to clipboard!"
+    which notify-send > /dev/null 2> /dev/null && \
+    {
+        # notify user
+        notify-send "Copied password of '${pw}' to clipboard!"
 
-    # notify about restoring clipboard
-    (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
+        # notify about restoring clipboard
+        (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
+    }
 }
 
 # vim: ft=zsh
