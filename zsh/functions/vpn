@@ -2,8 +2,10 @@ function vpn(){
     # where the fortivpn settings are stored
     # linux
     dotforti='/root/.fortivpn'
+    binforti='/usr/bin/openfortivpn'
     # macos
     uname | grep -q Darwin && dotforti='/var/root/.fortivpn'
+    uname | grep -q Darwin && binforti='/opt/homebrew/bin/openfortivpn'
 
     test -e "$(which openfortivpn)" || { echo 'There is no openfortivpn installed. Exiting.'; return 1; }
 
@@ -36,7 +38,7 @@ function vpn(){
         echo 'Checking DNS...'
         check_dns 5 || { echo 'Could not resolve test host, DNS failure?'; return 1; }
 
-        sudo -b nohup /usr/bin/openfortivpn -c ${dotforti} > /dev/null 2> /dev/null
+        sudo -b nohup ${binforti} -c ${dotforti} > /dev/null 2> /dev/null
 
         # wait for a working connection
         echo 'Connecting...'
@@ -49,15 +51,24 @@ function vpn(){
             # wait
             sleep 0.5
 
+            # do not ping on macOS
+            # does not work to ping gateway or own IP, not sure why
+            uname | grep -q Darwin && break
+
             # connection try
             ifconfig ppp0 2> /dev/null  \
                 | grep -Eo 'inet [^ ]*' \
                 | awk '{print $NF}' \
-                | xargs -n1 ping -c1 -W1 2> /dev/null > /dev/null && break || continue
+                | xargs -n1 ping -c1 -W1 2> /dev/null > /dev/null && break || {
+                    # check attempts against maximum
+                    test ${i} -ge 10 && { echo 'Still not working, try again.'; return 1; }
 
-            test ${i} -ge 30 && { echo 'Still not working, try again.'; return 1; }
+                    # increment count
+                    let i+=1
 
-            let i+=1
+                    # go for another round
+                    continue
+                }
         done
     }
 

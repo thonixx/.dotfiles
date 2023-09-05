@@ -7,7 +7,15 @@ export LC_ALL=C
 # get status of vpn
 test -f "$(which openfortivpn)" || exit 0
 
-pgrep -a openfortivpn > /dev/null && ifconfig ppp0 | grep -Eo "inet [^ ]*" | awk '{print $NF}' | xargs ping -c1 -W1 > /dev/null \
+# linux or technically everything except uname = Darwin
+check_cmd="pgrep -a openfortivpn > /dev/null && ifconfig ppp0 | grep -Eo 'inet [^ ]*' | awk '{print \$NF}' | xargs ping -c1 -W1 > /dev/null"
+
+# macos
+# same issue as for connecting
+# can neither ping gateway nor own IP
+uname | grep -q Darwin && check_cmd='pgrep -a openfortivpn > /dev/null && ifconfig ppp0 | grep -qE "inet [^ ]*"'
+
+eval $check_cmd \
     && {
         colour="#[fg=black]#[bg=green]"
         fvpn="VPN up"

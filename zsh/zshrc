@@ -240,6 +240,9 @@ export PERL_LOCAL_LIB_ROOT="${HOME}/.perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_L
 export PERL_MB_OPT="--install_base \"${HOME}/.perl5\""
 export PERL_MM_OPT="INSTALL_BASE=${HOME}/.perl5"
 
+# homebrew binaries
+test -d /opt/homebrew/bin && PATH="${PATH}:/opt/homebrew/bin"
+
 # source local config (testing or so)
 if [ -f ~/.dotfiles/zsh/zshrc.local ]
 then
