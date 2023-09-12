@@ -26,7 +26,7 @@ function tmux_err {
 
 # checks
 function check_ping {
-    ping -W $w -qc1 www.example.org > /dev/null || { echo 'ERROR ping' >&2; return 1; }
+    ping -W $w -qc1 www.admin.ch > /dev/null || { echo 'ERROR ping' >&2; return 1; }
 }
 
 function check_ns {
@@ -34,7 +34,7 @@ function check_ns {
 }
 
 function check_dns {
-    timeout 3 host -t A -R5 -W3 www.example.org >&2 || { echo 'ERROR dns (timeout/refused/other)' >&2; return 1; }
+    timeout 3 host -t A -R5 -W3 www.admin.ch >&2 || { echo 'ERROR dns (timeout/refused/other)' >&2; return 1; }
 }
 
 # check dns
