@@ -15,6 +15,7 @@ alias vihosts='su - admin -c "sudo vi /etc/hosts"'
 alias manpp="sed -nE '/(define |class ).*\(/,/\)/p'"
 alias shred='gshred'
 alias tmake='~/.dotfiles/mac/AutoRaise -delay 2 2> /dev/null > /dev/null &; disown %1; tmux new-session -s main -n mail \; split-window -p 40 \; new-window \; send-keys -t "main:1.0" "mutt" Enter \; send-keys -t "main:1.1" "mutt -F ~/mon.mutt" Enter \; select-window -t "mail"\; select-pane -t 0'
+alias x='open'
 unalias pat
 
 # gpg needs tty
