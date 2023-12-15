@@ -1,0 +1,29 @@
+# some helpful aliases for mac
+alias ls='ls'
+alias ll='ls -altrFGh'
+alias findproc='ps aux | head -n1; ps aux | grep -i'
+alias proctime='ps -eo pid,user,command,etime | grep --color=never -i'
+alias readlink='greadlink'
+alias lock='open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app'
+alias curl='/usr/local/opt/curl/bin/curl'
+alias vi='vim'
+# alias mtr='sudo /usr/local/opt/mtr/sbin/mtr'
+alias shuf='gshuf'
+alias sysl='su - admin -c "sudo tail -f /var/log/system.log"'
+alias search='find . -iname'
+alias vihosts='su - admin -c "sudo vi /etc/hosts"'
+alias manpp="sed -nE '/(define |class ).*\(/,/\)/p'"
+alias shred='gshred'
+alias tmake='~/.dotfiles/mac/AutoRaise -delay 2 2> /dev/null > /dev/null &; disown %1; tmux new-session -s main -n mail \; split-window -p 40 \; new-window \; send-keys -t "main:1.0" "mutt" Enter \; send-keys -t "main:1.1" "mutt -F ~/mon.mutt" Enter \; select-window -t "mail"\; select-pane -t 0'
+unalias pat
+
+# gpg needs tty
+export GPG_TTY=$(tty)
+
+# not an alias but needed this way anway
+function mtr() {
+    su admin -c "sudo /usr/local/opt/mtr/sbin/mtr $@"
+}
+function ssudo() {
+    su admin -c "sudo $@"
+}
