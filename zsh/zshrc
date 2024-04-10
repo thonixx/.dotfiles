@@ -278,6 +278,9 @@ then
 elif [ -f /usr/local/etc/profile.d/autojump.sh ]
 then
     source /usr/local/etc/profile.d/autojump.sh
+elif [ -f /opt/homebrew/share/autojump/autojump.zsh ]
+then
+    source /opt/homebrew/share/autojump/autojump.zsh
 fi
 
 ####################
