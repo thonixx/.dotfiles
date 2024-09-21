@@ -480,7 +480,7 @@ function precmd() {
     fi
 
     # decide which prompt
-    case "$(hostname -s)" in
+    case "$(hostname -f)" in
         *'pixelsrv'* )
             local firstline="%{$fg[red]%}%n%{$fg[white]%}@%{$(tput setaf 154)%}%M%{$fg[white]%}:%y" ;;
         * )
