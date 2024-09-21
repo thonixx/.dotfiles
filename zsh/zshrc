@@ -481,8 +481,8 @@ function precmd() {
 
     # decide which prompt
     case "$(hostname -s)" in
-        'woulfvm' | 'MITA-MacBook-Pro' )
-            local firstline="%{$fg[green]%}%n%{$fg[white]%}@%{$fg[red]%}%M%{$fg[white]%}:%y" ;;
+        *'pixelsrv'* )
+            local firstline="%{$fg[red]%}%n%{$fg[white]%}@%{$(tput setaf 154)%}%M%{$fg[white]%}:%y" ;;
         * )
             local firstline="%{$fg[${colour_user-blue}]%}%n%{$fg[white]%}@%{$fg[${colour_hostname-red}]%}%M%{$fg[white]%}:%y" ;;
     esac
