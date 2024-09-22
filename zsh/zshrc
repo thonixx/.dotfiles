@@ -1,3 +1,6 @@
+# source /etc/profile
+source /etc/profile
+
 # set the right locale env for myself
 # set de_CH.utf*8 or C
 export LC_CTYPE="$(locale -a 2>/dev/null | grep -i de_ch | grep -i utf || echo "C")"
