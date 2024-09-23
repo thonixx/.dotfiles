@@ -217,8 +217,22 @@ setopt PUSHD_IGNORE_DUPS
 #################### beginning of sourcing
 ####################
 
+# source local config (testing or so)
+if [ -f ~/.dotfiles/zsh/zshrc.local ]
+then
+    source ~/.dotfiles/zsh/zshrc.local
+fi
+
+# source local config (testing or so)
+if [ -f ~/.dotfiles/zsh/zshrc.local2 ]
+then
+    source ~/.dotfiles/zsh/zshrc.local2
+fi
+
 # source aliases
 source ~/.dotfiles/zsh/zshrc.alias
+
+# source macos aliases if applicable
 if [[ "${uname}" == "Darwin" ]]
 then
     source ~/.dotfiles/zsh/zshrc.mac.alias
@@ -258,18 +272,6 @@ export PERL_MM_OPT="INSTALL_BASE=${HOME}/.perl5"
 
 # homebrew binaries
 test -d /opt/homebrew/bin && PATH="${PATH}:/opt/homebrew/bin"
-
-# source local config (testing or so)
-if [ -f ~/.dotfiles/zsh/zshrc.local ]
-then
-    source ~/.dotfiles/zsh/zshrc.local
-fi
-
-# source local config (testing or so)
-if [ -f ~/.dotfiles/zsh/zshrc.local2 ]
-then
-    source ~/.dotfiles/zsh/zshrc.local2
-fi
 
 # source autojump if installed
 if [ -f /usr/share/autojump/autojump.sh ]
