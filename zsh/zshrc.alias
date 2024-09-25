@@ -2,6 +2,8 @@
 
 # puppet stuff
 alias pat='puppet agent --test'
+alias pen='puppet agent --enable'
+alias pdis="puppet agent --disable 'disabled by $USER on $(date)'"
 alias pnoop='sudo puppet agent --test --noop --agent_disabled_lockfile /not/existent'
 alias penv='cd /etc/puppetlabs/code/environments/'
 
