@@ -16,4 +16,3 @@ The following modules come with subtree merging:
 | -------------------------- | ----------------------------------------------------- |  ------------- |
 | vim-puppet                 | <https://github.com/rodjek/vim-puppet>                |  master        |
 | tlib_vim                   | <https://github.com/tomtom/tlib_vim>                  |  master        |
-| vim-markdown               | <https://github.com/preservim/vim-markdown>           |  master        |
