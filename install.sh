@@ -96,15 +96,30 @@ dpkg -l zathura 2> /dev/null | grep -qE '^ii' && {
     putconfig zathura "${home}/.config/zathura"
 }
 
-# link gpg-agent config
-putconfig gpg/gpg-agent.conf "${home}/.gnupg/gpg-agent.conf"
 
-# create gpg.conf
-echo
-gpg -K
-echo
-read -p 'Provide your main GPG key id for gpg conf for hidden-ecrypt-to (format 0x...) for GPG config: ' gpg
-echo "hidden-encrypt-to $gpg" > $HOME/.gnupg/gpg.conf
+# gpg stuff
+gpg_secret_keys=$(gpg -K 2> /dev/null | grep -c sec)
+
+# only install gpg stuff if there are gpg secret keys
+if [ $gpg_secret_keys -gt 0 ]
+then
+
+    # link gpg-agent config
+    putconfig gpg/gpg-agent.conf "${home}/.gnupg/gpg-agent.conf"
+
+    # create gpg.conf
+    echo
+    gpg -K
+    echo
+    read -p 'Provide your main GPG key id for gpg conf for hidden-ecrypt-to (format 0x...) for GPG config: ' gpg
+    echo "hidden-encrypt-to $gpg" > $HOME/.gnupg/gpg.conf
+
+else
+
+    # no gpg key found
+    echo "Found ${gpg_secret_keys} gpg secret keys. not installing gpg config."
+
+fi
 
 # link redshift config if installed
 dpkg -l redshift 2> /dev/null | grep -qE '^ii' && {
