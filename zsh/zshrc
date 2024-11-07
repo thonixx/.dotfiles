@@ -122,6 +122,9 @@ compdef '_pass_complete_entries' pw
 fpath=(${fpath} ~/.dotfiles/zsh/functions)
 
 # run-help functions
+autoload -U run-help-sudo
+autoload -U run-help-openssl
+autoload -U run-help-ip
 autoload -U run-help-git
 autoload -U run-help-btrfs
 autoload -U run-help-puppet
