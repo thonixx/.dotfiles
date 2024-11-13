@@ -50,14 +50,14 @@ function pw () {
         (pass -c "${pw}" > /dev/null) &!
     fi
 
-    which notify-send > /dev/null 2> /dev/null && \
-    {
-        # notify user
-        notify-send "Copied password of '${pw}' to clipboard!"
-
-        # notify about restoring clipboard
-        (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
-    }
+    # which notify-send > /dev/null 2> /dev/null && \
+    # {
+    #     # notify user
+    #     notify-send "Copied password of '${pw}' to clipboard!"
+    #
+    #     # notify about restoring clipboard
+    #     (sleep $timeout; notify-send 'Password cleared, clipboard restored.') &!
+    # }
 }
 
 # vim: ft=zsh
