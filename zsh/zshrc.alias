@@ -142,6 +142,7 @@ alias findx="ps -u $(id -u) -o pid= \
     | grep '^DISPLAY=:' \
     | sort -u"
 alias urlencode='python -c "import urllib;print urllib.quote(raw_input())" <<< '
+alias cl='j claude && claude'
 
 # global aliases
 alias -g G='| grep'
